@@ -171,6 +171,10 @@ header, main, footer {
     display: none;
   }
 
+  div.main-content{
+    padding-top: 60px;
+  }
+
   .row.actions {
     margin-top: 15px;
     margin-bottom: -15px;
