@@ -1,5 +1,5 @@
+
 <?php
-// include "../templates/dbconfig.php";
 session_start();
 $db = mysqli_connect("localhost", "root", "", "eei_db");
 
@@ -8,8 +8,8 @@ $company = mysqli_real_escape_string($db, $_POST['company']);
 $dp = mysqli_real_escape_string($db, $_POST['dp']);
 $rc = mysqli_real_escape_string($db, $_POST['rc_no']);
 $names = mysqli_real_escape_string($db, $_POST['names']);
-$access_request = mysqli_real_escape_string($db, $_POST['access_request']);
-// $expiry_date = mysqli_real_escape_string($db, $_POST['expiry_date']);
+$access_request = mysqli_real_escape_string($db, $_POST['access_type']);
+$app = mysqli_real_escape_string($db, $_POST['app_name']);
 $approver = mysqli_real_escape_string($db, $_POST['approver']);
 $checker = mysqli_real_escape_string($db, $_POST['checker']);
 
@@ -22,8 +22,6 @@ if (!mysqli_query($db, $query1))
 }
 
 $latest_id = mysqli_insert_id($db);
-
-
 $query2 = "UPDATE ticket_t SET ticket_number= CONCAT(EXTRACT(YEAR FROM date_prepared), ticket_id)  WHERE ticket_id = '$latest_id'";
 if (!mysqli_query($db, $query2))
 {
@@ -40,20 +38,15 @@ $result3=mysqli_query($db, $query6);
 $row3= mysqli_fetch_array($result3,MYSQLI_ASSOC);
 $checkerID= $row3['user_id'];
 $checkerEmail = $row3['email_address'];
-$query3 = "INSERT INTO user_access_ticket_t (ticket_id, company, dept_proj, rc_no, name, access_requested,  approver, checker) VALUES('$latest_id', '$company', '$dp', '$rc', '$names', '$access_request', '$approverID', '$checkerID')";
+
+$query3 = "INSERT INTO user_access_ticket_t (ticket_id, company, dept_proj, rc_no, name, access_type, application_name,  approver, checker) VALUES('$latest_id', '$company', '$dp', '$rc', '$names', '$access_request', '$app', '$approverID', '$checkerID')";
 
 if (!mysqli_query($db, $query3))
 {
   die('Error' . mysqli_error($db));
 }
 
-// if(mysqli_query($db, $query1)){
-//   echo "Record added successfully.";
-//   header("Location: ..\home.php");
-// } else{
-//   echo "ERROR: could not execute $query." . mysqli_error($db);
-//
-// }
+
 //nav notification
 $query3= "SELECT user_id, ticket_number from ticket_t WHERE ticket_id = '$latest_id'";
 $result=mysqli_query($db, $query3);
@@ -73,9 +66,12 @@ $row4=mysqli_fetch_array($result4,MYSQLI_ASSOC);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/Exception.php';
-require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/PHPMailer.php';
-require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/SMTP.php';
+// require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/Exception.php';
+// require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/PHPMailer.php';
+// require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/SMTP.php';
+require 'C:\xampp\htdocs\eei\PHPMailer-master\src\Exception.php';
+require 'C:\xampp\htdocs\eei\PHPMailer-master\src\PHPMailer.php';
+require 'C:\xampp\htdocs\eei\PHPMailer-master\src\SMTP.php';
 $query4 = "SELECT ticket_number from ticket_t where ticket_id = '$latest_id'";
 
 $result = mysqli_query($db, $query4);

@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="css/style.css?<?php echo time(); ?>"  media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <head>
+      <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+      <title>EEI Service Desk</title>
+      <?php include 'templates/css_resources.php' ?>
+    </head>
   </head>
 
   <body id="login-page" class="valign-wrapper">
@@ -35,12 +32,12 @@
                 </div>
               </div>
               <div class="row" id="controls">
-                 <input type="checkbox" id="remember" name="remember" />
+                 <input type="checkbox" id="remember" name="remember">
                  <label for="test5">Remember Me</label>
-                 <a class="password-forgot" href"#!">Forgot Password?</a>
+                 <a class="password-forgot" href="details.php">Forgot Password?</a>
               </div>
               <div class="row">
-                 <input class="waves-effect waves-light btn-login" id="button-login" name="submit" type="submit" value="Login">
+                 <input class="waves-effect waves-light" id="button-login" name="submit" type="submit" value="Login">
                  <br>
               </div>
               </form>

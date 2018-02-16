@@ -1,18 +1,11 @@
 $(document).ready(function(){
-  //initialize modal
-  $('.modal').modal();
-  
-  //hide forms on load
-  $(".accesst").hide();
-  $(".requestort").hide();
-  $(".servicet").hide();
-  $('.notifications').click(function(){
-  $("#notification_count").hide();
-    });
-  // $("#activity-log").hide();
+ $('.modal').modal();
+ $('.notifications').click(function(){
+    $("#notification_count").hide();
+  });
 
-  //live searching for user access request form
-  $('.search-box input[type="text"]').on("keyup input", function(){
+ //live searching for user access request form
+ $('.search-box input[type="text"]').on("keyup input", function(){
       /* Get input value on change */
       var inputVal = $(this).val();
       var resultDropdown = $(this).siblings(".result");
@@ -25,8 +18,7 @@ $(document).ready(function(){
           resultDropdown.empty();
       }
   });
-
-  $('.btn-edit').click(function () {
+ $('.btn-edit').click(function () {
     var currentTD = $(this).parents('tr').find('td');
     if ($(this).html() == 'Edit') {
         currentTD = $(this).parents('tr').find('td');
@@ -39,10 +31,8 @@ $(document).ready(function(){
         });
     }
     $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
-});
-
-
-$("#save-edits").submit(function(e) {
+  });
+ $("#save-edits").submit(function(e) {
   e.preventDefault();
   $.ajax({
     url: 'php_processes/admin-edits.php',
@@ -82,26 +72,25 @@ $("#save-edits").submit(function(e) {
 
   //if service request from 'New Ticket' dropdown menu is clicked..
   $('.service').click(function(){
-    $(".main-body").hide();
-    $("#dashboard").hide();
-    $(".servicet").show();
-    $(".accesst").hide();
-    $(".requestort").hide();
+    $(".main-content").hide();
+    $("form#service").show();
+    $("form#access").hide();
+    $("form#new-requestor").hide();
   });
 
   //if access request from 'New Ticket' dropdown menu is clicked..
   $('.access').click(function(){
-    $(".main-body").hide();
-    $(".accesst").show();
-    $(".servicet").hide();
-    $(".requestort").hide();
+    $(".main-content").hide();
+    $("form#access").show();
+    $("form#service").hide();
+    $("form#new-requestor").hide();
   });
 
   $('.requestor').click(function(){
-    $(".main-body").hide();
-    $(".servicet").hide();
-    $(".accesst").hide();
-    $(".requestort").show();
+    $(".main-content").hide();
+    $("form#access").hide();
+    $("form#service").hide();
+    $("form#new-requestor").show();
   });
 
 
@@ -162,7 +151,7 @@ $("#save-edits").submit(function(e) {
             icon: "success"
         }).then(function(){
           window.location="my-tickets.php";
-          $(".main-body").show();
+          $(".main-content").show();
         });
        }
       })
@@ -176,7 +165,7 @@ $("#save-edits").submit(function(e) {
     data: $(this).serialize(),
     success: function(data)
      {
-       ticketNo= JSON.parse(data);
+       ticketNo = JSON.parse(data);
        swal({
           title: "Ticket Submitted!",
           text: "Your ticket number is: " +ticketNo,
@@ -218,7 +207,6 @@ $("#save-edits").submit(function(e) {
       }
    })
  });
-
  $("#confirm").submit(function(e) {
   e.preventDefault();
   $.ajax({
@@ -231,16 +219,11 @@ $("#save-edits").submit(function(e) {
            location.reload();
          });
      }
-  })
-});
-
+    })
+  });
  $('#datatable tbody').on('click', 'tr', function () {
    window.location = $(this).data("href");
  } );
-
-
-
-
  $("#properties").submit(function(e) {
    e.preventDefault();
    $.ajax({
@@ -262,7 +245,6 @@ $("#save-edits").submit(function(e) {
       }
    })
  });
-
  $("#edit-properties").submit(function(e) {
    e.preventDefault();
    $.ajax({
@@ -286,7 +268,6 @@ $("#save-edits").submit(function(e) {
       }
    })
  });
-
  $("#activity_log").submit(function(e) {
    e.preventDefault();
    $.ajax({
@@ -308,7 +289,6 @@ $("#save-edits").submit(function(e) {
       }
    })
  });
-
  $("#check").submit(function(e) {
    if(confirm("Are you sure you want to check this ticket?")){
    e.preventDefault();
@@ -327,7 +307,6 @@ $("#save-edits").submit(function(e) {
      })
    }
  });
-
  $("#cancel").submit(function(e) {
    e.preventDefault();
    swal({
@@ -336,8 +315,8 @@ $("#save-edits").submit(function(e) {
    icon: "warning",
    buttons: true,
    dangerMode: true,
- })
- .then((willDelete) => {
+  })
+  .then((willDelete) => {
    if (willDelete) {
      $.ajax({
          url: 'php_processes/cancel-process.php',
@@ -354,11 +333,8 @@ $("#save-edits").submit(function(e) {
    } else {
      swal("", "Ticket not cancelled!","success");
    }
+  });
  });
- });
-
-
-
  $("#approve").submit(function(e) {
    if(confirm("Are you sure you want to approve this ticket?")){
    e.preventDefault();
@@ -376,7 +352,6 @@ $("#save-edits").submit(function(e) {
      })
    }
  });
-
  $("#reject").submit(function(e) {
    if(confirm("Are you sure you want to reject this ticket?")){
    e.preventDefault();
@@ -394,8 +369,6 @@ $("#save-edits").submit(function(e) {
      })
    }
  });
-
-
  $("#assignee").submit(function(e) {
    e.preventDefault();
    $.ajax({
@@ -416,74 +389,27 @@ $("#save-edits").submit(function(e) {
       }
      })
  });
-
  $( "#reassign-button" ).click(function() {
    $( "#reassign" ).toggle( "slow" );
  });
-
-  $( "#activity-log" ).click(function() {
+ $( "#activity-log" ).click(function() {
     $( ".comment_input" ).toggle( "slow" );
   });
-
  $('.edit-button').click(function () {
    for (i = 0; i < 5; i++) {
      document.getElementsByClassName('pflBody')[i].contentEditable = true;
    }
    });
 
-  $(".cancel").click(function(){
-   window.history.back();
-   return false;
+  $("#btn-cancel").click(function(){
+   location.reload();
  });
-//
-// $(".pending").click(function(){
-//   $(".pending-tickets").show();
-//   $(".all-tickets").hide();
-//   $(".inprogress-tickets").hide();
-//   $(".closed-tickets").hide();
-//   $(".resolved-tickets").hide();
-//
-// });
-//
-// $(".inprogress").click(function(){
-//  $(".pending-tickets").hide();
-//  $(".inprogress-tickets").show();
-//  $(".all-tickets").hide();
-//  $(".closed-tickets").hide();
-//  $(".resolved-tickets").hide();
-//
-// });
-//
-// $(".resolved").click(function(){
-//  $(".pending-tickets").hide();
-//  $(".inprogress-tickets").hide();
-//  $(".all-tickets").hide();
-//  $(".closed-tickets").hide();
-//  $(".resolved-tickets").show();
-//
-// });
-//
-// $(".closed").click(function(){
-//  $(".pending-tickets").hide();
-//  $(".inprogress-tickets").hide();
-//  $(".all-tickets").hide();
-//  $(".resolved-tickets").hide();
-//  $(".closed-tickets").show();
-//
-// });
-
-// $(".technicals").click(function(){
-//  $(".technicals-tickets").show();
-//  $(".all-tickets").hide();
-// });
-
-$(".accesstickets").click(function(){
- $(".technicals-tickets").hide();
- $(".network-tickets").hide();
- $(".all-tickets").hide();
- $(".access-tickets").show();
-
-});
+ $(".accesstickets").click(function(){
+   $(".technicals-tickets").hide();
+   $(".network-tickets").hide();
+   $(".all-tickets").hide();
+   $(".access-tickets").show();
+ });
 
 });
 });

@@ -8,6 +8,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+  <title>EEI Service Desk</title>
   <?php include 'templates/css_resources.php' ?>
 </head>
 
@@ -16,92 +18,88 @@
 
   <!-- ****************************************************** -->
 
-  <!--body-->
-    <div class="col s12 m12 l10">
-      <div class="wrapper">
         <?php include 'templates/sidenav.php'; ?>
 
-        <div class="main-container">
-          <div class="main-body">
-            <div class="col s6 m6 l12">
-              <div class="col s6 m6 l4">
-               </div>
-             </div>
+        <div class="col s12 m12 l12" id="content">
+          <div class="main-content">
+            <div class="col s12 m12 l12 table-header">
+              <?php
+              $query2 = "SELECT t.ticket_number,t.ticket_id, r.user_id,t.ticket_status,u.isChecked, u.isApproved, u.approver as approver,u.checker as checker FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE t.ticket_id = '".$_GET['id']."'";
 
-            <div class="col s12 m12 l12">
-              <div class="row">
-                <div class="col s12 m12 l7">
-                  <div class="card panel" id="detail-header">
-                  <?php
-                  $db = mysqli_connect("localhost", "root", "", "eei_db");
+                $result2= mysqli_query($db,$query2);
 
-                  $query2 = "SELECT t.ticket_number,t.ticket_id, r.user_id,t.ticket_status,u.isChecked, u.isApproved, u.approver as approver,u.checker as checker FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE t.ticket_id = '".$_GET['id']."'";
-
-                    $result2= mysqli_query($db,$query2);
-
-                    while($row = mysqli_fetch_assoc($result2)){?>
-                      <div class="header">
-                       <?php echo "<input class=\"material-icons\" alt=\"Go back\" type=\"submit\" id=\"details-back\" value=\"arrow_back\" onclick=\"window.history.go(-1); return false;\">Ticket #" . $row['ticket_number'];
-                       $id = $_SESSION['user_id'];
-                       $ticketID =$_GET['id'];
-                       ?>
-                       <div class="row detail-actions">
-                       <div class="row" id="activity-log">
-                         <button class="btn-activitylog">Add activity log</button>
-                       </div>
-                      <?php if ($_SESSION['user_type']=="Administrator") {?>
-                        <form id="cancel" name="cancel" method="post">
-                          <input id="cancel" type="submit" onclick="php_processes/cancel-process.php'" value="Cancel">
-                          <input  id="cancel" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
-                        </form>
-                    <?php  }?>
-
-                       <div class="approve-reject">
-                         <?php
-                          if ($row['ticket_status']==7 and $row['user_id']== $_SESSION['user_id']) { ?>
-                             <form id="confirm" name="confirm" method="post">
-                               <input id="confirm" type="submit"  value="Confirm">
-                               <input  id="confirm" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
-                             </form>
-                        <?php  }
-                           if ($row['approver']==$id) { ?>
-                           <form id="approve" name="approve" method="post">
-                             <input id="approve" type="submit" onclick="php_processes/approve-process.php'" value="Approve">
-                             <input  id="approve" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
-                           </form>
-                           <form id="reject" name="reject" method="post">
-                             <input id="reject" type="submit" onclick="php_processes/reject-process.php'" value="Reject">
-                             <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
-                           </form>
-
-
-                          <?php }
-                          elseif ($row['checker']==$id) { ?>
-                           <form id="check" name="check" method="post">
-                           <input id="check" type="submit" onclick="php_processes/check-process.php'" value="Check" />
-                           <input id="check" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
-                          </form>
-                          <form id="reject" name="reject" method="post">
-                            <input id="reject" type="submit" onclick="php_processes/reject-process.php'" value="Reject">
-                            <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
-                          </form>
-                        <?php } ?>
-                       </div>
-                <?php };?>
-                      </div>
-                    </div>
+                while($row = mysqli_fetch_assoc($result2)){?>
+                  <span class="table-title">Ticket #<?php echo $row['ticket_number'] ?></span>
+                <?php }
+                  $id = $_SESSION['user_id'];
+                  $ticketID =$_GET['id'];
+                ?>
+                <!-- Action Buttons -->
+                <div class="row detail-actions">
+                  <div class="row" id="activity-log">
+                    <button class="btn-activitylog">Add activity log</button>
                   </div>
+                  <!-- Cancel Button for Admin -->
+                   <?php if ($_SESSION['user_type']=="Administrator") {?>
+                     <form id="cancel" name="cancel" method="post">
+                       <input id="cancel" type="submit" onclick="php_processes/cancel-process.php'" value="Cancel">
+                       <input  id="cancel" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
+                     </form>
+                   <?php  }?>
 
-                  <!-- Modal Structure -->
+                  <!-- Approve and Reject Button  -->
+                   <div class="approve-reject">
+                     <?php
+                      if ($row['ticket_status']==7 and $row['user_id']== $_SESSION['user_id']) { ?>
+                         <form id="confirm" name="confirm" method="post">
+                           <input id="confirm" type="submit"  value="Confirm">
+                           <input  id="confirm" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
+                         </form>
+                    <?php  }
 
+                    // Approve and Reject Button
+                       if ($row['approver']==$id) { ?>
+                         <form id="approve" name="approve" method="post">
+                           <input id="approve" type="submit" onclick="php_processes/approve-process.php'" value="Approve">
+                           <input  id="approve" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
+                         </form>
 
+                         <form id="reject" name="reject" method="post">
+                           <input id="reject" type="submit" onclick="php_processes/reject-process.php'" value="Reject">
+                           <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
+                         </form>
+                      <?php }
+
+                    // Check and Reject Button
+                       elseif ($row['checker']==$id) { ?>
+                        <form id="check" name="check" method="post">
+                          <input id="check" type="submit" onclick="php_processes/check-process.php'" value="Check" />
+                          <input id="check" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
+                        </form>
+
+                        <form id="reject" name="reject" method="post">
+                          <input id="reject" type="submit" onclick="php_processes/reject-process.php'" value="Reject">
+                          <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
+                        </form>
+                    <?php } ?>
+                   </div>
+              </div>
+              <div class="col s12" id="breadcrumb">
+                <a href="#!" class="breadcrumb">First</a>
+                <a href="#!" class="breadcrumb">Second</a>
+                <a href="#!" class="breadcrumb">Third</a>
+              </div>
+            </div>
+            <div class="col s12 m12 l12">
+              <div class="row" id="ticket-details">
+                <div class="col s12 m12 l7">
                   <div class="card-panel">
                     <span class="black-text">
                       <?php
                         $db = mysqli_connect("localhost", "root", "", "eei_db");
 
                         $query = "SELECT t.ticket_title, s.request_details, r.email_address as email, DATE_FORMAT(date_prepared, '%W %b %e %Y %r') as date_prepared, CONCAT(r.first_name, ' ', r.last_name) As requestor FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join service_ticket_t s on (s.ticket_id=t.ticket_id) WHERE s.ticket_id = '".$_GET['id']."'";
-                        $query2 = "SELECT u.isChecked, u.isApproved, u.approver as approver,u.checker as checker,t.ticket_title, u.access_requested, u.dept_proj,DATE_FORMAT(date_prepared, '%W %M %e %Y') as date_prepared, CONCAT(r.first_name, ' ', r.last_name) As requestor , r.user_type as user_type FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE u.ticket_id = '".$_GET['id']."'";
+                        $query2 = "SELECT u.company, u.dept_proj, u.rc_no, u.name, u.isChecked, u.isApproved, u.approver as approver,u.checker as checker,t.ticket_title, u.access_type, u.application_name, u.dept_proj, r.email_address as email, DATE_FORMAT(date_prepared, '%W %M %e %Y') as date_prepared, CONCAT(r.first_name, ' ', r.last_name) As requestor , r.user_type as user_type FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE u.ticket_id = '".$_GET['id']."'";
 
                         $result = mysqli_query($db,$query);
                         $result2= mysqli_query($db,$query2);
@@ -113,12 +111,25 @@
                                 "<p id=\"requestor_details\">" . "<style=\"color:blue\">" . "<span class=\"name-in-ticket tooltipped\" data-position=\"right\" data-delay=\"50\" data-tooltip=\"$email\">" . $row['requestor'] . "</span>" . "<span class=\"request_date\">" . " reported on " . $row['date_prepared'] . "</p>" .
                                 "<p id=\"details\">" . $row['request_details'] . "</p>";
                        };
-                       while($row = mysqli_fetch_assoc($result2)){
 
-                          echo "<h5><b>" . $row['ticket_title'] . "</h5></b>" .
-                               "<p id=\"requestor_details\">" . "<style=\"color:blue\">" . "<span class=\"name-in-ticket\">" . $row['requestor'] . "</span>" . "<span class=\"request_date\">" . " reported on " . $row['date_prepared'] . "</p>" .
-                               "<br> <p id=\"details\">" . $row['access_requested'] . "</p>";
-                          }; ?>
+                         ?>
+                          <table id="access-details">
+                            <tbody id="details"><?php
+                            while($row = mysqli_fetch_assoc($result2)){
+                              $email = $row['email'];
+                               echo "<h5><b>" . $row['ticket_title'] . "</h5></b>" .
+                               "<p id=\"requestor_details\">" . "<style=\"color:blue\">" . "<span class=\"name-in-ticket tooltipped\" data-position=\"right\" data-delay=\"50\" data-tooltip=\"$email\">" . $row['requestor'] . "</span>" . "<span class=\"request_date\">" . " reported on " . $row['date_prepared'] . "</p>" .
+
+                                   "<tr><td>" . "R.C. Number:" . "</td><td>"  .  $row['rc_no'] . "</td>" .
+                                    "<tr><td>" . "Company:" . "</td><td>"  .  $row['company'] . "</td>" .
+                                    "<tr><td>" . "Department/Project:" . "</td><td>"  .  $row['dept_proj'] . "</td>" .
+                                    "<tr><td>" . "Access Type:" . "</td><td>"  .  $row['access_type'] . "</td>" .
+                                     "<tr><td>" . "Application:" .  "</td><td>".  $row['application_name'] . "</span></td>" .
+                                     "<tr><td>" . "Name/s:" . "</td><td>" .  $row['name'] . "</td>";
+                                   }
+                        ?>
+                        </tbody>
+                      </table>
                  </div>
                 <br>
                    <div id="container">
@@ -534,7 +545,7 @@
                             <?php
                             $db = mysqli_connect("localhost", "root", "", "eei_db");
 
-                              $query = "SELECT stat.ticket_status, sev.description, sev.severity_level, t.ticket_category, t.date_required FROM ticket_t t LEFT JOIN sla_t sev ON t.severity_level = sev.id LEFT JOIN ticket_status_t stat ON stat.status_id = t.ticket_status WHERE ticket_id = '".$_GET['id']."'";
+                              $query = "SELECT stat.ticket_status, sev.description, sev.severity_level, t.ticket_category, DATE_FORMAT(t.date_required, '%d %M %Y %r') as date_required FROM ticket_t t LEFT JOIN sla_t sev ON t.severity_level = sev.id LEFT JOIN ticket_status_t stat ON stat.status_id = t.ticket_status WHERE ticket_id = '".$_GET['id']."'";
 
                               $result = mysqli_query($db,$query);
 

@@ -1,5 +1,4 @@
 <?php
-  include "templates/dbconfig.php";
   session_start();
   if(!isset($_SESSION['userid'])){
     header('location: index.php');
@@ -7,9 +6,11 @@
 ?>
 <!DOCTYPE html>
 <html>
-  <head>
-    <?php include 'templates/css_resources.php' ?>
-  </head>
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+  <title>EEI Service Desk</title>
+  <?php include 'templates/css_resources.php' ?>
+</head>
 
   <body>
     <?php include 'templates/navheader.php'; ?>

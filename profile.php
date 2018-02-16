@@ -9,6 +9,8 @@
 <html>
 
   <head>
+  <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+  <title>EEI Service Desk</title>
   <?php include 'templates/css_resources.php' ?>
   <script>
   function deleteUser($id){

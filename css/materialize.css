@@ -3864,6 +3864,14 @@ nav ul a span.badge {
     left: auto;
     right: auto;
   }
+
+  .row .col.l13 {
+    width: 20%!important;
+    margin-left: auto;
+    left: auto;
+    right: auto;
+  }
+
   .row .col.l3 {
     width: 25%;
     margin-left: auto;
@@ -4548,7 +4556,7 @@ h6 {
   font-size: 1.3rem;
   font-weight: 500;
   line-height: 110%;
-  margin: 0.5rem 0 0.4rem 0;
+  margin: 0.5rem 0 0.4rem 0.5rem;
 }
 
 em {
@@ -4912,7 +4920,7 @@ small {
 }
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
-  color: #ffab40;
+  color: #4b75ff;
   margin-right: 24px;
   -webkit-transition: color .3s ease;
   transition: color .3s ease;
@@ -4920,7 +4928,7 @@ small {
 }
 
 .card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
-  color: #ffd8a6;
+  color: #86A2F8;
 }
 
 .card .card-reveal {

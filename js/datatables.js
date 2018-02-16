@@ -191,7 +191,7 @@
       "oLanguage": {
         "sStripClasses": "",
         "sSearch": "",
-        "sSearchPlaceholder": "Enter Keywords Here",
+        "sSearchPlaceholder": "Search",
         "sInfo": "_START_ -_END_ of _TOTAL_",
         "sLengthMenu": '<span>Rows per page:</span><select class="browser-default">' +
           '<option value="10">10</option>' +
@@ -203,11 +203,6 @@
           '</select></div>'
       },
       bAutoWidth: false,
-      "order": [[ 1, "desc" ]],
-      responsive: true,
-      columnDefs: [
-       { responsivePriority: 1, targets: 0 },
-       { responsivePriority: 2, targets: -1 }
-     ]
+      "order": [[ 1, "desc" ]]
     });
   });

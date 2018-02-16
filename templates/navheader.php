@@ -27,7 +27,7 @@ function read($id){
     }
 
 </script>
-<header class="page-topbar">
+<!-- <header class="page-topbar"> -->
   <nav  class="color">
      <div class="nav-wrapper">
        <a href="#!" class="brand-logo"><img class="company_logo" src="img/eei.png"></a><span class="name">EEI Corporation Help Desk</span>
@@ -40,10 +40,16 @@ function read($id){
               <li><a class="access">Access Request</a></li>
           </ul>
 
-          <!-- Notification Bell Button -->
-        <li><a  class="dropdown-button " href="#!" data-activates="dropdownNotifications" data-beloworigin="true"><i class="small material-icons">notifications_none</i><div id='notification_count'><?php if($count>0) { echo $count; } ?></div></a></li>
+        <!-- Notification Bell Button -->
+        <li><a  class="dropdown-button " href="#!" data-activates="dropdownNotifications" data-beloworigin="true"><i class="small material-icons">notifications_none</i>
+          <?php if($count>0) { ?>
+           <span class="new badge" id="notif"><?php echo $count; ?></span>
+           <?php }?>
+          <div id='notification_count'></div></a></li>
         <!-- Dropdown Structure -->
-        <ul id="dropdownNotifications" class="dropdown-content collection">
+        <ul id="dropdownNotifications" class="dropdown-content collection arrow_box">
+          <li disabled class="dropdown3content header">Notifications</li>
+
           <?php
           $conn = mysqli_connect("localhost", "root", "", "eei_db");
 
@@ -58,11 +64,11 @@ function read($id){
             <li class="dropdown3content"><a onclick="read(<?php echo $row['notification_id']?>)"><?php echo $row['notification_description']?></a></li>
 
           <?php  } ?>
-            <li class="dropdown3content"><a href="">View all notifications</a></li>
+            <li class="dropdown3content viewall"><a id="viewall" href="">View all notifications</a></li>
         </ul>
 
           <!-- Dropdown Trigger for My Profile -->
-          <li><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true"><i class="medium material-icons" style="margin-right: 10px">person_pin</i><?php echo $_SESSION['first_name'] . ' '. $_SESSION['last_name'] ?><i class="right tiny material-icons" id="profile">keyboard_arrow_down</i></a></li>
+          <li><a class="dropdown-button" href="#!" data-activates="dropdown" data-beloworigin="true"><i class="medium material-icons" style="margin-right: 10px">account_circle</i><?php echo $_SESSION['first_name'] . ' '. $_SESSION['last_name'] ?><i class="right tiny material-icons" id="profile">keyboard_arrow_down</i></a></li>
           <!-- Dropdown Structure -->
           <ul id="dropdown" class="dropdown-content collection">
               <li><a href="myprofile.php">My Profile</a></li>
@@ -74,4 +80,4 @@ function read($id){
        </ul>
      </div>
   </nav>
-</header>
+<!-- </header> -->

@@ -7,10 +7,11 @@
 ?>
 <!DOCTYPE html>
 <html>
-  <head>
-    <?php include 'templates/css_resources.php' ?>
-  </head>
-
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+  <title>EEI Service Desk</title>
+  <?php include 'templates/css_resources.php' ?>
+</head>
   <body>
     <?php include 'templates/navheader.php'; ?>
     <?php include 'templates/sidenav.php'; ?>
