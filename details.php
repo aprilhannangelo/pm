@@ -37,7 +37,8 @@
                 <!-- Action Buttons -->
                 <div class="row detail-actions">
                   <div class="row" id="activity-log">
-                    <button class="btn-activitylog">Add activity log</button>
+                    <!-- <button class="btn-activitylog">Add activity log</button> -->
+                    <input id="attach" type="submit" class="modal-trigger" href="#attachfile" value="Attach File" />
                   </div>
                   <!-- Cancel Button for Admin -->
                    <?php if ($_SESSION['user_type']=="Administrator") {?>
@@ -82,6 +83,52 @@
                           <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                         </form>
                     <?php } ?>
+                    <!-- Modal Structure -->
+                     <div id="attachfile" class="modal">
+                       <div class="modal-content">
+                         <h5>Attach File to Ticket</h5>
+                         <form method='post' name="attach" id="attach" enctype="multipart/form-data">
+                         <label for="description_entered">Description of File:</label>
+                         <input type="text" name="description_entered"/><br><br>
+                         <!-- <input type="file" id="file" name="file"/> -->
+                         <div class="file-field input-field">
+                         <div class="btn-attach">
+                           <span>SELECT File</span>
+                           <input type="file" id="file" name="file"/>
+                         </div>
+                         <div class="file-path-wrapper">
+                           <input class="file-path validate" type="text">
+                         </div>
+                       </div>
+                      <!-- PHP PROCESS OF ATTACH -->
+                      <?php
+                      include "templates/dbconfig.php";
+                      if(isset($_POST['submit'])){
+                      $name= $_FILES['file']['name'];
+                      $desc = $_POST['description_entered'];
+                      $tmp_name= $_FILES['file']['tmp_name'];
+                      $file = 'uploads/' .$_FILES['file']['name'];
+                      $upload = move_uploaded_file($tmp_name, $file);
+                      $uploader = $_SESSION['user_id'];
+                      if($upload){
+                        $add = $db->prepare("INSERT INTO attachment_t VALUES('',?,'$uploader','$ticketID','$desc')");
+                        $add->bindParam(1,$name);
+                        if($add->execute()){
+                          ?>
+                          <?php} else { ?>
+
+                          <?php }
+                      } else {} ?>
+                       <!-- don't remove or else it will upload repeatedly when refreshed -->
+                     <script>window.location='details.php?id=<?php echo $ticketID?>'</script><?php };?>
+                      <!-- END OF PHP PROCESS OF ATTACH -->
+                       </div>
+                       <div class="modal-footer">
+                         <button class="btn" type="submit" name="submit">Upload</button>
+                         <a href="#!" class="btn modal-action modal-close">Close</a>
+                         </form>
+                       </div>
+                     </div>
                    </div>
               </div>
               <div class="col s12" id="breadcrumb">
@@ -133,7 +180,6 @@
                  </div>
                 <br>
                    <div id="container">
-                     <?php if ($_SESSION['user_type'] != 'Requestor'){ ?>
                       <div id="comment_logs" class="alog">
                         <?php
                         $db = mysqli_connect("localhost", "root", "", "eei_db");
@@ -178,7 +224,6 @@
                             </form>
                           </div>
                         </div>
-                        <?php   } ?>
 
                     </div>
 
@@ -639,6 +684,24 @@
                               </tbody>
                             </table>
                 </div>
+                <div class="card-panel" id="right-card">
+                 <span class="black-text">
+                       <span id="panelheader">File Attachments<br></span>
+                       <table id="ticket-details">
+                         <tbody>
+
+                           <?php
+                           $db = mysqli_connect("localhost", "root", "", "eei_db");
+                           $ticketID = $_GET['id'];
+
+                           $query = "SELECT * FROM attachment_t WHERE ticket_id = $ticketID";
+                           $result = mysqli_query($db,$query);
+                             while($row = mysqli_fetch_assoc($result)){?>
+                             <a target="_blank" href="<?php echo 'uploads/' . $row['file']?>"><?php echo $row['file']?></a><br>
+                           <?php } ?>
+                           </tbody>
+                         </table>
+             </div>
 
               </div>
             </div>
