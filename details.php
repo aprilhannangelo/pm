@@ -37,9 +37,10 @@
                 <!-- Action Buttons -->
                 <div class="row detail-actions">
                   <div class="row" id="activity-log">
-                    <!-- <button class="btn-activitylog">Add activity log</button> -->
-                    <input id="attach" type="submit" class="modal-trigger" href="#attachfile" value="Attach File" />
+                    <button class="btn-activitylog">Add activity log</button>
                   </div>
+                  <input id="attach" type="submit" class="modal-trigger" href="#attachfile" value="Attach File" />
+
                   <!-- Cancel Button for Admin -->
                    <?php if ($_SESSION['user_type']=="Administrator") {?>
                      <form id="cancel" name="cancel" method="post">

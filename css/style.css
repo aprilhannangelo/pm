@@ -1332,13 +1332,18 @@ td.name-in-ticket{
   padding-left: 10px;
 }
 
+button.btn-activitylog{
+  margin-top: 18px;
+  line-height: 2;
+  padding: 2px 20px 2px 20px;
+}
 @media only screen and (min-width: 993px) {
   a.button-collapse2 {
     display: none;
   }
-  /* div#activity-log{
+  div#activity-log{
   display: none;
-  } */
+  }
 
 }
 
