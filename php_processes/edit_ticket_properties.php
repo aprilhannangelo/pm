@@ -13,6 +13,20 @@ $severity= mysqli_real_escape_string($db,$_POST['severity']);
   {
     die('Error' . mysqli_error($db));
   }
+  
+  //date required
+  $datePrepared = "SELECT date_assigned FROM ticket_t WHERE ticket_id = $id";
+  $row4 =mysqli_fetch_array(mysqli_query($db, $datePrepared),MYSQLI_ASSOC);
+  $datePrepared = $row4['date_assigned'];
+  $date = $datePrepared;
+
+  $sql = "SELECT resolution_time FROM sla_t WHERE id = '$severity'";
+  $row3 = mysqli_fetch_array(mysqli_query($db, $sql),MYSQLI_ASSOC);
+  $interval = $row3['resolution_time'];
+
+  $dateRequired = "UPDATE ticket_t set date_required = DATE_ADD('$date', INTERVAL $interval  HOUR) WHERE ticket_id = $id";
+  $run = mysqli_query($db, $dateRequired);
+
 
   if ($status == 7) {
   $query = "SELECT * FROM ticket_t WHERE ticket_id = $id ";

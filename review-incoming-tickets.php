@@ -26,10 +26,10 @@
                 $query = "SELECT COUNT(*) AS count FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) WHERE (ticket_t.ticket_category is NULL AND ticket_t.severity_level is NULL AND ticket_t.ticket_type ='Service') OR (ticket_t.ticket_category is NULL AND ticket_t.severity_level is NULL AND user_access_ticket_t.isApproved=true)";
               }
               else if ($_SESSION['user_type'] == "Access Group Manager"){
-                $query = "SELECT COUNT(*) AS count FROM user_access_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Access' AND t.ticket_agent_id IS NULL";
+                $query = "SELECT COUNT(*) AS count FROM user_access_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Access' AND t.ticket_agent_id IS NULL AND ticket_status=5";
               }
               else if ($_SESSION['user_type'] == "Technicals Group Manager"){
-                $query = "SELECT COUNT(*) AS count FROM service_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_agent_id IS NULL";
+                $query = "SELECT COUNT(*) AS count FROM service_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_agent_id IS NULL AND ticket_status=5";
               }
               else if ($_SESSION['user_type'] == "Network Group Manager"){
                 $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_category='Network' AND ticket_agent_id IS NULL";
@@ -125,7 +125,7 @@
                         <th>Date Created</th>
                         <th>Time Left</th>
                         <th>Department/Project</th>
-                        <th>Access Requested</th>
+                        <th>Application Access</th>
                       </tr>
                     </thead>
 
@@ -172,7 +172,7 @@
                              <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
                             </td>
                            <td> <?php echo $row['dept_proj']?>   </td>
-                           <td> <?php echo $row['access_requested']?>  </td>
+                           <td> <?php echo $row['application_name']?>  </td>
                          </tr>
                 <?php
                   }}

@@ -526,11 +526,14 @@
                                   $row = mysqli_fetch_array($retrieve);?>
 
                                   <select name = "status" required>
-                                  <option value ="<?php echo $row['ticket_status']?>" selected disabled><?php echo $row['ticket_status']?></option>
+                                  <option value ="<?php echo $row['status_id']?>" selected ><?php echo $row['ticket_status']?></option>
                                   <?php $get_stat = "SELECT * FROM ticket_status_t WHERE status_id >= '5'";
                                   $result = mysqli_query($db, $get_stat);
-                                    while ($row = mysqli_fetch_assoc($result)) {?>
-                                      <option value='<?php echo $row2['status_id']?>'> <?php echo $row['ticket_status']?></option>
+                                    while ($row2 = mysqli_fetch_assoc($result)) {
+                                      if ($row['status_id']!=$row2['status_id']) {?>
+                                          <option value='<?php echo $row2['status_id']?>'> <?php echo $row2['ticket_status']?></option>
+                                    <?php  } ?>
+
                                     <?php } ?>
                                     </select>
 
@@ -544,12 +547,15 @@
                                   $row = mysqli_fetch_array($retrieve);?>
 
                                   <select name = "category" required>
-                                  <option value = "<?php echo $row['ticket_category']?>" disabled selected><?php echo $row['ticket_category']?></option>
+                                  <option value = "<?php echo $row['ticket_category']?>"  selected><?php echo $row['ticket_category']?></option>
                                   <?php $get_user_type = mysqli_query($db, "SELECT column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ticket_t' AND COLUMN_NAME = 'ticket_category'");
-                                  $row = mysqli_fetch_array($get_user_type);
-                                  $enumList = explode(",", str_replace("'", "", substr($row['column_type'], 5, (strlen($row['column_type'])-6))));
-                                  foreach($enumList as $value){?>
-                                  <option value='<?php echo $value?>'> <?php echo $value?> </option>
+                                  $row2 = mysqli_fetch_array($get_user_type);
+                                  $enumList = explode(",", str_replace("'", "", substr($row2['column_type'], 5, (strlen($row2['column_type'])-6))));
+                                  foreach($enumList as $value){
+                                    if ($value != $row['ticket_category']) {?>
+                                      <option value='<?php echo $value?>'> <?php echo $value?> </option>
+                                  <?php  }?>
+
                                       <?php } ?>
                                   </select>
                                   <label for="title">Ticket Category</label>
@@ -567,13 +573,15 @@
 
                                       ?>
                                       <select name='severity'>
-                                        <option value = "<?php echo $row['severity_level']?>" disabled selected><?php echo $row['severity_level']?></option>
+                                        <option value = "<?php echo $row['id']?>"  selected><?php echo $row['severity_level']?></option>
                                       <?php
                                        $get_sevlvl = "SELECT * FROM sla_t";
                                        $result = mysqli_query($db, $get_sevlvl);
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                          ?>
-                                           <option class="<?php echo $class ?>" value='<?php echo $row['id']?>'> <?php echo $row['severity_level']?> </option>
+                                        while ($row2 = mysqli_fetch_assoc($result)) {
+                                          if ($row['id']!=$row2['id']) {?>
+                                               <option class="<?php echo $class ?>" value='<?php echo $row2['id']?>'> <?php echo $row2['severity_level']?> </option>
+                                        <?php  }  ?>
+
                                         <?php }; ?>
                                        </select>
                                       <label for="title">Severity Level</label>
