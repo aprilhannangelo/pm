@@ -4,7 +4,6 @@
     header('location: index.php');
   }
 ?>
-<!DOCTYPE html>
 <html>
 <head>
   <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
@@ -28,19 +27,54 @@
           <?php }
         ?>
       </div>
-      <div class="col s12" id="breadcrumb">
-        <a href="#!" class="breadcrumb">First</a>
-        <a href="#!" class="breadcrumb">Second</a>
-        <a href="#!" class="breadcrumb">Third</a>
-      </div>
     </div>
       <div class="material-table" id="manage">
         <div class="actions">
           <div class="sorter">
             <!-- Button for Removing Filter -->
-            <a href="#" class="modal-trigger waves-effect btn-newuser requestor">Add New User</a>
+            <a href="#" class="waves-effect btn-newuser requestor">Add New User</a>
+            <a class="modal-trigger btn-batchupload" href="#modal-batch-upload">Batch Upload</a>
+          </div>
+        </div>
+
+        <!-- Batch Upload Modal -->
+        <div id="modal-batch-upload" class="modal modal-fixed-footer">
+          <!-- Preloader and it's background. -->
+          <div class="preloader-background">
+            <div class="preloader-wrapper big active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div><div class="gap-patch">
+                  <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
+          <div class="modal-content">
+            <h5>Batch Upload New Users</h5>
+            <form method='post' name="batch" action="php_processes/batch-upload.php"  enctype="multipart/form-data">
+            <br>
+            <div class="file-field input-field">
+              <div class="btn-attach">
+                <span>SELECT File</span>
+                <input type="file" id="file" name="file"/>
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input class="waves-effect waves-light modal-action modal-close" id="btn-cancel" name="submit" type="submit" value="Cancel">
+            <!-- <input class="waves-effect waves-light" id="btn-submit" name="submit" type="submit" value="Submit"> -->
+
+            <button class="btn" type="submit" name="submit">Upload</button>
+            </form>
+          </div>
         </div>
         <table id="datatable" class="manageUsers">
           <thead>
@@ -68,7 +102,6 @@
         </table>
       </div>
     </div>
-  <!-- end of main body div -->
     <!-- New User Form -->
     <form id="new-requestor" name="requestor" method="post">
       <div id="requestor" class="requestort">
@@ -159,23 +192,14 @@
                         <input class="waves-effect waves-light" id="btn-submit" name="submit" type="submit" value="Submit">
                       </div>
                     </div>
-
                 </div>
               </div>
           </div>
         </div>
       </form>
-
-      <!-- ****************************************************** -->
-            <!-- HIDDEN FORMS -->
-            <?php include 'templates/ticketforms.php'; ?>
-            <?php include 'templates/js_resources.php'; ?>
-
-          </div> <!-- End of main container of col 10 -->
-        </div> <!-- End of wrapper of col l10 -->
-      </div>
-    <!-- END OF COL l10 -->
-
-
+    </div>
+    <!-- HIDDEN FORMS -->
+    <?php include 'templates/ticketforms.php'; ?>
+    <?php include 'templates/js_resources.php'; ?>
   </body>
 </html>

@@ -32,9 +32,8 @@
           ?>
         </div>
         <div class="col s12" id="breadcrumb">
-          <a href="#!" class="breadcrumb">First</a>
-          <a href="#!" class="breadcrumb">Second</a>
-          <a href="#!" class="breadcrumb">Third</a>
+          <a href="#!" class="breadcrumb">My Tickets</a>
+          <a href="#!" class="breadcrumb">All Tickets</a>
         </div>
       </div>
 

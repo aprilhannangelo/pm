@@ -17,7 +17,8 @@
     <div class="col s12 m12 l12" id="content">
       <div class="main-content">
         <div class="col s12 m12 l12 table-header">
-          <span class="table-title">Review In Closed Tickets</span>
+          <span class="table-title">Review Closed Tickets</span>
+
           <div class="count">
             <!-- Badge Counter -->
             <?php
@@ -46,9 +47,8 @@
               <?php } ?>
           </div>
           <div class="col s12" id="breadcrumb">
-            <a href="#!" class="breadcrumb">First</a>
-            <a href="#!" class="breadcrumb">Second</a>
-            <a href="#!" class="breadcrumb">Third</a>
+            <a href="#!" class="breadcrumb">Tickets for Review</a>
+            <a href="#!" class="breadcrumb">Closed Tickets</a>
           </div>
         </div>
         <div class="material-table" id="my-tickets">

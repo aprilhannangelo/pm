@@ -6,7 +6,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
       <div class="card-panel" id="user">
         <div class="container">
           <span class="welcome">WELCOME</span><br>
-          <span class="user-name"><?php echo $_SESSION['first_name'] . ' '. $_SESSION['last_name'] ?></span><br>
+          <a class="user-name" href="myprofile.php"><u><?php echo $_SESSION['first_name'] . ' '. $_SESSION['last_name'] ?></u></a><br>
           <span class="type"><?php echo $_SESSION['user_type'] ?></span>
         </div>
       </div>

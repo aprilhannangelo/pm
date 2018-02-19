@@ -1,5 +1,6 @@
 <?php
   session_start();
+
   if(!isset($_SESSION['userid'])){
     header('location: index.php');
   }
@@ -26,7 +27,7 @@
                 $query = "SELECT COUNT(*) as count FROM ticket_t WHERE ticket_t.ticket_status=6";
               }
               else if ($_SESSION['user_type'] == "Access Group Manager"){
-                $query = "SELECT (*) as count FROM user_access_ticket_t uat LEFT JOIN ticket_t t USING(ticked_id) WHERE t.ticket_status=6";
+                $query = "SELECT COUNT(*) as count FROM user_access_ticket_t uat LEFT JOIN ticket_t t USING(ticket_id) WHERE t.ticket_status=6";
               }
               else if ($_SESSION['user_type'] == "Technicals Group Manager"){
                 $query = "SELECT COUNT(*) as count FROM service_ticket_t st LEFT JOIN ticket_t t USING(ticket_id) WHERE t.ticket_status=6";
@@ -47,9 +48,8 @@
               <?php } ?>
           </div>
           <div class="col s12" id="breadcrumb">
-            <a href="#!" class="breadcrumb">First</a>
-            <a href="#!" class="breadcrumb">Second</a>
-            <a href="#!" class="breadcrumb">Third</a>
+            <a href="#!" class="breadcrumb">Tickets for Review</a>
+            <a href="#!" class="breadcrumb">In Progress Tickets</a>
           </div>
         </div>
         <div class="material-table" id="my-tickets">
@@ -175,7 +175,7 @@
                      <td> <?php echo $row['ticket_number']?>  </td>
                      <td> <?php echo $row['date_prepared'] ?> </td>
                      <td>
-                       <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
+                       <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
                      </td>
                      <td> <?php echo $row['dept_proj']?>         </td>
                      <td> <?php echo $row['access_type']?>  </td>
@@ -239,7 +239,8 @@
                          <td> <?php echo $row['ticket_title']?>   </td>
                          <td> <?php echo $row['date_prepared']?>  </td>
                          <td>
-                           <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
+                           <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
+                         </td>
                          </td>
                          <td> <?php echo $row['remarks'] ?>       </td>
                        </tr>
@@ -301,7 +302,8 @@
                          <td> <?php echo $row['ticket_title']?>   </td>
                          <td> <?php echo $row['date_prepared']?>  </td>
                          <td>
-                           <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
+                           <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
+                         </td>
                           </td>
                          <td> <?php echo $row['remarks'] ?>       </td>
                        </tr>
@@ -361,7 +363,8 @@
                        <td> <?php echo $row['ticket_title']?>   </td>
                        <td> <?php echo $row['date_prepared']?>  </td>
                        <td>
-                         <?php if ($date1<$date2) {echo $interval->format('%d days %h hrs %i mins');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hrs %i mins');} ?>
+                         <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
+                       </td>
                         </td>
                        <td> <?php echo $row['remarks'] ?>       </td>
                      </tr>
@@ -422,7 +425,8 @@
                         <td> <?php echo $row['ticket_title']?>   </td>
                         <td> <?php echo $row['date_prepared']?>  </td>
                         <td>
-                          <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
+                          <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
+                        </td>
                         </td>
                         <td> <?php echo $row['remarks'] ?>       </td>
                       </tr>

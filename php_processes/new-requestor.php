@@ -9,6 +9,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 //varies per computer
+//hannney's
 require 'C:\xampp\htdocs\eei\PHPMailer-master\src\Exception.php';
 require 'C:\xampp\htdocs\eei\PHPMailer-master\src\PHPMailer.php';
 require 'C:\xampp\htdocs\eei\PHPMailer-master\src\SMTP.php';
@@ -52,14 +53,14 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = "smtp.gmail.com";  // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = "aprilhannangelo@gmail.com";                 // SMTP username
-    $mail->Password = "RABBITS11!!";                           // SMTP password
+    $mail->Username = "dondumaliang@gmail.com";                 // SMTP username
+    $mail->Password = "tritondrive!!";                           // SMTP password
     $mail->Port = 587;
 
     //Recipients
-    $mail->setFrom("aprilhannangelo@gmail.com", "April Angelo");
+    $mail->setFrom("dondumaliang@gmail.com", "Donna Dumaliang");
     $mail->addAddress($email,$name);     // Add a recipient
-    $mail->addReplyTo("aprilhannangelo@gmail.com", "April Angelo");
+    $mail->addReplyTo("dondumaliang@gmail.com", "Donna Dumaliang");
     // $mail->AddCC($accessmanager);
     //Attachments
     $mail->isHTML(true);                                  // Set email format to HTML

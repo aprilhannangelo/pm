@@ -32,18 +32,43 @@
                 </div>
               </div>
               <div class="row" id="controls">
-                 <input type="checkbox" id="remember" name="remember">
+                 <input type="checkbox" id="remember" name="remember" />
                  <label for="test5">Remember Me</label>
-                 <a class="password-forgot" href="details.php">Forgot Password?</a>
+                <a class="password-forgot modal-trigger" href="#modal2">Forgot Password?</a>
               </div>
               <div class="row">
-                 <input class="waves-effect waves-light" id="button-login" name="submit" type="submit" value="Login">
+                 <input class="waves-effect waves-light btn-login" id="button-login" name="submit" type="submit" value="Login">
                  <br>
               </div>
+
               </form>
+              <!-- Modal Structure -->
+              <div id="modal2" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                  <h6>Enter registered email address</h6>
+                  <br>
+                  <form id="forgot-password" name="forgot-password" method="post">
+                    <div class="col s12 m12 l12 forgot-password-box" id="forgot-password-box">
+                      <div class="input-field forgot-password" id="request-form-row2">
+                        <div class="input-field" id="request-form">
+                          <input placeholder=" " class="title" name="email" type="text" data-length="40" class="validate" required>
+                          <label for="title">Email Address</label>
+                        </div>
+
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <input class="modal-action modal-close btn-flat" id="request-form-row" name="submit" type="submit" value="Save">
+                </div>
+              </form>
+              </div>
+              <!-- end of modal -->
+
             </div>
         </div>
     </div>
+
 
     <!--LOGIN PROCESS-->
     <?php
@@ -100,5 +125,6 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="js/javascript.js"></script>
+      <?php include 'templates/js_resources.php' ?>
   </body>
 </html>

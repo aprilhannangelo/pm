@@ -31,11 +31,10 @@
               <span class="badge main-count"> <?php echo $row['count'] . " tickets" ?></span>
             <?php } ?>
           </div>
-        <div class="col s12" id="breadcrumb">
-          <a href="#!" class="breadcrumb">First</a>
-          <a href="#!" class="breadcrumb">Second</a>
-          <a href="#!" class="breadcrumb">Third</a>
-        </div>
+          <div class="col s12" id="breadcrumb">
+            <a href="#!" class="breadcrumb">My Tickets</a>
+            <a href="#!" class="breadcrumb">Pending Tickets</a>
+          </div>
       </div>
       <div class="material-table" id="my-tickets">
         <div class="actions">

@@ -32,6 +32,50 @@ $(document).ready(function(){
     }
     $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
   });
+
+
+  //change pasdword
+  $("#forgot-password").submit(function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: 'php_processes/forgot-password.php',
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function(data)
+       {
+         swal({
+            title: "Mail Sent!",
+            text: "Change password instructions has been sent to your mail " ,
+            type: "success",
+            icon: "success"
+        }).then(function(){
+          window.location="../pm0217/index.php";
+        });
+       }
+      })
+   });
+  //change password
+   $("#reset-password").submit(function(e) {
+     e.preventDefault();
+     $.ajax({
+       url: 'php_processes/reset.php',
+       type: 'POST',
+       data: $(this).serialize(),
+       success: function(data)
+        {
+           ticketNo= JSON.parse(data);
+          swal({
+             title: "Password Changed!" ,
+                text: "Your ticket number is: " +ticketNo,
+             type: "success",
+             icon: "success"
+         }).then(function(){
+           window.location="../pm0217/index.php";
+         });
+        }
+       })
+    });
+
  $("#save-edits").submit(function(e) {
   e.preventDefault();
   $.ajax({
@@ -76,6 +120,7 @@ $(document).ready(function(){
     $("form#service").show();
     $("form#access").hide();
     $("form#new-requestor").hide();
+    $(".batcht").hide();
   });
 
   //if access request from 'New Ticket' dropdown menu is clicked..
@@ -84,6 +129,7 @@ $(document).ready(function(){
     $("form#access").show();
     $("form#service").hide();
     $("form#new-requestor").hide();
+    $(".batcht").hide();
   });
 
   $('.requestor').click(function(){
@@ -91,9 +137,19 @@ $(document).ready(function(){
     $("form#access").hide();
     $("form#service").hide();
     $("form#new-requestor").show();
+    $("form#batch-upload").hide();
   });
+  // $('.batch').click(function(){
+  //   $(".main-content").hide();
+  //   $("form#access").hide();
+  //   $("form#service").hide();
+  //   $("form#new-requestor").hide();
+  //   $("form#batch-upload").show();
+  // });
 
-
+  $('#user').click(function(){
+    window.location = "myprofile.php";
+  });
 
  //character counter for ticket Title
   $('input#input_text, textarea#textarea1').characterCounter();
@@ -191,10 +247,10 @@ $(document).ready(function(){
      data: $(this).serialize(),
      success: function(data)
       {
-          user_name = JSON.parse(data);
+          // user_name = JSON.parse(data);
           swal({
              title: "User account created!",
-             text: "An email has been sent to " +user_name,
+             text: "An email has been sent to ",
              type: "success",
              icon: "success"
          }).then(function(){
@@ -392,7 +448,7 @@ $(document).ready(function(){
  $( "#reassign-button" ).click(function() {
    $( "#reassign" ).toggle( "slow" );
  });
- $( "#activity-log" ).click(function() {
+ $( ".btn-activitylog" ).click(function() {
     $( ".comment_input" ).toggle( "slow" );
   });
  $('.edit-button').click(function () {

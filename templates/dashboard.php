@@ -1,6 +1,6 @@
 <div class="col s12 m12 l12 table-header">
   <span class="table-title">Dashboard</span>
-  <input id="request-form" name="submit" type="submit" value="Export to Excel" />
+  <input id="request-form-export" name="submit" type="submit" value="Export to Excel" />
 
       <div class="col s12" id="breadcrumb">
         <a href="#!" class="breadcrumb">First</a>

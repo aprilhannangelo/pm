@@ -35,6 +35,7 @@
                 <label for="textarea1" required>Details</label>
               </div>
             </div>
+
             <div class="row" id="request-form-controls">
               <input class="waves-effect waves-light" id="btn-cancel" name="submit" type="submit" value="Cancel">
               <input class="waves-effect waves-light" id="btn-submit" name="submit" type="submit" value="Submit">
@@ -66,8 +67,9 @@
           <div class="row">
             <!-- Start of LEFT column -->
             <div class="col s12 m12 l6" id="form">
-              <h6>Requestor Details</h6>
               <div class="col s12 m12 l6">
+                <h6>Requestor Details</h6>
+
                 <div class="row" id="request-form-row4">
                   <div class="col s12">
                     <!-- <i class="tiny material-icons" id="form">event</i>Date Prepared: -->
@@ -148,10 +150,9 @@
               </div>
             </div>
           </div>
-            <div class="row">
-              <div class="col s12 m12 l12" id="form">
+          <div class="col s12 m12 l6" id="form">
                 <h6>Reviewed By:</h6>
-                <div class="col s12 m12 l6">
+                <div class="col s6 m6 l6">
                   <div class="row" id="request-form-row3">
                     <div class="col s12">
                       <div class="input-field search-box" id="request-form">
@@ -162,7 +163,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col s12 m12 l6">
+                <div class="col s6 m6 l6">
                   <div class="row" id="request-form-row3">
                     <div class="col s12">
                       <div class="input-field search-box" id="request-form">
@@ -179,6 +180,5 @@
                 </div>
             </div>  <!-- End of RIGHT column -->
           </div> <!-- End of row -->
-    </div> <!-- End of class accesst-->
   </form> <!-- End of User Access Request Form -->
 <!-- END OF HIDDEN FORMS  -->

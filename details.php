@@ -30,7 +30,7 @@
 
                 while($row = mysqli_fetch_assoc($result2)){?>
                   <span class="table-title">Ticket #<?php echo $row['ticket_number'] ?></span>
-                <?php }
+                <?php
                   $id = $_SESSION['user_id'];
                   $ticketID =$_GET['id'];
                 ?>
@@ -39,15 +39,19 @@
                   <div class="row" id="activity-log">
                     <button class="btn-activitylog">Add activity log</button>
                   </div>
+
                   <input id="attach" type="submit" class="modal-trigger" href="#attachfile" value="Attach File" />
+
+
 
                   <!-- Cancel Button for Admin -->
                    <?php if ($_SESSION['user_type']=="Administrator") {?>
                      <form id="cancel" name="cancel" method="post">
-                       <input id="cancel" type="submit" onclick="php_processes/cancel-process.php'" value="Cancel">
+                       <input id="cancel" type="submit" value="Cancel">
                        <input  id="cancel" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                      </form>
                    <?php  }?>
+
 
                   <!-- Approve and Reject Button  -->
                    <div class="approve-reject">
@@ -58,9 +62,8 @@
                            <input  id="confirm" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                          </form>
                     <?php  }
-
                     // Approve and Reject Button
-                       if ($row['approver']==$id) { ?>
+                       if ($row['approver']==$id  && $row['isApproved']!=1) { ?>
                          <form id="approve" name="approve" method="post">
                            <input id="approve" type="submit" onclick="php_processes/approve-process.php'" value="Approve">
                            <input  id="approve" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
@@ -73,7 +76,7 @@
                       <?php }
 
                     // Check and Reject Button
-                       elseif ($row['checker']==$id) { ?>
+                       elseif ($row['checker']==$_SESSION['user_id'] && $row['isChecked']!=1) { ?>
                         <form id="check" name="check" method="post">
                           <input id="check" type="submit" onclick="php_processes/check-process.php'" value="Check" />
                           <input id="check" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
@@ -83,7 +86,7 @@
                           <input id="reject" type="submit" onclick="php_processes/reject-process.php'" value="Reject">
                           <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                         </form>
-                    <?php } ?>
+                    <?php } }?>
                     <!-- Modal Structure -->
                      <div id="attachfile" class="modal">
                        <div class="modal-content">
@@ -115,11 +118,8 @@
                         $add = $db->prepare("INSERT INTO attachment_t VALUES('',?,'$uploader','$ticketID','$desc')");
                         $add->bindParam(1,$name);
                         if($add->execute()){
-                          ?>
-                          <?php} else { ?>
-
-                          <?php }
-                      } else {} ?>
+                        }
+                      } ?>
                        <!-- don't remove or else it will upload repeatedly when refreshed -->
                      <script>window.location='details.php?id=<?php echo $ticketID?>'</script><?php };?>
                       <!-- END OF PHP PROCESS OF ATTACH -->
@@ -132,11 +132,11 @@
                      </div>
                    </div>
               </div>
-              <div class="col s12" id="breadcrumb">
+              <!-- <div class="col s12" id="breadcrumb">
                 <a href="#!" class="breadcrumb">First</a>
                 <a href="#!" class="breadcrumb">Second</a>
                 <a href="#!" class="breadcrumb">Third</a>
-              </div>
+              </div> -->
             </div>
             <div class="col s12 m12 l12">
               <div class="row" id="ticket-details">
@@ -161,6 +161,8 @@
                        };
 
                          ?>
+                         <!-- need this to stop warning if service ticket-->
+
                           <table id="access-details">
                             <tbody id="details"><?php
                             while($row = mysqli_fetch_assoc($result2)){
@@ -526,11 +528,14 @@
                                   $row = mysqli_fetch_array($retrieve);?>
 
                                   <select name = "status" required>
-                                  <option selected disabled><?php echo $row['ticket_status']?></option>
+                                  <option value ="<?php echo $row['status_id']?>" selected ><?php echo $row['ticket_status']?></option>
                                   <?php $get_stat = "SELECT * FROM ticket_status_t WHERE status_id >= '5'";
                                   $result = mysqli_query($db, $get_stat);
-                                    while ($row = mysqli_fetch_assoc($result)) {?>
-                                      <option value='<?php echo $row['status_id']?>'> <?php echo $row['ticket_status']?></option>
+                                    while ($row2 = mysqli_fetch_assoc($result)) {
+                                      if ($row['status_id']!=$row2['status_id']) {?>
+                                          <option value='<?php echo $row2['status_id']?>'> <?php echo $row2['ticket_status']?></option>
+                                    <?php  } ?>
+
                                     <?php } ?>
                                     </select>
 
@@ -544,12 +549,15 @@
                                   $row = mysqli_fetch_array($retrieve);?>
 
                                   <select name = "category" required>
-                                  <option disabled selected><?php echo $row['ticket_category']?></option>
+                                  <option value = "<?php echo $row['ticket_category']?>"  selected><?php echo $row['ticket_category']?></option>
                                   <?php $get_user_type = mysqli_query($db, "SELECT column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ticket_t' AND COLUMN_NAME = 'ticket_category'");
-                                  $row = mysqli_fetch_array($get_user_type);
-                                  $enumList = explode(",", str_replace("'", "", substr($row['column_type'], 5, (strlen($row['column_type'])-6))));
-                                  foreach($enumList as $value){?>
-                                  <option value='<?php echo $value?>'> <?php echo $value?> </option>
+                                  $row2 = mysqli_fetch_array($get_user_type);
+                                  $enumList = explode(",", str_replace("'", "", substr($row2['column_type'], 5, (strlen($row2['column_type'])-6))));
+                                  foreach($enumList as $value){
+                                    if ($value != $row['ticket_category']) {?>
+                                      <option value='<?php echo $value?>'> <?php echo $value?> </option>
+                                  <?php  }?>
+
                                       <?php } ?>
                                   </select>
                                   <label for="title">Ticket Category</label>
@@ -567,13 +575,15 @@
 
                                       ?>
                                       <select name='severity'>
-                                        <option disabled selected><?php echo $row['severity_level']?></option>
+                                        <option value = "<?php echo $row['id']?>"  selected><?php echo $row['severity_level']?></option>
                                       <?php
                                        $get_sevlvl = "SELECT * FROM sla_t";
                                        $result = mysqli_query($db, $get_sevlvl);
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                          ?>
-                                           <option class="<?php echo $class ?>" value='<?php echo $row['id']?>'> <?php echo $row['severity_level']?> </option>
+                                        while ($row2 = mysqli_fetch_assoc($result)) {
+                                          if ($row['id']!=$row2['id']) {?>
+                                               <option class="<?php echo $class ?>" value='<?php echo $row2['id']?>'> <?php echo $row2['severity_level']?> </option>
+                                        <?php  }  ?>
+
                                         <?php }; ?>
                                        </select>
                                       <label for="title">Severity Level</label>

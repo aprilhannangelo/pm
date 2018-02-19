@@ -45,37 +45,37 @@
     <!-- ****************************************************** -->
 
     <!--body-->
-      <div class="col s12 m12 l10">
-        <div class="wrapper">
-          <div class="main-container">
-            <?php echo "<input class=\"material-icons\" alt=\"Go back\" type=\"submit\" id=\"details-back\" value=\"arrow_back\" onclick=\"window.history.go(-1); return false;\">"?>
-            <div class="main-body">
-              <?php
-              $db = mysqli_connect("localhost", "root", "", "eei_db");
-              $id = $_GET["id"];
+    <div class="col s12 m12 l12" id="content">
+      <div class="main-content">
+        <div class="col s12 m12 l12 table-header">
+          <span class="table-title">User Profile</span>
+          <input id="request-form" name="submit" type="submit" value="Edit">
+          <?php
+          $db = mysqli_connect("localhost", "root", "", "eei_db");
+          $id = $_GET["id"];
 
-              $query1 = "SELECT * from user_t where user_id = $id";
+          $query1 = "SELECT * from user_t where user_id = $id";
 
-              if (!mysqli_query($db, $query1))
-              {
-                die('Error' . mysqli_error($db));
-              }
+          if (!mysqli_query($db, $query1))
+          {
+            die('Error' . mysqli_error($db));
+          }
 
-              $result = mysqli_query($db, $query1);
-              $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+          $result = mysqli_query($db, $query1);
+          $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
 
-              mysqli_close($db);
-               ?>
+          mysqli_close($db);
+          ?>
+          <input onclick="deleteUser(<?php echo $row['user_id']?>)" id="request-form" name="submit" type="submit" value="Delete">
+          <div class="col s12" id="breadcrumb">
+            <a href="#!" class="breadcrumb">Manage Users</a>
+            <a href="#!" class="breadcrumb">User Profile</a>
+          </div>
+        </div>
+        <div class="profile-body">
+          <h4 class="body-header"><b><?php echo $row['first_name'] . ' ' . $row['last_name'] ?></b></h4>
+          <h6 class="body-header" id="line2"><b><?php echo $row['user_type'] ?></b></h6>
 
-              <input class="waves-effect waves-light submit edit-button" id="request-form" name="submit" type="submit" value="Edit">
-              <input onclick="deleteUser(<?php echo $row['user_id']?>)" class="waves-effect waves-light submit edit-button" id="request-form" name="submit" type="button" value="Delete">
-              <!-- <img src="<?php echo $avatar ?>"></img> -->
-
-              <h4 class="body-header"><b><?php echo $row['first_name'] . ' ' . $row['last_name'] ?></b></h4>
-              <h6 class="body-header" id="line2"><b><?php echo $row['user_type'] ?></b></h6>
-
-              <hr>
-              <br>
               <table id="profile">
                 <tbody>
                   <tr>
@@ -108,8 +108,6 @@
             <?php include 'templates/ticketforms.php'; ?>
           </div> <!-- End of main container of col 10 -->
         </div> <!-- End of wrapper of col l10 -->
-      </div>
-    <!-- END OF COL l10 -->
 
     <?php include 'templates/js_resources.php' ?>
   </body>
