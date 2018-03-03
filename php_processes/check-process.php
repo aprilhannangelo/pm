@@ -32,10 +32,9 @@ if (!mysqli_query($db, $query2))
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '/Applications/XAMPP/xamppfiles/htdocs/pm0217/PHPMailer-master/src/Exception.php';
-require '/Applications/XAMPP/xamppfiles/htdocs/pm0217/PHPMailer-master/src/PHPMailer.php';
-require '/Applications/XAMPP/xamppfiles/htdocs/pm0217/PHPMailer-master/src/SMTP.php';
-
+require '../PHPMailer-master/src/Exception.php';
+require '../PHPMailer-master/src/PHPMailer.php';
+require '../PHPMailer-master/src/SMTP.php';
 
 $query2 = "SELECT * from user_access_ticket_t WHERE ticket_id = '$ticketID'";
 $result = mysqli_query($db, $query2);
@@ -69,7 +68,7 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     $mail->Username = "dondumaliang@gmail.com";                 // SMTP username
     $mail->Password = "tritondrive";                           // SMTP password
     $mail->Port = 587;                                    // TCP port to connect to
-
+    $mail->SMTPSecure = "tls";
     //Recipients
     $mail->setFrom("dondumaliang@gmail.com", "Donna Dumaliang");
     $mail->addAddress($row2['email_address'], $row2['name']);     // Add a recipient
@@ -80,7 +79,7 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     //Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = "Access Request for Review";
-		$mail->Body = $row4['name'] . " is requesting for " . $row['access_requested']  . " access" . "<br> The Request has already been checked, kindly view and approve access request details through the EEI Service Desk website http://localhost/pm0217/details.php?id=" . $row['ticket_id'];
+		$mail->Body = $row4['name'] . " is requesting for " . $row['access_requested']  . " access" . "<br> The Request has already been checked, kindly view and approve access request details through the EEI Service Desk website https://eeiservicedesk.000webhostapp.com/details.php?id=" . $row['ticket_id'];
     $mail->send();
 
 mysqli_close($db);

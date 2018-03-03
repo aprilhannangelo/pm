@@ -74,6 +74,7 @@
               </tr>
             </thead>
             <tbody>
+              <!-- SORTER -->
               <?php
                 //default view: all my tickets
                 $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.user_id = '".$_SESSION['user_id']."'";

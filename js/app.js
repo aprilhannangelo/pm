@@ -4,6 +4,92 @@ $(document).ready(function(){
     $("#notification_count").hide();
   });
 
+  $('.user-row #deactivate').click(function(e){
+    e.stopPropagation();
+    $.ajax({
+      url: 'php_processes/delete-user.php',
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function(data)
+       {
+         swal({
+            title: "Account deactivated" ,
+            text: "Name's account is now deactivated",
+            type: "success",
+            icon: "success"
+        }).then(function(){
+          location.reload();
+        });
+       }
+      })
+   });
+  $.ajax({
+  		// url: "https://eeiservicedesk.000webhostapp.com/output.php",
+      url: "http://localhost/eei/output.php",
+  		method: "GET",
+  		success: function(data) {
+  			console.log(data);
+  			var count = [];
+  			var month = [];
+
+  			for(var i in data) {
+  				month.push(data[i].month);
+  				count.push(data[i].count);
+  			}
+
+  			var chartdata = {
+  				labels: month,
+  				datasets : [
+  					{
+  						label: 'Ticket Count',
+  						backgroundColor: '#4b75ff',
+  						borderColor: 'rgba(200, 200, 200, 0.75)',
+  						hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
+  						hoverBorderColor: 'rgba(200, 200, 200, 1)',
+  						data: count
+  					}
+  				]
+  			};
+
+  			var ctx = $("#mycanvas");
+
+  			var barGraph = new Chart(ctx, {
+  				type: 'horizontalBar',
+  				data: chartdata,
+          options:{
+            responsive: true,
+            maintainAspectRatio: true,
+            layout: {
+           padding: {
+               left: 50,
+               right: 0,
+               top: 0,
+               bottom: 0
+           }
+         },
+
+            scales: {
+              yAxes: [{
+                barThickness:15,
+
+              }],
+            xAxes: [{
+
+                ticks: {
+                    min: 0,
+                    stepSize: 10
+                }
+            }]
+        }
+          }
+  			});
+  		},
+  		error: function(data) {
+  			console.log(data);
+  		}
+  	});
+
+
  //live searching for user access request form
  $('.search-box input[type="text"]').on("keyup input", function(){
       /* Get input value on change */
@@ -49,7 +135,7 @@ $(document).ready(function(){
             type: "success",
             icon: "success"
         }).then(function(){
-          window.location="../pm0217/index.php";
+          window.location="../eei/index.php";
         });
        }
       })
@@ -70,7 +156,7 @@ $(document).ready(function(){
              type: "success",
              icon: "success"
          }).then(function(){
-           window.location="../pm0217/index.php";
+           window.location="../eei/index.php";
          });
         }
        })
@@ -120,7 +206,6 @@ $(document).ready(function(){
     $("form#service").show();
     $("form#access").hide();
     $("form#new-requestor").hide();
-    $(".batcht").hide();
   });
 
   //if access request from 'New Ticket' dropdown menu is clicked..
@@ -129,7 +214,6 @@ $(document).ready(function(){
     $("form#access").show();
     $("form#service").hide();
     $("form#new-requestor").hide();
-    $(".batcht").hide();
   });
 
   $('.requestor').click(function(){
@@ -137,7 +221,6 @@ $(document).ready(function(){
     $("form#access").hide();
     $("form#service").hide();
     $("form#new-requestor").show();
-    $("form#batch-upload").hide();
   });
   // $('.batch').click(function(){
   //   $(".main-content").hide();
@@ -215,6 +298,8 @@ $(document).ready(function(){
 
   $("#access").submit(function(e) {
   e.preventDefault();
+  $('.preloader-wrapper').show();
+  $('.preloader-background').show();
   $.ajax({
     url: 'php_processes/access_ticket_process.php',
     type: 'POST',
@@ -234,35 +319,33 @@ $(document).ready(function(){
     })
  });
 
-//  PHPMailer and SWAL
- $('.preloader-background').hide();
- $("#new-requestor").submit(function(e) {
-   e.preventDefault();
-   $('.preloader-wrapper').show();
-   $('.preloader-background').show();
-
-   $.ajax({
-     url: 'php_processes/new-requestor.php',
-     type: 'POST',
-     data: $(this).serialize(),
-     success: function(data)
-      {
-          // user_name = JSON.parse(data);
-          swal({
-             title: "User account created!",
-             text: "An email has been sent to ",
-             type: "success",
-             icon: "success"
-         }).then(function(){
-
-           window.location="manageUsers.php";
-         });
-      },
-      complete: function(){
-        $('.preloader-wrapper').hide();
-      }
-   })
- });
+ //  PHPMailer and SWAL
+  $('.preloader-background').hide();
+  $("#new-requestor").submit(function(e) {
+    e.preventDefault();
+    $('.preloader-wrapper').show();
+    $('.preloader-background').show();
+    $.ajax({
+      url: 'php_processes/new-requestor.php',
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function(data)
+       {
+           name = JSON.parse(data);
+           swal({
+              title: "User account created!",
+              text: "An email has been sent to " +name,
+              type: "success",
+              icon: "success"
+          }).then(function(){
+            window.location="manageUsers.php";
+          });
+       },
+       complete: function(){
+         $('.preloader-wrapper').hide();
+       }
+    })
+  });
  $("#confirm").submit(function(e) {
   e.preventDefault();
   $.ajax({
@@ -288,7 +371,6 @@ $(document).ready(function(){
      data: $(this).serialize(),
      success: function()
       {
-         // assignee= JSON.parse(data);
          swal({
             title: "Ticket Properties Saved!",
             text: "",
@@ -309,7 +391,6 @@ $(document).ready(function(){
      data: $(this).serialize(),
      success: function()
       {
-         // assignee= JSON.parse(data);
          swal({
             title: "New ticket properties saved!",
             text: "",
@@ -332,7 +413,6 @@ $(document).ready(function(){
      data: $(this).serialize(),
      success: function()
       {
-         // assignee= JSON.parse(data);
          swal({
             title: "Activity log submitted!",
             text: "",
@@ -345,31 +425,44 @@ $(document).ready(function(){
       }
    })
  });
+
+ $('.preloader-background').hide();
  $("#check").submit(function(e) {
-   if(confirm("Are you sure you want to check this ticket?")){
    e.preventDefault();
-   $.ajax({
-     url: 'php_processes/check-process.php',
-     type: 'POST',
-     data: $(this).serialize(),
-     success: function()
-      {
+   swal({
+   title: "Check this ticket?",
+   text: "You will not be able to undo the action.",
+   icon: "warning",
+   buttons: ["Close", "Confirm"],
+   dangerMode: true,
+ }).then((willDelete) => {
+   if(willDelete){
+     $('.preloader-wrapper').show();
+     $('.preloader-background').show();
+     $.ajax({
+       url: 'php_processes/check-process.php',
+       type: 'POST',
+       data: $(this).serialize(),
+       success: function()
+        {
           swal("Ticket Checked", " ", "success").then(function(){
             location.reload();
             $(".approve-reject").hide();
-
           });
-      }
-     })
-   }
- });
+        }
+      })
+  } else {
+    swal("", "Ticket is not yet checked!","error");
+  }
+  });
+});
  $("#cancel").submit(function(e) {
    e.preventDefault();
    swal({
    title: "Are you sure?",
-   text: "You will not be able to undo the action.",
+   text: "You will not be able to undo the action and edit the ticket.",
    icon: "warning",
-   buttons: true,
+   buttons: ["Close", "Confirm"],
    dangerMode: true,
   })
   .then((willDelete) => {
@@ -378,53 +471,79 @@ $(document).ready(function(){
          url: 'php_processes/cancel-process.php',
          type: 'POST',
          data: $(this).serialize(),
-         success: function()
+         success: function(data)
           {
-              swal("Ticket Cancelled", " ", "success").then(function(){
+              ticket_number= JSON.parse(data);
+              swal("Ticket " +ticket_number + " is cancelled", " ", "success").then(function(){
                 $(".modal-trigger").hide();
                 location.reload();
               });
           }
          })
    } else {
-     swal("", "Ticket not cancelled!","success");
+     swal("", "Ticket is not cancelled!","success");
    }
   });
  });
  $("#approve").submit(function(e) {
-   if(confirm("Are you sure you want to approve this ticket?")){
    e.preventDefault();
-   $.ajax({
-     url: 'php_processes/approve-process.php',
-     type: 'POST',
-     data: $(this).serialize(),
-     success: function()
-      {
+   swal({
+   title: "Approve this ticket?",
+   text: "You will not be able to undo the action.",
+   icon: "warning",
+   buttons: ["Close", "Confirm"],
+   dangerMode: true,
+ }).then((willDelete) => {
+   if(willDelete){
+     $('.preloader-wrapper').show();
+     $('.preloader-background').show();
+     $.ajax({
+       url: 'php_processes/approve-process.php',
+       type: 'POST',
+       data: $(this).serialize(),
+       success: function()
+        {
           swal("Ticket Approved", " ", "success").then(function(){
             location.reload();
             $(".approve-reject").hide();
           });
-      }
+        }
+      })
+  } else {
+    swal("", "Ticket is not yet approved!","error");
+  }
+  });
+});
+
+$("#reject").submit(function(e) {
+  e.preventDefault();
+  swal({
+  title: "Reject this ticket?",
+  text: "Ticket will be closed and you will not be able to undo the action.",
+  icon: "warning",
+  buttons: ["Close", "Confirm"],
+  dangerMode: true,
+}).then((willDelete) => {
+  if(willDelete){
+    $('.preloader-wrapper').show();
+    $('.preloader-background').show();
+    $.ajax({
+      url: 'php_processes/reject-process.php',
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function()
+       {
+         swal("Ticket Rejected", " ", "success").then(function(){
+           location.reload();
+           $(".approve-reject").hide();
+         });
+       }
      })
-   }
+ } else {
+   swal("", "Ticket is not yet rejected!","error");
+ }
  });
- $("#reject").submit(function(e) {
-   if(confirm("Are you sure you want to reject this ticket?")){
-   e.preventDefault();
-   $.ajax({
-     url: 'php_processes/reject-process.php',
-     type: 'POST',
-     data: $(this).serialize(),
-     success: function()
-      {
-          swal("Ticket Rejected", " ", "success").then(function(){
-            location.reload();
-            $(".approve-reject").hide();
-          });
-      }
-     })
-   }
- });
+});
  $("#assignee").submit(function(e) {
    e.preventDefault();
    $.ajax({

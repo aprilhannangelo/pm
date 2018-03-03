@@ -22,6 +22,7 @@
 
         <div class="col s12 m12 l12" id="content">
           <div class="main-content">
+
             <div class="col s12 m12 l12 table-header">
               <?php
               $query2 = "SELECT t.ticket_number,t.ticket_id, r.user_id,t.ticket_status,u.isChecked, u.isApproved, u.approver as approver,u.checker as checker FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE t.ticket_id = '".$_GET['id']."'";
@@ -52,6 +53,9 @@
                      </form>
                    <?php  }?>
 
+                   <!-- <button class="btn-reassign" id="reassign-button">Re-assign this ticket</button><br><br> -->
+
+                   <!-- <input id="reassign-button" type="submit" value="Re-assign Ticket"><br><br> -->
 
                   <!-- Approve and Reject Button  -->
                    <div class="approve-reject">
@@ -77,8 +81,24 @@
 
                     // Check and Reject Button
                        elseif ($row['checker']==$_SESSION['user_id'] && $row['isChecked']!=1) { ?>
+                         <!-- Preloader and it's background. -->
+                         <div class="preloader-background">
+                           <div class="preloader-wrapper big active">
+                             <div class="spinner-layer spinner-blue-only">
+                               <div class="circle-clipper left">
+                                 <div class="circle"></div>
+                               </div><div class="gap-patch">
+                                 <div class="circle"></div>
+                               </div><div class="circle-clipper right">
+                                 <div class="circle"></div>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
                         <form id="check" name="check" method="post">
+
                           <input id="check" type="submit" onclick="php_processes/check-process.php'" value="Check" />
+
                           <input id="check" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                         </form>
 
@@ -246,22 +266,16 @@
                     <form id="assignee" name="properties" method="post">
                       <span id="panelheader"> Assign to Ticket Agent</h6></span>
                       <div class="tprop">
-                        <input class="waves-effect waves-light save" id="request-form-row" name="submit" type="submit" value="Save">
+                        <input class="waves-effect waves-light save" id="submit" name="submit" type="submit" value="Save">
                         <input value = "<?php echo $_GET['id']?>" class="title" name="id" type="hidden" data-length="40" class="validate" required>
-
                         <?php
                         $db = mysqli_connect("localhost", "root", "", "eei_db");
-
                         $query6 = "SELECT ticket_number FROM ticket_t WHERE ticket_id = '".$_GET['id']."'";
-
                         $result= mysqli_query($db,$query6);
-
                         while($row = mysqli_fetch_assoc($result)){
                           // $logger = $_SESSION['user_id'];
-
                           $ticketID = $row['ticket_number'];
                         }
-
                           ?>
                       </div>
                       <div id="properties" class="row " id="request-form-row">
@@ -343,7 +357,6 @@
 
         else { ?>
 
-          <button class="btn-reassign" id="reassign-button">Re-assign this ticket</button><br><br>
           <div id="reassign">
             <?php if($_SESSION['user_type'] == 'Technicals Group Manager' OR $_SESSION['user_type'] == 'Technician'){ ?>
               <div class="card-panel" id="ticket-properties">
@@ -662,7 +675,7 @@
                                          "<tr><td><br></td></tr>";
                                   }
 
-                                $query2 = "SELECT CONCAT(r.first_name, r.last_name) AS approver, r.email_address AS email FROM user_t r LEFT JOIN user_access_ticket_t U ON r.user_id = u.approver WHERE u.ticket_id = '".$_GET['id']."'";
+                                $query2 = "SELECT CONCAT(r.first_name, r.last_name) AS approver, r.email_address AS email FROM user_t r LEFT JOIN user_access_ticket_t u ON r.user_id = u.approver WHERE u.ticket_id = '".$_GET['id']."'";
                                 $result2 = mysqli_query($db,$query2);
 
                                    while($row2 = mysqli_fetch_assoc($result2)){
@@ -672,7 +685,7 @@
                                           "<tr><td><br></td></tr>";
                                    }
 
-                                $query3 = "SELECT CONCAT(r.first_name, r.last_name) AS checker, r.email_address AS email FROM user_t r LEFT JOIN user_access_ticket_t U ON r.user_id = u.checker WHERE u.ticket_id = '".$_GET['id']."'";
+                                $query3 = "SELECT CONCAT(r.first_name, r.last_name) AS checker, r.email_address AS email FROM user_t r LEFT JOIN user_access_ticket_t u ON r.user_id = u.checker WHERE u.ticket_id = '".$_GET['id']."'";
                                 $result3 = mysqli_query($db,$query3);
 
                                   while($row3 = mysqli_fetch_assoc($result3)){

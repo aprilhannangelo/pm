@@ -2,9 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer-master/src/Exception.php';
-require 'PHPMailer-master/src/PHPMailer.php';
-require 'PHPMailer-master/src/SMTP.php';
+require '../PHPMailer-master/src/Exception.php';
+require '../PHPMailer-master/src/PHPMailer.php';
+require '../PHPMailer-master/src/SMTP.php';
 
 $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 
@@ -26,7 +26,7 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
 
     //Content
     $mail->isHTML(true);                                  // Set email format to HTML
-    $mail->Subject = "Access Request for Review";
+    $mail->Subject = "Access Request for Rev";
 		$mail->Body = " is requesting for "  . " access" . "<br> The Request has already been checked, kindly view and approve access request details through the EEI Service Desk website http://localhost/eei-master/details.php?id=" ;
     $mail->send();
  ?>

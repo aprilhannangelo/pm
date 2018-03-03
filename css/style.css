@@ -10,14 +10,21 @@ span.card-title{
 .card .card-image {
     position: relative;
     text-align: center;
-    padding-top: 30px;
+    padding: 10px;
 }
 .card-content.white-text{
   margin-bottom: 35px;
 }
 
+.card.horizontal{
+  box-shadow: 0 2px 2px 0 rgba(66, 66, 66, 0.14), 0 1px 5px 0 rgba(134, 134, 134, 0), 0 3px 1px -2px rgba(134,135, 134, 0.2)!important;
+
+}
+
 .card-panel{
   border-color: 1px solid #f2f2f2;
+  margin: 0.5rem 0 0.1rem 0;
+  padding: 20px 25px;
   box-shadow: 0 2px 2px 0 rgba(66, 66, 66, 0.14), 0 1px 5px 0 rgba(134, 134, 134, 0), 0 3px 1px -2px rgba(134,135, 134, 0.2);
 }
 .login-logo {
@@ -75,7 +82,13 @@ div#login{
 } */
 
 div#knowledge-base{
-  padding: 20px;
+  padding: 40px;
+  background-color: white;
+}
+
+span.kb-title{
+    font-size: 22px;
+    font-weight: 500;
 }
 div#login-form {
     margin: 0 auto;
@@ -165,6 +178,14 @@ header, main, footer {
   header, main, footer {
     padding-left: 0;
     color: black;
+  }
+
+  div.chart{
+    display: none!important;
+  }
+
+  div#sev{
+    padding-right: 0px!important;
   }
   button.btn-activitylog{
     margin-top: 18px;
@@ -370,6 +391,8 @@ li.active {
 }
 .body-header{
   color: #424242;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .color{
@@ -705,6 +728,9 @@ span.table-title{
   padding-left: 18px;
 }
 
+h6#dashboard{
+  border-bottom: 2px solid lightgray;
+}
 span.table-title#form:after{
   display: block;
   margin-top: 10px;
@@ -854,6 +880,7 @@ div.material-table#tickets table th:nth-child(5), div.material-table table td:nt
 
 
 
+
 div#form{
   padding: 10px 20px 0 10px;
 }
@@ -901,13 +928,36 @@ input#request-form, input#request-form-export{
   margin-top: 20px;
   margin-right: 20px;
   display: inline-flex;
-  border-radius: 4px;
+  border-radius:2px;
 }
 
 div#dashboard-main{
   padding: 20px;
+  /* background-color: white; */
+}
+
+p#kb{
+  font-size: 14px;
+}
+div#chart{
+  width: 97%;
+  margin-right: 50px;
   background-color: white;
-  height: 100vh
+  margin-top: 10px;
+  padding-left: 10px;
+  height: max-content;
+  padding-top: 20px;
+  padding-right: 20px;
+  box-shadow: 0 2px 2px 0 rgba(66, 66, 66, 0.14), 0 1px 5px 0 rgba(134, 134, 134, 0), 0 3px 1px -2px rgba(134,135, 134, 0.2)!important;
+
+}
+
+canvas#mycanvas{
+  display: block;
+width: 605px;
+margin-left: -30px;
+height: 302px;
+margin-bottom: 20px;
 }
 
 .breadcrumb:last-child{
@@ -959,14 +1009,14 @@ font-size: 12px;
 }
 
 div#request-form-controls {
-    float: right;
-    margin-top: 30px;
+  margin-top: 50px;
+margin-left: 25px;
 }
 #btn-cancel{
   padding: 8px 30px 8px 30px;
   border: 1px solid #ab4848;
   font-size: 12px;
-  background-color: #e05959;
+  background-color: #F44336;
   float: right;
   color: white;
   font-size: 14px;
@@ -1019,6 +1069,16 @@ input#userid[type=text]:not(.browser-default):focus:not([readonly]),
 input#password[type=password]:not(.browser-default):focus:not([readonly]){
    border-bottom: 1px solid #4b75ff;
  }
+
+ .card-header{
+   text-align: center;
+font-weight: 500;
+color: white;
+background-color: #283061;
+padding: 10px;
+margin-right: 20px;
+margin-bottom: -10px;
+}
 
  /* .wrapper{
    padding-left: 300px;
@@ -1127,6 +1187,51 @@ span.ticket_cat_blank {
           box-sizing: border-box;
 }
 
+.card-panel.tech{
+  color: white;
+  border-radius: 2px;
+  background-color: #e65a46;
+}
+
+div#sev{
+  padding-right: 20px;
+}
+
+.card-action{
+  border-bottom: 1px solid lightgray;
+  padding: 10px 24px!important;
+  font-size: 14px;
+}
+
+.card{
+  margin: 0.5rem 0 0.5rem 0;
+}
+
+span#sevname {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.card-image#dashboard {
+    background-color: #4b75ff;
+    padding: 30px 20px;
+    color: white;
+  }
+
+p#dashboard {
+    font-size: 14px;
+    text-align: left;
+    text-transform: uppercase;
+}
+.card .card-content {
+    font-size: 20px;
+    padding: 15px;
+}
+
+div#dashboardsev{
+  font-size: 24px;
+margin: 5px 20px;
+}
 span.ticket_cat_t {
   min-width: 1.7rem;
   padding: 0 6px;
@@ -1145,6 +1250,11 @@ span.ticket_cat_t {
           box-sizing: border-box;
 }
 
+.card-panel.access{
+  color: white;
+  border-radius: 2px;
+  background-color: #fbd440;
+}
 
 span.ticket_cat_a {
   min-width: 1.7rem;
@@ -1162,6 +1272,12 @@ span.ticket_cat_a {
   border-radius: 20%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+.card-panel.network{
+  color: white;
+  border-radius: 2px;
+  background-color: #4295dc;
 }
 
 span.ticket_cat_n {
@@ -1216,13 +1332,18 @@ span.ticket_cat_regular {
 }
 
 h6#line2 {
-    color: #c7c7c7;
-    font-weight: 100;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    margin-left: 0px;
+  color: #c7c7c7;
+      font-weight: 400;
+      font-size: 16px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      margin-left: 0px;
   }
-
+i#dashboard{
+  float: right;
+    padding-top: 30px;
+    opacity: 0.3;
+}
 .swal-text{
     font-weight: 500;
   }
@@ -1232,7 +1353,7 @@ h6#line2 {
    color: white;
 }
 
-form#service, form#access, form#new-requestor, form#batch-upload{
+form#service, form#access, form#new-requestor{
   display: none;
 }
 
@@ -1302,11 +1423,14 @@ table#access-details td:first-child{
 table#access-details td{
   padding: 5px;
 }
-/*
-div.material-table#manage table th:first-child, div.material-table table td:first-child{
-  width: 12%;
-}
 
+div.material-table#manage table th:first-child, div.material-table#manage table td:first-child{
+  padding-left: 40px;
+}
+div.material-table#manage table th:last-child, div.material-table#manage table td:last-child{
+  width: 10%;
+}
+/*
 div.material-table#manage table th:nth-child(2), div.material-table table td:nth-child(2){
   width: 10%;
 }
@@ -1334,6 +1458,18 @@ div#properties{
   padding: 10px 10px 0 0;
 }
 
+.sev#sev::before {
+    color: #795548;
+    font-family: "Material Icons";
+    content: "\E002";
+    /* Unicode of character to precede the list item */
+    font-size: 17px;
+    margin-right: 10px;
+    position: relative;
+    padding-top: 1em;
+    font-weight: 400;
+  }
+
 .sev1#sev::before {
     color: #ee1b24;
     content: "●";
@@ -1344,6 +1480,8 @@ div#properties{
     padding-top: 1em;
     font-weight: 400;
   }
+
+
 
 .sev2#sev::before {
     color: #fb9213;
@@ -1514,7 +1652,6 @@ div.result{
     overflow-y: auto;
     max-height:100px;
     width: 530px;
-    border-bottom: 1px solid #CCCCCC ;
   }
 /* Formatting result items */
 div.result p{
@@ -1651,31 +1788,71 @@ input#details-back {
       font-size: 12px;
       float: right;
       font-weight: 500;
-      margin-right: 15px;
+      margin-right: 35px;
       border: 1px solid #4b75ff;
       color: #4b75ff;
     }
-    input#check, input#approve, input#reject, input#cancel, input#confirm,input#attach, a#sla {
-      /* padding: 8px 15px 8px 15px;
-      background-color: #21d260;
-      border-color: #21d260;
-      border-radius: 5px;
-      font-size: 14px;
-      float: right;
-      margin-right: 15px;
-      border-style: none;
-      color: white; */
-      padding: 6px 25px 6px 25px;
-      background-color: #ffffff;
-      border-color: #4b75ff;
-      border-radius: 5px;
+
+    input#edit{
+      background-color: #ff9800b0;
+      border: 1px solid #ffa929;
+      color: white;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
       font-size: 12px;
       float: right;
       font-weight: 500;
-      margin-right: 15px;
-      border: 1px solid #4b75ff;
-      color: #4b75ff;
+      margin-right: 35px;
+      margin-top: 18px;
+    }
+    input#reject{
+      background-color: #ff695e;
+      color: white;
+      border: 1px solid #f35d52;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      float: right;
+      font-weight: 500;
+      margin-right: 35px;
+    }
+    input#cancel, input#delete{
+      background-color: #F44336;
+      color: white;
+      border: 1px solid #f35d52;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      float: right;
+      font-weight: 500;
+      margin-right: 35px;
+      margin-top: 18px;
+    }
+
+    input#check, input#approve, input#confirm{
+      background-color: #4b75ff;
+      color: white;
+      border: 1px solid #3a5dd2;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      float: right;
+      font-weight: 500;
+      margin-right: 35px;
+    }
+    input#attach, input#reassign-button,a#sla {
+      background-color: #4b75ff;
+      color: white;
+      border: 1px solid #3a5dd2;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      float: right;
+      margin-top: 18px;
+      font-weight: 500;
+      margin-right: 35px;
       }
+
 
 div#detail-header{
   box-shadow: none;
@@ -1785,6 +1962,7 @@ input#confirmnewpass, label#confirmnewpass{
 .approve-reject{
     display: inline-flex;
     float: right;
+    margin-top: 18px;
 }
 
 
@@ -1895,7 +2073,6 @@ height: 100vh;
 div#service, div#access, div#requestor, div#batch{
   display: block;
   background-color: white;
-  height: 100vh;
   padding: 25px;
 }
 .dropdown3content{
@@ -1924,33 +2101,14 @@ div.manage-actions{
   float: right;
 }
 
-/* For PHPMailer waiting time */
-.preloader-wrapper.big.active{
-  display: none;
-}
-.preloader-background{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #000;
-  position: fixed;
-  opacity: 0.3;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-/* End of PHPMailer waiting time */
-
 
 div#home{
   background-color: #f0f0f0!important;
 
 }
 
-div#kb{
-  margin-top: -28px;
+div#kb {
+    margin-top: -8px;
 }
 /*
 .card:hover {
@@ -1981,4 +2139,150 @@ input.validate{
 /*donna edits feb 10*/
 #modal2{
   height: 250px;
+}
+
+
+li.tab.col.s4.l4.middle{
+  border-right: 1px solid #e2e2e2;
+  border-left: 1px solid #e2e2e2;
+}
+
+td.active::before {
+    color: #8bc34a;
+    content: "●";
+    font-size: 1.3em;
+    margin-right: 10px;
+    position: relative;
+    padding-top: 1em;
+    font-weight: 400;
+  }
+
+
+td.deactivated::before {
+      color: #ff5858;
+      content: "●";
+      /* Unicode of character to precede the list item */
+      font-size: 1.3em;
+      margin-right: 10px;
+      position: relative;
+      padding-top: 1em;
+      font-weight: 400;
+    }
+
+
+button.deactivate.btn.tooltipped{
+  background: none;
+  border: none;
+  color: #ff5858;
+  padding: 0px;
+  margin: 0px;
+}
+
+table#datatable > tbody > tr:hover > td > button.deactivate {
+  display:block;
+}
+
+/* table#datatable > tbody > tr > td >  button.deactivate {
+  display: none;
+} */
+
+input#deactivated{
+  background-color: lightgray;
+  color: black;
+  border: 1px solid darkgrey;
+  padding: 8px 20px 8px 20px;
+  border-radius: 2px;
+  font-size: 12px;
+  float: right;
+  font-weight: 500;
+  margin-right: 35px;
+  margin-top: 18px;
+}
+
+/* For PHPMailer waiting time */
+/* .preloader-wrapper.big.active{
+  display: none;
+} */
+.preloader-background{
+
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background-color: #fff;
+  position: fixed;
+  border: 1px solid #f1f1f1;
+  opacity: 1;
+  margin: 50px;
+  /* padding: 50px; */
+  height: 50vh;
+  z-index: 100;
+  padding: 100px;
+  width: 70%;
+  box-shadow: 0 2px 2px 0 rgba(66, 66, 66, 0.14), 0 1px 5px 0 rgba(134, 134, 134, 0), 0 3px 1px -2px rgba(134,135, 134, 0.2)!important;
+
+}
+
+div#email{
+  padding: 0px!important;
+  text-align: left;
+  font-size: 14px;
+  margin: 0 auto;
+}
+
+
+div#email.card-content{
+  padding: 25px !important;
+}
+
+.page-footer{
+  bottom: 0;
+  padding-top: 0px!important;
+  background-color: #292059;
+text-align: center;
+font-size: 11px;
+}
+
+div#email-template{
+  width: 60%;
+  margin: 0 auto;
+  height: 100vh;
+}
+
+
+span#rdetails{
+  display: -webkit-inline-box
+}
+
+table#dynamic_field{
+  font-size: 12px;
+margin: 0px 8px;
+}
+
+
+input#add{
+    background-color: #8BC34A;
+    border: 1px solid #8BC34A;
+    padding: 4px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    float: unset;
+    color: white;
+  }
+
+  input#delete-row{
+    float: right;
+font-weight: 500;
+background-color: transparent;
+font-size: 14px;
+border: none;
+color: #afafaf;
+  }
+
+table#dynamic_field td{
+  padding: 5px;
+}
+button.btn_remove{
+  background-color: transparent;
+  border: none;
+  color: lightgrey;
 }

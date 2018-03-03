@@ -5,13 +5,12 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");
 
 $email = mysqli_real_escape_string($db, $_POST['email']);
 
-//email notif to checker
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/Exception.php';
-require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/PHPMailer.php';
-require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/SMTP.php';
+require '../PHPMailer-master/src/Exception.php';
+require '../PHPMailer-master/src/PHPMailer.php';
+require '../PHPMailer-master/src/SMTP.php';
 
 $sql = "SELECT email_address from user_t WHERE email_address = '$email'";
 if (!mysqli_query($db, $sql))
@@ -36,7 +35,7 @@ else {
       $mail->Username = "dondumaliang@gmail.com";                 // SMTP username
       $mail->Password = "tritondrive";                           // SMTP password
       $mail->Port = 587;                                    // TCP port to connect to
-
+      $mail->SMTPSecure = "tls";
       //Recipients
       $mail->setFrom("dondumaliang@gmail.com", "Donna Dumaliang");
       $mail->addAddress($email);     // Add a recipient
@@ -47,7 +46,7 @@ else {
       //Content
       $mail->isHTML(true);                                  // Set email format to HTML
       $mail->Subject = "Change Password";
-      $mail->Body ="Click reset link to change password http://localhost/eei_merged/reset-password.php?token=" . $token ;
+      $mail->Body ="Click reset link to change password https://eeiservicedesk.000webhostapp.com/reset-password.php?token=" . $token ;
       $mail->send();
 }
 

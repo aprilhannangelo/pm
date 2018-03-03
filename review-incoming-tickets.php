@@ -48,7 +48,7 @@
             </div>
             <div class="col s12" id="breadcrumb">
               <a href="#!" class="breadcrumb">Tickets for Review</a>
-              <a href="#!" class="breadcrumb">Incoming Tickets</a>
+              <a href="#!" class="breadcrumb">Incoming Tickets for Review</a>
             </div>
           </div>
           <div class="material-table" id="my-tickets">
@@ -313,7 +313,7 @@
                     </thead>
                     <?php
                     $id = $_SESSION['user_id'];
-                    $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE (user_access_ticket_t.checker = $id AND user_access_ticket_t.isChecked is NULL) OR (user_access_ticket_t.approver=$id AND user_access_ticket_t.isChecked=true AND user_access_ticket_t.isApproved IS NULL)";
+                    $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE (user_access_ticket_t.checker = $id AND user_access_ticket_t.isChecked is NULL AND ticket_t.ticket_status = '1') OR (user_access_ticket_t.approver=$id AND user_access_ticket_t.isChecked=true AND ticket_t.ticket_status = '1')";
 
                     $result = mysqli_query($db,$query);?>
 

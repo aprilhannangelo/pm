@@ -17,8 +17,7 @@
     <div class="col s12 m12 l12" id="content">
       <div class="main-content">
         <div class="col s12 m12 l12 table-header">
-          <span class="table-title">Review Closed Tickets</span>
-
+          <span class="table-title">Review In Closed Tickets</span>
           <div class="count">
             <!-- Badge Counter -->
             <?php
@@ -48,7 +47,7 @@
           </div>
           <div class="col s12" id="breadcrumb">
             <a href="#!" class="breadcrumb">Tickets for Review</a>
-            <a href="#!" class="breadcrumb">Closed Tickets</a>
+            <a href="#!" class="breadcrumb">Closed Tickets Reviewed</a>
           </div>
         </div>
         <div class="material-table" id="my-tickets">
@@ -90,7 +89,7 @@
                 </thead>
                 <tbody>
                 <?php
-                   $query = "SELECT * FROM ticket_t WHERE ticket_status=8";
+                   $query = "SELECT * FROM ticket_t WHERE ticket_status=8 LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level";
 
                    $result = mysqli_query($db,$query);?>
                     <?php while($row = mysqli_fetch_assoc($result)){
@@ -132,7 +131,7 @@
                   </tr>
                 </thead>
                 <?php
-                $query = "SELECT * FROM user_access_ticket_t uat LEFT JOIN ticket_t t USING(ticket_id) WHERE t.ticket_status=8";
+                $query = "SELECT * FROM user_access_ticket_t uat LEFT JOIN ticket_t t USING(ticket_id) LEFT JOIN sla_t sev ON sev.id = t.severity_level WHERE t.ticket_status=8";
 
                 $result = mysqli_query($db,$query);
 
@@ -196,7 +195,7 @@
                 </thead>
                 <tbody>
                 <?php
-                  $query = "SELECT * FROM ticket_t t LEFT JOIN service_ticket_t USING (ticket_id) WHERE t.ticket_status=8";
+                  $query = "SELECT * FROM ticket_t t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = t.severity_level WHERE t.ticket_status=8";
                   $result = mysqli_query($db,$query);?>
 
                     <?php while($row = mysqli_fetch_assoc($result)){
@@ -260,7 +259,7 @@
                   </thead>
                   <tbody>
                   <?php
-                  $query = "SELECT * FROM ticket_t t WHERE ticket_category='Network' AND ticket_status=8";
+                  $query = "SELECT * FROM ticket_t t LEFT JOIN sla_t sev ON sev.id = t.severity_level WHERE ticket_category='Network' AND ticket_status=8";
                     $result = mysqli_query($db,$query);?>
 
                     <?php while($row = mysqli_fetch_assoc($result)){
@@ -307,7 +306,7 @@
                      </tbody>
               <?php }}
               elseif ($_SESSION['user_type'] == 'Technician') {
-                $query = "SELECT * FROM ticket_t t LEFT JOIN service_ticket_t USING (ticket_id) WHERE t.ticket_status=8 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
+                $query = "SELECT * FROM ticket_t t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = t.severity_level WHERE t.ticket_status=8 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
                 ?>
                 <thead>
                   <tr>
@@ -367,7 +366,7 @@
                    </tbody>
                <?php }}
               elseif ($_SESSION['user_type'] == 'Network Engineer') {
-                $query = "SELECT * FROM ticket_t WHERE ticket_status=8 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
+                $query = "SELECT * FROM ticket_t LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level WHERE ticket_status=8 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
                  ?>
                  <thead>
                    <tr>

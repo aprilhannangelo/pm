@@ -1,7 +1,7 @@
 <?php
 /* Attempt MySQL server connection. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
-$mysqli = new mysqli("localhost", "root", "", "eei_db");
+$mysqli = new mysqli("localhost", "id4824120_dondumaliang", "tritondrive", "id4824120_eei");
 
 // Check connection
 if($mysqli === false){

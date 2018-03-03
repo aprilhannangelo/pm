@@ -89,7 +89,8 @@
       $email = $row['email_address'];
       $user_type = $row['user_type'];
       $firstlogin = $row['is_firstlogin'];
-      if($username==$user && $password==$pass){
+      $isActive = $row['isActive'];
+      if($username==$user && $password==$pass && $isActive=='1'){
         session_start();
         $_SESSION['userid'] = $user;
         $_SESSION['password'] = $pass;

@@ -48,7 +48,7 @@
           </div>
           <div class="col s12" id="breadcrumb">
             <a href="#!" class="breadcrumb">Tickets for Review</a>
-            <a href="#!" class="breadcrumb">Resolved Tickets</a>
+            <a href="#!" class="breadcrumb">Resolved Tickets Reviewed</a>
           </div>
         </div>
         <div class="material-table" id="my-tickets">

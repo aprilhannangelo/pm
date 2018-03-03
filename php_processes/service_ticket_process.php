@@ -6,6 +6,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");
 $request_title = mysqli_real_escape_string($db, $_POST['title']);
 $request_details = mysqli_real_escape_string($db, $_POST['request_details']);
 
+
 //INSERT TO TICKET_T
 $query1 = "INSERT INTO ticket_t (ticket_id, ticket_title, ticket_type, ticket_status, date_prepared, user_id) VALUES(DEFAULT, '$request_title', 'Service', '1', NOW(), '{$_SESSION['user_id']}')";
 if (!mysqli_query($db, $query1))
@@ -39,6 +40,19 @@ $result = mysqli_query($db, $query4);
 $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
 
 echo json_encode($row['ticket_number']);
+
+
+//file upload
+if (isset($_POST['submit'])){
+$name= $_FILES['file']['name'];
+// $desc = $_POST['description_entered'];
+$tmp_name= $_FILES['file']['tmp_name'];
+$file = '../eei/uploads/' .$_FILES['file']['name'];
+$upload = move_uploaded_file($tmp_name, $file);
+$uploader = $_SESSION['user_id'];
+  $add = "INSERT INTO attachment_t VALUES('',?,'$uploader','$latest_id','hi')";
+
+};
 //else{
 //   // header("Location: ..\home.php");
 // }

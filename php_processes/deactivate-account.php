@@ -9,7 +9,7 @@ $query = "SELECT concat(first_name,last_name) as name FROM user_t WHERE user_id 
 $result  = mysqli_query($db, $query);
 $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
 
-$query = "DELETE FROM user_t WHERE user_id = $id";
+$query = "UPDATE user_t SET isActive='0' AND deactivation_date = NOW() WHERE user_id = $id";
 
 if (!mysqli_query($db, $query))
 {

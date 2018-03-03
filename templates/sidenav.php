@@ -139,7 +139,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                 <li class="collapsible"><a href="review-incoming-tickets.php">Incoming
                     <?php
                       $id = $_SESSION['user_id'];
-                      $query = "SELECT COUNT(ticket_t.ticket_id) AS count FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) WHERE (user_access_ticket_t.checker =$id AND user_access_ticket_t.isChecked is NULL) OR (user_access_ticket_t.approver=$id AND user_access_ticket_t.isChecked=true AND user_access_ticket_t.isApproved IS NULL)";
+                      $query = "SELECT COUNT(*) as count FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE (user_access_ticket_t.checker = $id AND user_access_ticket_t.isChecked is NULL AND ticket_t.ticket_status = '1') OR (user_access_ticket_t.approver=$id AND user_access_ticket_t.isChecked=true AND ticket_t.ticket_status = '1')";
 
                       $result = mysqli_query($db,$query);
                       while($row = mysqli_fetch_assoc($result)){ ?>
@@ -147,22 +147,22 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                     <?php } ?>
                   </a>
                 </li>
-                <li class="collapsible"><a href="review-incoming-tickets.php">Checked
+                <li class="collapsible"><a href="checkedRequests.php">Checked
                     <?php
                       $id = $_SESSION['user_id'];
                       $query = "SELECT COUNT(*) AS count FROM ticket_t LEFT JOIN user_access_ticket_t USING (ticket_id)
-                                WHERE (user_access_ticket_t.checker = $id AND user_access_ticket_t.isChecked = true)";
+                                WHERE (user_access_ticket_t.checker = $id AND user_access_ticket_t.isChecked = '1')";
                       $result = mysqli_query($db,$query);
                       while($row = mysqli_fetch_assoc($result)){ ?>
                         <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                     <?php } ?>
                   </a>
                 </li>
-                <li class="collapsible"><a href="review-incoming-tickets.php">Approved
+                <li class="collapsible"><a href="approvedRequests.php">Approved
                     <?php
                     $id = $_SESSION['user_id'];
                     $query = "SELECT COUNT(*) as count FROM ticket_t LEFT JOIN user_access_ticket_t USING (ticket_id)
-                              WHERE (user_access_ticket_t.approver = $id AND user_access_ticket_t.isApproved = true)";
+                              WHERE user_access_ticket_t.approver = $id AND user_access_ticket_t.isApproved = '1'";
                       $result = mysqli_query($db,$query);
                       while($row = mysqli_fetch_assoc($result)){ ?>
                         <span class="badge ticket_count"> <?php echo $row['count'] ?></span>

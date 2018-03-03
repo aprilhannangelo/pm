@@ -4,13 +4,9 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-//varies per computer
-// require '/Applications/XAMPP/xamppfiles/htdocs/pm0217/PHPMailer-master/src/Exception.php';
-// require '/Applications/XAMPP/xamppfiles/htdocs/pm0217/PHPMailer-master/src/PHPMailer.php';
-// require '/Applications/XAMPP/xamppfiles/htdocs/pm0217/PHPMailer-master/src/SMTP.php';
-require 'C:\xampp\htdocs\eei\PHPMailer-master\src\Exception.php';
-require 'C:\xampp\htdocs\eei\PHPMailer-master\src\PHPMailer.php';
-require 'C:\xampp\htdocs\eei\PHPMailer-master\src\SMTP.php';
+require '../PHPMailer-master/src/Exception.php';
+require '../PHPMailer-master/src/PHPMailer.php';
+require '../PHPMailer-master/src/SMTP.php';
 
 if (isset($_POST['submit'])){
 $file = $_FILES['file']['tmp_name'];
@@ -45,7 +41,7 @@ while(($filesop = fgetcsv($handle, 0, ",")) !== false)
            $mail->Username = "dondumaliang@gmail.com";                 // SMTP username
            $mail->Password = "tritondrive";                           // SMTP password
            $mail->Port = 587;
-
+           $mail->SMTPSecure = "tls";
            //Recipients
            $mail->setFrom("dondumaliang@gmail.com", "Donna Dumaliang");
            $mail->addAddress($email,$name);     // Add a recipient

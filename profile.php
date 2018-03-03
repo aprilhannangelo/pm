@@ -13,11 +13,20 @@
   <title>EEI Service Desk</title>
   <?php include 'templates/css_resources.php' ?>
   <script>
-  function deleteUser($id){
+  function deactivateAccount($id){
+          swal({
+          title: "Deactivate this account?",
+          text: "You will not be able to undo the action.",
+          icon: "warning",
+          buttons: ["Cancel", "Deactivate"],
+          dangerMode: true,
+         })
+         .then((willDelete) => {
+          if (willDelete) {
           //get the input value
           $.ajax({
               //the url to send the data to
-              url: "php_processes/delete-user.php",
+              url: "php_processes/deactivate-account.php",
               //the data to send to
               data: {id : $id},
               //type. for eg: GET, POST
@@ -25,15 +34,19 @@
               success: function()
                {
                  swal({
-                    title: "User deleted",
+                    title: "Account deactivated",
                     type: "success",
                     icon: "success"
                 }).then(function(){
                   window.location="manageUsers.php";
                 });
                }
-          });
-      }
+              })
+              } else {
+                   swal("", "Account is not deactivated!","error");
+                 }
+                });
+               };
 
   </script>
   </head>
@@ -49,7 +62,6 @@
       <div class="main-content">
         <div class="col s12 m12 l12 table-header">
           <span class="table-title">User Profile</span>
-          <input id="request-form" name="submit" type="submit" value="Edit">
           <?php
           $db = mysqli_connect("localhost", "root", "", "eei_db");
           $id = $_GET["id"];
@@ -65,8 +77,13 @@
           $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
 
           mysqli_close($db);
+
+          if($row['isActive'] == '0'){ ?>
+            <input disabled id="deactivated" name="submit" type="submit" value="Deactivated">
+          <?php } else{
           ?>
-          <input onclick="deleteUser(<?php echo $row['user_id']?>)" id="request-form" name="submit" type="submit" value="Delete">
+          <input onclick="deactivateAccount(<?php echo $row['user_id']?>)" id="delete" name="submit" type="submit" value="Deactivate Account">
+        <?php } ?>
           <div class="col s12" id="breadcrumb">
             <a href="#!" class="breadcrumb">Manage Users</a>
             <a href="#!" class="breadcrumb">User Profile</a>
@@ -97,6 +114,10 @@
                   <tr>
                     <td>User Type</td>
                     <td class = "pflBody" contenteditable="false" ><?php echo $row['user_type']?></td>
+                  </tr>
+                  <tr>
+                    <td>Deactivation Date</td>
+                    <td class = "pflBody" contenteditable="false" ><?php echo $row['deactivation_date']?></td>
                   </tr>
 
                 </tbody>

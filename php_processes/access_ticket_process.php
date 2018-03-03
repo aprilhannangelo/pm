@@ -3,6 +3,7 @@
 session_start();
 $db = mysqli_connect("localhost", "root", "", "eei_db");
 
+
 $request_title = mysqli_real_escape_string($db, $_POST['title']);
 $company = mysqli_real_escape_string($db, $_POST['company']);
 $dp = mysqli_real_escape_string($db, $_POST['dp']);
@@ -66,12 +67,11 @@ $row4=mysqli_fetch_array($result4,MYSQLI_ASSOC);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/Exception.php';
-// require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/PHPMailer.php';
-// require '/Applications/XAMPP/xamppfiles/htdocs/eei_merged/PHPMailer-master/src/SMTP.php';
-require 'C:\xampp\htdocs\eei\PHPMailer-master\src\Exception.php';
-require 'C:\xampp\htdocs\eei\PHPMailer-master\src\PHPMailer.php';
-require 'C:\xampp\htdocs\eei\PHPMailer-master\src\SMTP.php';
+require '../PHPMailer-master/src/Exception.php';
+require '../PHPMailer-master/src/PHPMailer.php';
+require '../PHPMailer-master/src/SMTP.php';
+
+
 $query4 = "SELECT ticket_number from ticket_t where ticket_id = '$latest_id'";
 
 $result = mysqli_query($db, $query4);
@@ -99,8 +99,22 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
     //Content
     $mail->isHTML(true);                                  // Set email format to HTML
     $mail->Subject = "Access Request for Review";
-    $mail->Body = $row4['name'] . " is requesting for " . $access_request  . " access" . "<br> Kindly view and check access request details through the EEI Service Desk website http://localhost/eei-master/details.php?id=" . $latest_id;
+    $mail->AddEmbeddedImage('../img/email-header.png', 'email-header');    //Content
+		$mail->Body = "<div style=\"background-color: #f5f5f5; padding: 50px\">" .
+
+    "<img style=\"display: block;  margin: 0 auto;\" src=\"cid:email-header\">" .
+
+    "<div style=\"background-color: white; height: max-content; margin: 0 auto; width: 662px; padding: 30px 40px 30px 40px; font-size: 14px; box-shadow: 0 2px 2px 0 rgba(66, 66, 66, 0.14), 0 1px 5px 0 rgba(134, 134, 134, 0), 0 3px 1px -2px rgba(134,135, 134, 0.2);\">" .
+
+    "Hi <b>" . $checker . "</b>," . "<br><br>" .
+
+    $row4['name'] . " is requesting for " . $access_request  . " access." . "<br><br> As the checker assigned, kindly view and check the access request details through the EEI Service Desk website" .
+
+    "<br><br><a style=\"background-color: #4b75ff; padding: 13px; color:white; border-radius: 3px; display: block; width: 26%; text-decoration: none; margin: 0 auto;\" href=\"http://localhost/eei0219-master/details.php?id=$latest_id\">Click here to go to website" . "</a><br><br>--<br><b>IT Service Desk Team</b>" . "</div></div>" .
+
+    "<div style=\"background-color: #2d3033; font-size: 11px; padding: 20px 0px; color:white; text-align: center;\">Copyright &copy; 2018 EEI Corporation | No. 12 Manggahan street, Libis, Quezon City 1101 Metro Manila.</div>";
+
     $mail->send();
 
-mysqli_close($db);
+    mysqli_close($db);
 ?>

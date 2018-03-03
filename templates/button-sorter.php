@@ -42,4 +42,6 @@ $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LE
       case ("sev5"):
         $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) WHERE ticket_t.ticket_status = 'In Progress' AND ticket_t.severity_level='SEV5' AND ticket_t.user_id = '".$_SESSION['user_id']."'";
         break;
-  }}; ?>
+  }
+
+}; ?>
