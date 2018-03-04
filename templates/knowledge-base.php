@@ -1,5 +1,8 @@
 <div class="col s12 m12 l12 table-header">
-  <span class="table-title">Knowledge Base</span>
+  <div class="row">
+    <span class="table-title">Knowledge Base</span>
+  <input id="confirm" type="submit"  value="Add FAQ Article">
+  </div>
 </div>
 
 <div id="knowledge-base">
@@ -17,7 +20,7 @@
               <p id="kb">Hardware, Mouse, Keyboard, Monitor, Printers, Scanners, Tablets, etc.</p>
             </div>
             <div class="card-action">
-              <a href="#">View Technicals FAQs</a>
+              <a href="technicals-faq.php">View Technicals FAQs</a>
             </div>
           </div>
         </div>
@@ -32,7 +35,7 @@
               <p id="kb">Hardware access, application access, password change</p>
             </div>
             <div class="card-action">
-              <a href="#">View Access FAQs</a>
+              <a href="access-faq.php">View Access FAQs</a>
             </div>
           </div>
         </div>
@@ -47,7 +50,7 @@
 
             </div>
             <div class="card-action">
-              <a href="#">View Network FAQs</a>
+              <a href="network-faq.php">View Network FAQs</a>
             </div>
           </div>
         </div>

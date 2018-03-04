@@ -22,3 +22,9 @@
 <!--Import for Sweet Alert-->
 <!-- <script type="text/javascript" src="\node_modules\sweetalert\dist\sweetalert.min.js"></script> -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- Rich Text Editor -->
+<script type="text/javascript" src="js/nicEdit.js"></script>
+<script type="text/javascript">
+    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>

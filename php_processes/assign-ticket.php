@@ -16,6 +16,14 @@ if (!mysqli_query($db, $query))
   die('Error' . mysqli_error($db));
 }
 
+
+//change status from pending to assigned
+$query = "UPDATE ticket_t SET ticket_status = '6' WHERE ticket_id = $id";
+if (!mysqli_query($db, $query))
+{
+  die('Error' . mysqli_error($db));
+}
+
 //get ticket agent name for activity log
 $assignee = "SELECT CONCAT(r.first_name, ' ', r.last_name) AS assignee FROM ticket_t t LEFT JOIN user_t r on r.user_id=t.ticket_agent_id WHERE ticket_id = $id";
 // $assignee = "SELECT ticket_agent_id AS assignee FROM ticket_t t LEFT JOIN user_t r ON r.user_id=t.ticket_agent_id WHERE ticket_id = $id";

@@ -6,6 +6,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");
 $category = mysqli_real_escape_string($db, $_POST['category']);
 $id = mysqli_real_escape_string($db, $_POST['id']);
 $severity= mysqli_real_escape_string($db,$_POST['severity']);
+$logger = $_SESSION['user_id'];
 
 
 $query = "UPDATE ticket_t SET ticket_category='$category', severity_level='$severity', ticket_status='5' WHERE ticket_id = $id";
@@ -42,28 +43,37 @@ $dateRequired = "UPDATE ticket_t set date_required = DATE_ADD('$date', INTERVAL 
 $run = mysqli_query($db, $dateRequired);
 
 if ($category=='Technicals') {
-    $query3 = "SELECT user_id from user_t where user_type = 'Technicals Group Manager'";
+    $query3 = "SELECT user_id, CONCAT(first_name, ' ', last_name) as mgr from user_t where user_type = 'Technicals Group Manager'";
     $result = mysqli_query($db, $query3);
     $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
     $mgrId= $row['user_id'];
+    $mgrname = $row['mgr'];
     $query2 = "UPDATE ticket_t SET it_group_manager_id= '$mgrId'   ,  date_assigned = NOW() WHERE ticket_id = $id";
     $row2=mysqli_query($db, $query2);
+    $querylog = "INSERT INTO activity_log_t(activity_log_details, logger, ticket_id) VALUES('Ticket forwarded to Technicals Supervisor - $mgrname', '$logger', '$id')";
+    $row3=mysqli_query($db, $querylog);
+
+
 }
 elseif ($category=='Access') {
-  $query3 = "SELECT user_id from user_t where user_type = 'Access Group Manager'";
+  $query3 = "SELECT user_id, CONCAT(first_name, ' ', last_name) as mgr from user_t where user_type = 'Access Group Manager'";
   $result = mysqli_query($db, $query3);
   $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
   $mgrId= $row['user_id'];
   $query2 = "UPDATE ticket_t SET it_group_manager_id= '$mgrId'  ,  date_assigned = NOW() WHERE ticket_id = $id";
   $row2=mysqli_query($db, $query2);
+  $querylog = "INSERT INTO activity_log_t(activity_log_details, logger, ticket_id) VALUES('Ticket forwarded to Access Supervisor - $mgrname', '$logger', '$id')";
+  $row3=mysqli_query($db, $querylog);
 }
 elseif ($category=='Network') {
-  $query3 = "SELECT user_id from user_t where user_type = 'Network Group Manager'";
+  $query3 = "SELECT user_id, CONCAT(first_name, ' ', last_name) as mgr from user_t where user_type = 'Network Group Manager'";
   $result = mysqli_query($db, $query3);
   $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
   $mgrId= $row['user_id'];
   $query2 = "UPDATE ticket_t SET it_group_manager_id= '$mgrId' , date_assigned = NOW() WHERE ticket_id = $id";
   $row2=mysqli_query($db, $query2);
+  $querylog = "INSERT INTO activity_log_t(activity_log_details, logger, ticket_id) VALUES('Ticket forwarded to Network Supervisor - $mgrname', '$logger', '$id')";
+  $row3=mysqli_query($db, $querylog);
 }
 
 //date required

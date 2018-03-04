@@ -11,6 +11,7 @@ span.card-title{
     position: relative;
     text-align: center;
     padding: 10px;
+    padding-top: 30px;
 }
 .card-content.white-text{
   margin-bottom: 35px;
@@ -85,7 +86,22 @@ div#knowledge-base{
   padding: 40px;
   background-color: white;
 }
+div#knowledge-base-body{
+  background-color: white;
+  height: 100vh;
+}
+div#faq-nav{
+  -webkit-box-shadow: 2px 0 3px -2px lightgrey;
+  padding: 25px;
+  height: 100vh;
 
+}
+
+div#faq-body{
+  height: 100vh;
+
+  padding: 35px;
+}
 span.kb-title{
     font-size: 22px;
     font-weight: 500;
@@ -223,6 +239,7 @@ header, main, footer {
     width: 375px!important;
     text-align: center!important;
     font-size: 20px!important;
+
   }
 
   .fixed-action-btn.vertical ul li {
@@ -316,9 +333,6 @@ a.btn-floating.service, a.btn-floating.access{
 display: none;
 }
 
-input#cancel{
-  margin-top: 18px;
-}
 @media only screen and (max-width: 992px){
   div.detail-actions{
     display: inline-flex!important;
@@ -726,6 +740,7 @@ span.table-title{
   font-size: 26px;
   font-weight: 600;
   padding-left: 18px;
+  vertical-align: middle;
 }
 
 h6#dashboard{
@@ -1814,22 +1829,51 @@ input#details-back {
       font-size: 12px;
       float: right;
       font-weight: 500;
-      margin-right: 35px;
+      margin-right: 18px;
     }
     input#cancel, input#delete{
+      background-color: #F44336;
+      color: white;
+      border: 1px solid #c54239;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      float: right;
+      font-weight: 500;
+      margin-right: 10px;
+      margin-top: 18px;
+    }
+    input.btn-cancel{
+      background-color: #F44336;
+      color: white;
+      border: 1px solid #c54239;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      float: right;
+      font-weight: 500;
+      margin-right: 10px;
+    }
+    a#cancel{
       background-color: #F44336;
       color: white;
       border: 1px solid #f35d52;
       padding: 8px 20px 8px 20px;
       border-radius: 2px;
       font-size: 12px;
-      float: right;
       font-weight: 500;
-      margin-right: 35px;
-      margin-top: 18px;
+    }
+    a#return{
+      background-color: #FFC107;
+      color: white;
+      border: 1px solid #e1ad0e;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      font-weight: 500;
     }
 
-    input#check, input#approve, input#confirm{
+    input#check, input.btn-upload, input#approve, input#confirm{
       background-color: #4b75ff;
       color: white;
       border: 1px solid #3a5dd2;
@@ -1838,7 +1882,7 @@ input#details-back {
       font-size: 12px;
       float: right;
       font-weight: 500;
-      margin-right: 35px;
+      margin-right: 10px;
     }
     input#attach, input#reassign-button,a#sla {
       background-color: #4b75ff;
@@ -1850,8 +1894,21 @@ input#details-back {
       float: right;
       margin-top: 18px;
       font-weight: 500;
-      margin-right: 35px;
+      margin-right: 10px;
       }
+
+    input#return{
+      background-color: #FFC107;
+      color: white;
+      border: 1px solid #e1ad0e;
+      padding: 8px 20px 8px 20px;
+      border-radius: 2px;
+      font-size: 12px;
+      float: right;
+      margin-top: 18px;
+      font-weight: 500;
+      margin-right: 10px;
+    }
 
 
 div#detail-header{
@@ -1868,7 +1925,7 @@ box-shadow: none!important;
 } */
 
 div#ticket-properties {
-    padding: 20px 20px 0px 30px;
+    padding: 20px 20px 10px 30px;
     border-radius: 4px;
     background-color: #fff4d6;
   }
@@ -2285,4 +2342,12 @@ button.btn_remove{
   background-color: transparent;
   border: none;
   color: lightgrey;
+}
+
+span#faq-title{
+  margin-left: 15px;
+}
+
+.modal .modal-footer{
+  margin-bottom: 10px;
 }

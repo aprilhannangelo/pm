@@ -195,7 +195,7 @@
                 </thead>
                 <tbody>
                 <?php
-                  $query = "SELECT * FROM ticket_t t LEFT JOIN service_ticket_t USING (ticket_id) WHERE t.ticket_status=6";
+                  $query = "SELECT * FROM ticket_t t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN ticket_status_t stat ON t.ticket_status = stat.status_id LEFT JOIN sla_t sev ON sev.id = t.severity_level WHERE t.ticket_status >= '5' AND t.ticket_status < '9'";
                   $result = mysqli_query($db,$query);?>
 
                     <?php while($row = mysqli_fetch_assoc($result)){

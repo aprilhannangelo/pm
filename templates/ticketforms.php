@@ -35,23 +35,28 @@
               <label for="textarea1" required>Details</label>
             </div>
           </div>
-          <!-- ATTACH FILE -->
-          <div class="file-field input-field">
-            <div class="btn-attach">
-              <span>SELECT File</span>
-              <input type="file" id="file" name="file"/>
+          <div class="row" id="request-form-row2">
+            <!-- ATTACH FILE -->
+            <div class="file-field input-field">
+              <div class="btn-attach">
+                <span>SELECT File</span>
+                <input type="file" id="file" name="file"/>
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
             </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text">
-            </div>
+
           </div>
           <div class="row" id="request-form-controls">
             <input class="waves-effect waves-light" id="btn-cancel" name="submit" type="submit" value="Cancel">
             <input class="waves-effect waves-light" id="btn-submit" name="submit" type="submit" value="Submit">
           </div>
+
         </div>
       </div>
      </div>
+
 </form> <!-- End of Service Request Form -->
 
 <!-- USER ACCESS FORM  -->

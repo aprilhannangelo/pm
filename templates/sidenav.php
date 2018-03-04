@@ -181,7 +181,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                 <li class="collapsible"><a href="review-incoming-tickets.php">Incoming
                   <?php
                       $id = $_SESSION['user_id'];
-                      $query = "SELECT COUNT(*) AS count FROM service_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_agent_id IS NULL";
+                      $query = "SELECT COUNT(*) as count FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Technicals' AND stat.ticket_status = 'Assigned'";
                       $result = mysqli_query($db,$query); ?>
                         <?php while($row = mysqli_fetch_assoc($result)){ ?>
                           <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
@@ -190,14 +190,14 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                 <li class="collapsible"><a href="review-tickets.php">All
                   <?php
                       $id = $_SESSION['user_id'];
-                      $query = "SELECT COUNT(*) AS count FROM service_ticket_t st LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals'";
+                      $query = "SELECT COUNT(*) as count FROM ticket_t t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN ticket_status_t stat ON t.ticket_status = stat.status_id WHERE t.ticket_status >= '5'";
 
                       $result = mysqli_query($db,$query); ?>
                         <?php while($row = mysqli_fetch_assoc($result)){ ?>
                           <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                   <?php } ?>
                 </a></li>
-                <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
+                <!-- <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
                   <?php
                       $query = "SELECT COUNT(*) AS count FROM service_ticket_t st LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_status=6";
 
@@ -205,7 +205,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                         <?php while($row = mysqli_fetch_assoc($result)){ ?>
                           <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                   <?php } ?>
-                </a></li>
+                </a></li> -->
                 <li class="collapsible"><a href="review-resolved-tickets.php">Resolved
                   <?php
                       $query = "SELECT COUNT(*) AS count FROM service_ticket_t st LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_status=7";
@@ -252,7 +252,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                           <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                   <?php } ?>
                 </a></li>
-                <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
+                <!-- <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
                   <?php
                       $query = "SELECT COUNT(*) AS count FROM user_access_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_status=6";
 
@@ -260,7 +260,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                         <?php while($row = mysqli_fetch_assoc($result)){ ?>
                           <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                   <?php } ?>
-                </a></li>
+                </a></li> -->
                 <li class="collapsible"><a href="review-resolved-tickets.php">Resolved
                   <?php
                       $query = "SELECT COUNT(*) AS count FROM user_access_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_status=7";
@@ -309,7 +309,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                           <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                   <?php } ?>
                 </a></li>
-                <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
+                <!-- <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
                   <?php
                       $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_category='Network'AND t.ticket_status=6";
 
@@ -317,7 +317,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                         <?php while($row = mysqli_fetch_assoc($result)){ ?>
                           <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                   <?php } ?>
-                </a></li>
+                </a></li> -->
                 <li class="collapsible"><a href="review-resolved-tickets.php">Resolved
                   <?php
                       $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_category='Network'AND ticket_status=7";
@@ -364,7 +364,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                     <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
             <?php } ?>
           </a></li>
-          <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
+          <!-- <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
             <?php
                 $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=6";
 
@@ -372,7 +372,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                   <?php while($row = mysqli_fetch_assoc($result)){ ?>
                     <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
             <?php } ?>
-          </a></li>
+          </a></li> -->
           <li class="collapsible"><a href="review-resolved-tickets.php">Resolved
             <?php
                 $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=7";
@@ -418,7 +418,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
                 <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
         <?php } ?>
       </a></li>
-      <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
+      <!-- <li class="collapsible"><a href="review-inprogress-tickets.php">In Progress
         <?php
             $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=6";
 
@@ -426,7 +426,7 @@ $db = mysqli_connect("localhost", "root", "", "eei_db");{ ?>
               <?php while($row = mysqli_fetch_assoc($result)){ ?>
                 <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
         <?php } ?>
-      </a></li>
+      </a></li> -->
       <li class="collapsible"><a href="review-resolved-tickets.php">Resolved
         <?php
             $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=7";

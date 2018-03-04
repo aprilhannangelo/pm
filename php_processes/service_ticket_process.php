@@ -39,20 +39,35 @@ $query4 = "SELECT ticket_number from ticket_t where ticket_id = '$latest_id'";
 $result = mysqli_query($db, $query4);
 $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
 
-echo json_encode($row['ticket_number']);
+// echo json_encode($row['ticket_number']);
 
 
-//file upload
-if (isset($_POST['submit'])){
 $name= $_FILES['file']['name'];
 // $desc = $_POST['description_entered'];
 $tmp_name= $_FILES['file']['tmp_name'];
-$file = '../eei/uploads/' .$_FILES['file']['name'];
+$file = 'C:\xampp\htdocs\eei\uploads' .$_FILES['file']['name'];
 $upload = move_uploaded_file($tmp_name, $file);
 $uploader = $_SESSION['user_id'];
-  $add = "INSERT INTO attachment_t VALUES('',?,'$uploader','$latest_id','hi')";
-
-};
+if($upload){
+  $query9 = "INSERT INTO attachment_t VALUES('','$name','$uploader','$latest_id','hi')";
+  if (!mysqli_query($db, $query9))
+  {
+    die('Error' . mysqli_error($db));
+  }
+}
+  //else{
+  //   header("Location: ..\my-tickets.php");
+  //   echo '<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>';
+  //   echo '<script type="text/javascript">';
+  //   echo 'setTimeout(function () {window.location="../my-tickets.php";.then(function(){swal("Success!","Your password has been updated!","success")})';
+  //   echo '});</script>';
+  // }}
+  // else{
+  // echo '<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>';
+  // echo '<script type="text/javascript">';
+  // echo 'setTimeout(function () { swal("Error!","Passwords not matching!","error");';
+  // echo '});</script>';
+  // }
 //else{
 //   // header("Location: ..\home.php");
 // }
@@ -76,4 +91,5 @@ if (!mysqli_query($db, $notifSql))
   die('Error' . mysqli_error($db));
 }
 mysqli_close($db);
+
 ?>

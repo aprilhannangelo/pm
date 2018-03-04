@@ -22,28 +22,33 @@
 
         <div class="col s12 m12 l12" id="content">
           <div class="main-content">
-
             <div class="col s12 m12 l12 table-header">
               <?php
-              $query2 = "SELECT t.ticket_number,t.ticket_id, r.user_id,t.ticket_status,u.isChecked, u.isApproved, u.approver as approver,u.checker as checker FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE t.ticket_id = '".$_GET['id']."'";
+                $query2 = "SELECT t.ticket_number,t.ticket_id, r.user_id,t.ticket_status,u.isChecked, u.isApproved, u.approver as approver,u.checker as checker FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE t.ticket_id = '".$_GET['id']."'";
+                  $result2= mysqli_query($db,$query2);
+                    while($row = mysqli_fetch_assoc($result2)){
+                      $id = $_SESSION['user_id'];
+                      $ticketID =$_GET['id'];
+               ?>
 
-                $result2= mysqli_query($db,$query2);
-
-                while($row = mysqli_fetch_assoc($result2)){?>
-                  <span class="table-title">Ticket #<?php echo $row['ticket_number'] ?></span>
-                <?php
-                  $id = $_SESSION['user_id'];
-                  $ticketID =$_GET['id'];
-                ?>
-                <!-- Action Buttons -->
+                <span class="table-title">Ticket #<?php echo $row['ticket_number'] ?></span>
+                <!-- Div for All Action Buttons -->
                 <div class="row detail-actions">
+                  <!-- Visible only for mobile -->
                   <div class="row" id="activity-log">
                     <button class="btn-activitylog">Add activity log</button>
                   </div>
 
                   <input id="attach" type="submit" class="modal-trigger" href="#attachfile" value="Attach File" />
 
-
+                  <!-- Confirm Resolution for Requestor  -->
+                  <?php if ($_SESSION['user_type']=="Requestor"){
+                     if ($row['ticket_status']==7 and $row['user_id']== $_SESSION['user_id']) { ?>
+                       <form id="confirm" name="confirm" method="post">
+                         <input id="confirm" type="submit"  value="Confirm">
+                         <input  id="confirm" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
+                       </form>
+                   <?php }} ?>
 
                   <!-- Cancel Button for Admin -->
                    <?php if ($_SESSION['user_type']=="Administrator") {?>
@@ -51,23 +56,16 @@
                        <input id="cancel" type="submit" value="Cancel">
                        <input  id="cancel" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                      </form>
+                   <?php }?>
+
+                   <!-- Return Button for Ticket Agents -->
+                   <?php if ($_SESSION['user_type']=="Technician" OR $_SESSION['user_type']=="Network Engineer") {?>
+                       <input id="return" type="submit" class="modal-trigger" href="#returnticket" value="Return to Supervisor" />
                    <?php  }?>
 
-                   <!-- <button class="btn-reassign" id="reassign-button">Re-assign this ticket</button><br><br> -->
-
-                   <!-- <input id="reassign-button" type="submit" value="Re-assign Ticket"><br><br> -->
-
-                  <!-- Approve and Reject Button  -->
-                   <div class="approve-reject">
-                     <?php
-                      if ($row['ticket_status']==7 and $row['user_id']== $_SESSION['user_id']) { ?>
-                         <form id="confirm" name="confirm" method="post">
-                           <input id="confirm" type="submit"  value="Confirm">
-                           <input  id="confirm" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
-                         </form>
-                    <?php  }
-                    // Approve and Reject Button
-                       if ($row['approver']==$id  && $row['isApproved']!=1) { ?>
+                  <!-- Approve, Check and Reject Button for Approver/Checker  -->
+                  <div class="approve-reject">
+                     <?php if ($row['approver']==$id  && $row['isApproved']!=1) { ?>
                          <form id="approve" name="approve" method="post">
                            <input id="approve" type="submit" onclick="php_processes/approve-process.php'" value="Approve">
                            <input  id="approve" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
@@ -78,27 +76,9 @@
                            <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                          </form>
                       <?php }
-
-                    // Check and Reject Button
                        elseif ($row['checker']==$_SESSION['user_id'] && $row['isChecked']!=1) { ?>
-                         <!-- Preloader and it's background. -->
-                         <div class="preloader-background">
-                           <div class="preloader-wrapper big active">
-                             <div class="spinner-layer spinner-blue-only">
-                               <div class="circle-clipper left">
-                                 <div class="circle"></div>
-                               </div><div class="gap-patch">
-                                 <div class="circle"></div>
-                               </div><div class="circle-clipper right">
-                                 <div class="circle"></div>
-                               </div>
-                             </div>
-                           </div>
-                         </div>
                         <form id="check" name="check" method="post">
-
                           <input id="check" type="submit" onclick="php_processes/check-process.php'" value="Check" />
-
                           <input id="check" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                         </form>
 
@@ -106,26 +86,44 @@
                           <input id="reject" type="submit" onclick="php_processes/reject-process.php'" value="Reject">
                           <input  id="reject" name = "ticketID" type="hidden" value="<?php echo $ticketID?>">
                         </form>
-                    <?php } }?>
-                    <!-- Modal Structure -->
-                     <div id="attachfile" class="modal">
-                       <div class="modal-content">
-                         <h5>Attach File to Ticket</h5>
-                         <form method='post' name="attach" id="attach" enctype="multipart/form-data">
-                         <label for="description_entered">Description of File:</label>
-                         <input type="text" name="description_entered"/><br><br>
-                         <!-- <input type="file" id="file" name="file"/> -->
-                         <div class="file-field input-field">
-                         <div class="btn-attach">
-                           <span>SELECT File</span>
-                           <input type="file" id="file" name="file"/>
-                         </div>
-                         <div class="file-path-wrapper">
-                           <input class="file-path validate" type="text">
-                         </div>
+                    <?php }} ?>
+                   </div>
+
+                  <!-- RETURN TICKET MODAL -->
+                  <div id="returnticket" class="modal">
+                    <div class="modal-content">
+                      <h5>Return Ticket to Supervisor</h5>
+                        <form id="return-ticket" name="return-ticket" method="post">
+                          <label for="return_reason">Reason for Returning</label>
+                          <input type="text" name="return_reason" required/><br><br>
+                    </div>
+                    <div class="modal-footer">
+                      <input class="modal-action modal-close" id="cancel" name="submit" type="submit" value="Cancel">
+                      <input id="return" name="submit" type="submit" value="Return Ticket">
+                      <input value = "<?php echo $_GET['id']?>" name="id" type="hidden">
+                    </div>
+                    </form>
+                  </div>
+
+                  <!-- ATTACH FILE MODAL -->
+                   <div id="attachfile" class="modal">
+                     <div class="modal-content">
+                       <h5>Attach File to Ticket</h5>
+                       <form method='post' name="attach" id="attach" enctype="multipart/form-data">
+                       <label for="description_entered">Description of File:</label>
+                       <input type="text" name="description_entered"/><br><br>
+                       <!-- <input type="file" id="file" name="file"/> -->
+                       <div class="file-field input-field">
+                       <div class="btn-attach">
+                         <span>SELECT File</span>
+                         <input type="file" id="file" name="file"/>
                        </div>
-                      <!-- PHP PROCESS OF ATTACH -->
-                      <?php
+                       <div class="file-path-wrapper">
+                         <input class="file-path validate" type="text">
+                       </div>
+                     </div>
+                    <!-- PHP PROCESS OF ATTACH -->
+                    <?php
                       include "templates/dbconfig.php";
                       if(isset($_POST['submit'])){
                       $name= $_FILES['file']['name'];
@@ -140,24 +138,18 @@
                         if($add->execute()){
                         }
                       } ?>
-                       <!-- don't remove or else it will upload repeatedly when refreshed -->
-                     <script>window.location='details.php?id=<?php echo $ticketID?>'</script><?php };?>
-                      <!-- END OF PHP PROCESS OF ATTACH -->
-                       </div>
-                       <div class="modal-footer">
-                         <button class="btn" type="submit" name="submit">Upload</button>
-                         <a href="#!" class="btn modal-action modal-close">Close</a>
-                         </form>
-                       </div>
+                      <script>window.location='details.php?id=<?php echo $ticketID?>'</script><?php };?>
                      </div>
+                   <div class="modal-footer">
+                     <input class="btn-upload" type="submit" name="submit" value="Upload"/>
+                     <input class="btn-cancel modal-action modal-close" type="submit" name="submit"  value="Cancel" />
+                     </form>
+                   </div>
                    </div>
               </div>
-              <!-- <div class="col s12" id="breadcrumb">
-                <a href="#!" class="breadcrumb">First</a>
-                <a href="#!" class="breadcrumb">Second</a>
-                <a href="#!" class="breadcrumb">Third</a>
-              </div> -->
             </div>
+            <!-- End div for table header div -->
+
             <div class="col s12 m12 l12">
               <div class="row" id="ticket-details">
                 <div class="col s12 m12 l7">

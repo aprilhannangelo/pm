@@ -200,7 +200,6 @@
               <div class="col s12 m12 l12">
                 <div class="card-panel network" id="db-panel-2">
                   <span class="white-text" id="db-panel-label">Network
-                    <span class="white-text" id="db-panel-label">Access
                       <span><i class="large material-icons" id="dashboard">network_check</i></span>
                     </span>
                   </span>

@@ -285,7 +285,7 @@ $(document).ready(function(){
          ticketNo= JSON.parse(data);
          swal({
             title: "Ticket Submitted!",
-            text: "Your ticket number is: " +ticketNo,
+            text: "Your ticket number is: ticketNo",
             type: "success",
             icon: "success"
         }).then(function(){
@@ -405,6 +405,26 @@ $(document).ready(function(){
       }
    })
  });
+ $("#return-ticket").submit(function(e) {
+   e.preventDefault();
+   $.ajax({
+     url: 'php_processes/return_ticket_process.php',
+     type: 'POST',
+     data: $(this).serialize(),
+     success: function()
+      {
+         swal({
+            title: "Ticket returned!",
+            text: "This ticket has been returned to your supervisor",
+            type: "success",
+            icon: "success"
+        }).then(function(){
+          location.reload();
+        });
+
+      }
+   })
+ });
  $("#activity_log").submit(function(e) {
    e.preventDefault();
    $.ajax({
@@ -425,6 +445,24 @@ $(document).ready(function(){
       }
    })
  });
+
+ // $("#return").submit(function(e) {
+ //   e.preventDefault();
+ //   $.ajax({
+ //     url: 'php_processes/return_ticket_process.php',
+ //     type: 'POST',
+ //     data: $(this).serialize(),
+ //     success: function()
+ //      {
+ //         swal({
+ //            title: "Ticket returned!",
+ //            text: "This ticket has been returned to your supervisor",
+ //            type: "success",
+ //            icon: "success"
+ //        });
+ //      }
+ //   })
+ // });
 
  $('.preloader-background').hide();
  $("#check").submit(function(e) {
@@ -519,7 +557,7 @@ $("#reject").submit(function(e) {
   e.preventDefault();
   swal({
   title: "Reject this ticket?",
-  text: "Ticket will be closed and you will not be able to undo the action.",
+  text: "You will not be able to undo the action.",
   icon: "warning",
   buttons: ["Close", "Confirm"],
   dangerMode: true,
@@ -576,9 +614,9 @@ $("#reject").submit(function(e) {
    }
    });
 
-  $("#btn-cancel").click(function(){
-   location.reload();
- });
+ //  $("#btn-cancel").click(function(){
+ //   location.reload();
+ // });
  $(".accesstickets").click(function(){
    $(".technicals-tickets").hide();
    $(".network-tickets").hide();

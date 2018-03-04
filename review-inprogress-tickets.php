@@ -1,3 +1,4 @@
+<!-- ASSIGNED TICKETS TO TICKET AGENTS -->
 <?php
   session_start();
 
@@ -19,7 +20,7 @@
     <div class="col s12 m12 l12" id="content">
       <div class="main-content">
         <div class="col s12 m12 l12 table-header">
-          <span class="table-title">Review In Progress Tickets</span>
+          <span class="table-title">Review Assigned Tickets</span>
           <div class="count">
             <!-- Badge Counter -->
             <?php

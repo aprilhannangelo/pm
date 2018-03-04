@@ -26,19 +26,19 @@
                 $query = "SELECT COUNT(*) AS count FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) WHERE (ticket_t.ticket_category is NULL AND ticket_t.severity_level is NULL AND ticket_t.ticket_type ='Service') OR (ticket_t.ticket_category is NULL AND ticket_t.severity_level is NULL AND user_access_ticket_t.isApproved=true)";
               }
               else if ($_SESSION['user_type'] == "Access Group Manager"){
-                $query = "SELECT COUNT(*) AS count FROM user_access_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Access' AND t.ticket_agent_id IS NULL AND ticket_status=5";
+                $query = "SELECT COUNT(*) AS count FROM user_access_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Access' AND ticket_status=5";
               }
               else if ($_SESSION['user_type'] == "Technicals Group Manager"){
-                $query = "SELECT COUNT(*) AS count FROM service_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND t.ticket_agent_id IS NULL AND ticket_status=5";
+                $query = "SELECT COUNT(*) AS count FROM service_ticket_t LEFT JOIN ticket_t t USING (ticket_id) WHERE t.ticket_category='Technicals' AND ticket_status=5";
               }
               else if ($_SESSION['user_type'] == "Network Group Manager"){
-                $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_category='Network' AND ticket_agent_id IS NULL";
+                $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_category='Network'";
               }
               else if ($_SESSION['user_type'] == "Technician"){
-                $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=5";
+                $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=6";
               }
               else if ($_SESSION['user_type'] == "Network Engineer"){
-                $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=5";
+                $query = "SELECT COUNT(*) AS count FROM ticket_t WHERE ticket_agent_id=$id AND ticket_status=6";
               }
 
               $result = mysqli_query($db,$query);
@@ -194,7 +194,7 @@
                     </thead>
                     <tbody>
                     <?php
-                      $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Technicals' AND ticket_t.ticket_agent_id IS NULL";
+                      $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Technicals' AND stat.ticket_status = 'Assigned'";
                       $result = mysqli_query($db,$query);?>
 
                       <?php while($row = mysqli_fetch_assoc($result)){
@@ -253,7 +253,7 @@
                         </thead>
                         <tbody>
                         <?php
-                          $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Network' AND (ticket_t.ticket_agent_id IS NULL OR stat.ticket_status='Pending')";
+                          $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Network' AND stat.ticket_status='Assigned'";
                           $result = mysqli_query($db,$query);?>
 
                           <?php while($row = mysqli_fetch_assoc($result)){
@@ -350,7 +350,7 @@
 
 
                   elseif($_SESSION['user_type'] == 'Technician') {
-                      $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE stat.ticket_status='Pending' AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
+                      $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE stat.ticket_status='Assigned' AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
                       ?>
                       <thead>
                         <tr>
@@ -411,7 +411,7 @@
 
 
                      elseif($_SESSION['user_type'] == 'Network Engineer') {
-                         $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE stat.ticket_status ='Pending' AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
+                         $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE stat.ticket_status ='Assigned' AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
                          ?>
                          <thead>
                            <tr>
