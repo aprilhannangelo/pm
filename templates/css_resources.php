@@ -11,5 +11,3 @@
 
 <!-- Responsive  -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<link type="text/css" rel="stylesheet" href="css/icofont.css"  media="screen,projection"/>

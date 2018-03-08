@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <head>
-      <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
-      <title>EEI Service Desk</title>
-      <?php include 'templates/css_resources.php' ?>
-    </head>
+    <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+    <title>EEI Service Desk</title>
+    <?php include 'templates/css_resources.php' ?>
   </head>
 
   <body id="login-page" class="valign-wrapper">

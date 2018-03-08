@@ -16,9 +16,6 @@
     <?php include 'templates/navheader.php'; ?>
     <?php include 'templates/sidenav.php'; ?>
 
-    <!-- ****************************************************** -->
-
-    <!--body-->
     <div class="col s12 m12 l12" id="content">
       <div class="main-content">
         <div class="col s12 m12 l12 table-header">

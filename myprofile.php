@@ -61,10 +61,7 @@
                 <td>User Type</td>
                 <td><?php echo $_SESSION['user_type']?></td>
               </tr>
-              <tr>
-                <td>Requestor ID</td>
-                <td><?php echo $_SESSION['user_id']?></td>
-              </tr>
+              
             </tbody>
           </table>
         </div>

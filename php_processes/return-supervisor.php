@@ -9,19 +9,32 @@ $id = mysqli_real_escape_string($db, $_POST['id']);
 $logger = $_SESSION['user_id'];
 // $ticketID = mysqli_real_escape_string($db, $_POST['ticketID']);
 
-$query = "UPDATE ticket_t SET ticket_agent_id = NULL AND return_reason = '$reason' WHERE ticket_id = $id";
+$query = "UPDATE ticket_t SET ticket_agent_id = NULL WHERE ticket_id = $id";
 if (!mysqli_query($db, $query))
 {
   die('Error' . mysqli_error($db));
 }
 
+$query2 = "INSERT INTO returns_t VALUES (DEFAULT, '$id', '$reason')";
+if (!mysqli_query($db, $query2))
+{
+  die('Error' . mysqli_error($db));
+}
 
 //change status from assigned back to pending
-$query = "UPDATE ticket_t SET ticket_status = '5' WHERE ticket_id = $id";
-if (!mysqli_query($db, $query))
+$query3 = "UPDATE ticket_t SET ticket_status = 5 WHERE ticket_id = $id";
+if (!mysqli_query($db, $query3))
 {
   die('Error' . mysqli_error($db));
 }
+
+$query4 = "INSERT INTO activity_log_t(activity_log_details, logger, ticket_id) VALUES('Returned to Supervisor - $reason', '$logger', '$id')";
+if (!mysqli_query($db, $query4))
+{
+  die('Error' . mysqli_error($db));
+}
+
+
 //
 // //get ticket agent name for activity log
 // $assignee = "SELECT CONCAT(r.first_name, ' ', r.last_name) AS assignee FROM ticket_t t LEFT JOIN user_t r on r.user_id=t.ticket_agent_id WHERE ticket_id = $id";
@@ -32,7 +45,6 @@ if (!mysqli_query($db, $query))
 
 
 //working activity log query
-mysqli_query($db, "INSERT INTO activity_log_t(activity_log_details, logger, ticket_id) VALUES('Ticket returned to supervisor', '$logger', '$id')");
 
 // //for swal ticket number display
 // $query2 = "SELECT CONCAT(r.first_name, ' ', r.last_name) AS assignee FROM ticket_t t LEFT JOIN user_t r on r.user_id=t.ticket_agent_id WHERE ticket_id = $id";
@@ -41,15 +53,22 @@ mysqli_query($db, "INSERT INTO activity_log_t(activity_log_details, logger, tick
 // echo json_encode($row['assignee']);
 
 
-// //notif table
-// $sql = "SELECT ticket_number from ticket_t WHERE ticket_id = $id";
-// $row3=mysqli_fetch_array(mysqli_query($db, $sql),MYSQLI_ASSOC);
-// $ticketNo = $row3['ticket_number'];
-// $notifSql = "INSERT INTO notification_t (notification_id,ticket_id, user_id, notification_description, isRead) VALUES(DEFAULT, '$id','$a','$ticketNo has been assigned to you',0)";
-// if (!mysqli_query($db, $notifSql))
-// {
-//   die('Error' . mysqli_error($db));
-// }
+//notif table
+
+//get supervisor for activity log
+$assignee = "SELECT u.user_id AS mgrID FROM user_t u LEFT JOIN ticket_t t on t.it_group_manager_id = u.user_id WHERE ticket_id = $id";
+$result = mysqli_query($db, $assignee);
+$row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+$mgrId= $row['mgrID'];
+
+$sql = "SELECT ticket_number from ticket_t WHERE ticket_id = $id";
+$row3=mysqli_fetch_array(mysqli_query($db, $sql),MYSQLI_ASSOC);
+$ticketNo = $row3['ticket_number'];
+$notifSql = "INSERT INTO notification_t (notification_id,ticket_id, user_id, notification_description, isRead) VALUES(DEFAULT, '$id','$mgrId','Ticket No. : $ticketNo has been returned',0)";
+if (!mysqli_query($db, $notifSql))
+{
+  die('Error' . mysqli_error($db));
+}
 
 
 

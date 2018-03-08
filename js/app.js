@@ -3,6 +3,33 @@ $(document).ready(function(){
  $('.notifications').click(function(){
     $("#notification_count").hide();
   });
+  $.getJSON("results.JSON", function (data) {
+      $.each(data, function (index, value) {
+          // APPEND OR INSERT DATA TO SELECT ELEMENT.
+          $('#status').append('<option value="' + value.type + '">' + value.type + '</option>');
+      });
+  });
+  $('#confirm-form').click(function() {
+     /* when the button in the form, display the entered values in the modal */
+     $('.details-c').text($('#details').val());
+     $('.title-c').text($('#title').val());
+     $('.file-c').text($('#file').val());
+
+});
+  $(function(){
+      $('#addMore').on('click', function() {
+                var data = $("#dynamic_field tr:eq(1)").clone(true).appendTo("#dynamic_field");
+                data.find("input").val('');
+       });
+       $(document).on('click', '.remove', function() {
+           var trIndex = $(this).closest("tr").index();
+              if(trIndex>1) {
+               $(this).closest("tr").remove();
+             } else {
+               alert("Sorry!! Can't remove first row!");
+             }
+        });
+  });
 
   $('.user-row #deactivate').click(function(e){
     e.stopPropagation();
@@ -38,7 +65,7 @@ $(document).ready(function(){
   			}
 
   			var chartdata = {
-  				labels: month,
+  				labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   				datasets : [
   					{
   						label: 'Ticket Count',
@@ -276,25 +303,42 @@ $(document).ready(function(){
   // Sweet Alert
   $("#service").submit(function(e) {
     e.preventDefault();
-    $.ajax({
-      url: 'php_processes/service_ticket_process.php',
-      type: 'POST',
-      data: $(this).serialize(),
-      success: function(data)
-       {
-         ticketNo= JSON.parse(data);
-         swal({
-            title: "Ticket Submitted!",
-            text: "Your ticket number is: ticketNo",
-            type: "success",
-            icon: "success"
-        }).then(function(){
-          window.location="my-tickets.php";
-          $(".main-content").show();
-        });
-       }
-      })
-   });
+    swal({
+    title: "Submit ticket?",
+    text: "Make sure to review your submission before confirming.",
+    icon: "warning",
+    buttons: ["Close", "Submit"],
+    dangerMode: true,
+    }).then((willDelete) => {
+    if(willDelete){
+      $.ajax({
+        url: 'php_processes/service_ticket_process.php',
+        type: 'POST',
+        data: new FormData(this),
+        contentType: false,
+        cache: false,
+        processData:false,
+        // data: $(this).serialize(),
+        success: function(data)
+         {
+           ticketNo= JSON.parse(data);
+           swal({
+              title: "Ticket Submitted!",
+              text: "Your ticket number is:" +ticketNo,
+              type: "success",
+              icon: "success"
+          }).then(function(){
+            window.location="my-tickets.php";
+            $(".main-content").show();
+          });
+         }
+        })
+      }
+      else {
+        swal("", "Ticket not yet submitted!","error");
+      }
+      });
+    });
 
   $("#access").submit(function(e) {
   e.preventDefault();
@@ -405,10 +449,10 @@ $(document).ready(function(){
       }
    })
  });
- $("#return-ticket").submit(function(e) {
+ $("#return-supervisor").submit(function(e) {
    e.preventDefault();
    $.ajax({
-     url: 'php_processes/return_ticket_process.php',
+     url: 'php_processes/return-supervisor.php',
      type: 'POST',
      data: $(this).serialize(),
      success: function()
@@ -422,6 +466,26 @@ $(document).ready(function(){
           location.reload();
         });
 
+      }
+   })
+ });
+
+ $("#return-admin").submit(function(e) {
+   e.preventDefault();
+   $.ajax({
+     url: 'php_processes/return-admin.php',
+     type: 'POST',
+     data: $(this).serialize(),
+     success: function()
+      {
+         swal({
+            title: "Ticket returned!",
+            text: "This ticket has been returned to the Service Desk Agent",
+            type: "success",
+            icon: "success"
+        }).then(function(){
+          window.location="my-incoming-tickets.php";
+        });
       }
    })
  });

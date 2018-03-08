@@ -12,11 +12,9 @@
     <?php include 'templates/css_resources.php' ?>
   </head>
   <body>
+
     <?php include 'templates/navheader.php'; ?>
     <?php include 'templates/sidenav.php'; ?>
-    <!-- ****************************************************** -->
-
-    <!-- COL L10-->
     <div class="col s12 m12 l12" id="content">
       <?php include 'templates/ticketforms.php'; ?>
         <div class="main-content">
@@ -26,9 +24,18 @@
           } else {
             include 'templates/knowledge-base.php';
           } ?>
+          <div class="fixed-action-btn vertical click-to-toggle">
+                <a class="btn-floating btn-large blue darken-2">
+                  <i class="material-icons">add</i>
+                </a>
+                <ul>
+                  <li><a class="btn-floating blue lighten-2 service">Service Request</a></li>
+                  <li><a class="btn-floating blue lighten-2 access">Access Request</i></a></li>
+                </ul>
+              </div>
         </div>
-
     </div>
     <?php include 'templates/js_resources.php'; ?>
   </body>
+
 </html>

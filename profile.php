@@ -7,8 +7,7 @@
 
 <!DOCTYPE html>
 <html>
-
-  <head>
+<head>
   <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
   <title>EEI Service Desk</title>
   <?php include 'templates/css_resources.php' ?>
@@ -49,15 +48,10 @@
                };
 
   </script>
-  </head>
-
+</head>
   <body>
     <?php include 'templates/navheader.php'; ?>
     <?php include 'templates/sidenav.php'; ?>
-
-    <!-- ****************************************************** -->
-
-    <!--body-->
     <div class="col s12 m12 l12" id="content">
       <div class="main-content">
         <div class="col s12 m12 l12 table-header">
@@ -119,17 +113,12 @@
                     <td>Deactivation Date</td>
                     <td class = "pflBody" contenteditable="false" ><?php echo $row['deactivation_date']?></td>
                   </tr>
-
                 </tbody>
               </table>
             </div>
-
-            <!-- ****************************************************** -->
-            <!-- HIDDEN FORMS -->
             <?php include 'templates/ticketforms.php'; ?>
           </div> <!-- End of main container of col 10 -->
         </div> <!-- End of wrapper of col l10 -->
-
     <?php include 'templates/js_resources.php' ?>
   </body>
 </html>

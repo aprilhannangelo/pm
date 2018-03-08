@@ -1,12 +1,18 @@
 <div class="col s12 m12 l12 table-header">
   <div class="row">
     <span class="table-title">Knowledge Base</span>
-  <input id="confirm" type="submit"  value="Add FAQ Article">
   </div>
 </div>
 
 <div id="knowledge-base">
-  <span class="kb-title">Hi <?php echo $_SESSION['first_name'] ?>, How can we help you today?</span>
+  <h4>Hi <b><?php echo $_SESSION['first_name'] ?></b>, how can we help you today?</h4>
+  <div class="input-field">
+          <input placeholder="Search Here" id="search" class="faq" type="search" required>
+          <i id="search"class="material-icons">search</i>
+
+          <label class="label-icon" for="search"></label>
+
+        </div>
   <br>
     <div class="row">
         <div class="col s12 m4 l4">

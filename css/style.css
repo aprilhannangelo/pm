@@ -7,6 +7,20 @@ span.card-title{
   margin-bottom: 50px;
 }
 
+i#search
+{
+  margin-right: 5%;
+  margin-top: 5px;
+  color: #b8b8b8;
+}
+input#search.faq,input[type=search]:not(.browser-default):focus:not([readonly]){
+  border: 1px solid #4b75ff!important;
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+  border-radius: 40px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
 .card .card-image {
     position: relative;
     text-align: center;
@@ -84,6 +98,7 @@ div#login{
 
 div#knowledge-base{
   padding: 40px;
+  text-align: center;
   background-color: white;
 }
 div#knowledge-base-body{
@@ -420,17 +435,14 @@ i#profile-icon{
   margin-right: 10px;
 }
 
-/* .search-bar{
-  margin-left: 30px;
-  margin-top: 40px;
-} */
+
 
 .input-field input[type=search] {
     display: block;
     width: 92%;
     line-height: inherit;
     border: 2px solid;
-    padding-left: 50px;
+    padding-left: 35px;
     border-color: #d0d0d0;
     border-radius: 5px;
   }
@@ -1025,7 +1037,6 @@ font-size: 12px;
 
 div#request-form-controls {
   margin-top: 50px;
-margin-left: 25px;
 }
 #btn-cancel{
   padding: 8px 30px 8px 30px;
@@ -1496,6 +1507,17 @@ div#properties{
     font-weight: 400;
   }
 
+  .unassigned#sev::before {
+      color: darkgray;
+      content: "●";
+      /* Unicode of character to precede the list item */
+      font-size: 1.3em;
+      margin-right: 10px;
+      position: relative;
+      padding-top: 1em;
+      font-weight: 400;
+    }
+
 
 
 .sev2#sev::before {
@@ -1771,24 +1793,22 @@ input#details-back {
     }
 
     div.btn-attach{
-      text-decoration: none;
-      color: #fff;
-      background-color: #4b75ff;
-      text-align: center;
-      letter-spacing: .5px;
-      transition: .2s ease-out;
-      cursor: pointer;
-      border: none;
-      border-radius: 2px;
-      display: inline-block;
-      padding: 0 1rem;
-      text-transform: uppercase;
-      vertical-align: middle;
-      -webkit-tap-highlight-color: transparent;
-      float: left;
-      height: 3rem;
-      font-size: 14px;
-      line-height: 3rem;
+    text-decoration: none;
+    color: #fff;
+    background-color: #4b75ff;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 7px 18px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    float: left;
+    font-size: 14px;
     }
     input[type="text"]{
       color: black;
@@ -2350,4 +2370,10 @@ span#faq-title{
 
 .modal .modal-footer{
   margin-bottom: 10px;
+}
+
+p#sev{
+  text-align: left;
+  font-size: 14px;
+  padding-left: 10px;
 }

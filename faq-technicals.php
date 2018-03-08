@@ -30,7 +30,7 @@
             <ul>
               <h6>Subcategories</h6>
               <li class="collapsible"><a class="all" href="my-tickets.php">All Tickets</a></li>
-              <li class="collapsible"><a class="inprogress" href="my-inprogress-tickets.php">In Progress</a></li>
+              <li class="collapsible"><a class="inprogress" href="my-assigned-tickets.php">In Progress</a></li>
               <li class="collapsible"><a class="pending" href="my-pending-tickets.php">Pending</a></li>
               <li class="collapsible"><a class="resolved" href="my-resolved-tickets.php">Resolved</a></li>
               <li class="collapsible"><a class="all" href="my-closed-tickets.php">Closed</a></li>

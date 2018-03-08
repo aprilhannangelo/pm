@@ -1,5 +1,7 @@
+<!-- ASSIGNED TICKETS TO TICKET AGENTS -->
 <?php
   session_start();
+
   if(!isset($_SESSION['userid'])){
     header('location: index.php');
   }
@@ -18,28 +20,28 @@
     <div class="col s12 m12 l12" id="content">
       <div class="main-content">
         <div class="col s12 m12 l12 table-header">
-          <span class="table-title">Reviewed Resolved Tickets</span>
+          <span class="table-title">Review Assigned Tickets</span>
           <div class="count">
             <!-- Badge Counter -->
             <?php
-              if ($_SESSION['user_type'] == "Administrator"){
-                $query = "SELECT COUNT(*) as count FROM ticket_t WHERE ticket_t.ticket_status=7";
-              }
-              else if ($_SESSION['user_type'] == "Access Group Manager"){
-                $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=7 AND t.ticket_category='Access'";
-              }
-              else if ($_SESSION['user_type'] == "Technicals Group Manager"){
-                $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=7 AND t.ticket_category='Technicals'";
-              }
-              else if ($_SESSION['user_type'] == "Network Group Manager"){
-                $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=7 AND t.ticket_category='Network'";
-              }
-              else if ($_SESSION['user_type'] == "Technician"){
-                $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=7 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
-              }
-              else if ($_SESSION['user_type'] == "Network Engineer"){
-                $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=7 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
-              }
+            if ($_SESSION['user_type'] == "Administrator"){
+              $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=6";
+            }
+            else if ($_SESSION['user_type'] == "Access Group Manager"){
+              $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=6 AND t.ticket_category='Access'";
+            }
+            else if ($_SESSION['user_type'] == "Technicals Group Manager"){
+              $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=6 AND t.ticket_category='Technicals'";
+            }
+            else if ($_SESSION['user_type'] == "Network Group Manager"){
+              $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=6 AND t.ticket_category='Network'";
+            }
+            else if ($_SESSION['user_type'] == "Technician"){
+              $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=6 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
+            }
+            else if ($_SESSION['user_type'] == "Network Engineer"){
+              $query = "SELECT COUNT(*) as count FROM ticket_t t WHERE t.ticket_status=6 AND t.ticket_agent_id = '".$_SESSION['user_id']."'";
+            }
 
               $result = mysqli_query($db,$query);
               while($row = mysqli_fetch_assoc($result)) { ?>
@@ -48,7 +50,7 @@
           </div>
           <div class="col s12" id="breadcrumb">
             <a href="#!" class="breadcrumb">Tickets for Review</a>
-            <a href="#!" class="breadcrumb">Resolved Tickets Reviewed</a>
+            <a href="#!" class="breadcrumb">Assigned Tickets Reviewed</a>
           </div>
         </div>
         <div class="material-table" id="my-tickets">
@@ -77,7 +79,7 @@
                 <li><a href="?view=sev5">SEV5</a></li>
               </ul>
             </div>
-          </div>
+          </div>            <table id="datatable" class="striped">
             <!-- MAIN TABLE -->
             <?php if ($_SESSION['user_type']=='Administrator') {?>
               <table id="datatable" class="striped">
@@ -93,8 +95,8 @@
                   <tbody>
                     <?php
                    include 'templates/review-tickets-sorter.php';
-                   $stat = 'Resolved';
-                   $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_status=7";
+                   $stat = 'Assigned';
+                   $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_status=6";
 
                    $result = mysqli_query($db,$query);?>
                     <?php while($row = mysqli_fetch_assoc($result)){
@@ -140,8 +142,8 @@
                 </thead>
                 <tbody>
                   <?php include 'templates/review-tickets-sorter.php';
-                  $stat = 'Resolved';
-                  $query = "SELECT * FROM ticket_t LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Access' AND ticket_t.ticket_status=7";
+                  $stat = 'Assigned';
+                  $query = "SELECT * FROM ticket_t LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Access' AND ticket_t.ticket_status=6";
                   $result = mysqli_query($db,$query);
                   ?>
 
@@ -203,8 +205,8 @@
                 <tbody>
                   <?php
                   include 'templates/review-tickets-sorter.php';
-                  $stat = 'Resolved';
-                  $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Technicals' AND ticket_t.ticket_status=7";
+                  $stat = 'Assigned';
+                  $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Technicals' AND ticket_t.ticket_status=6";
                   $result = mysqli_query($db,$query);?>
 
                   <?php while($row = mysqli_fetch_assoc($result)){
@@ -265,8 +267,8 @@
                 <tbody>
                     <?php
                       include 'templates/review-tickets-sorter.php';
-                      $stat = 'Resolved';
-                      $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Network' AND ticket_t.ticket_status=7";
+                      $stat = 'Assigned';
+                      $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_category='Network' AND ticket_t.ticket_status=6";
                       $result = mysqli_query($db,$query);?>
 
                       <?php while($row = mysqli_fetch_assoc($result)){
@@ -328,9 +330,9 @@
                 <tbody>
                   <?php
                   $id = $_SESSION['user_id'];
-                  $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE (user_access_ticket_t.checker = $id AND ticket_t.ticket_status=7) OR (user_access_ticket_t.approver=$id AND ticket_t.ticket_status=7)";
+                  $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE (user_access_ticket_t.checker = $id AND ticket_t.ticket_status=6) OR (user_access_ticket_t.approver=$id AND ticket_t.ticket_status=6)";
                   include 'templates/review-tickets-sorter.php';
-                  $stat = 'Resolved';
+                  $stat = 'Assigned';
                   $result = mysqli_query($db,$query);?>
                   <?php while($row = mysqli_fetch_assoc($result)){
                     switch($row['ticket_category'])
@@ -356,7 +358,7 @@
                    <td> <?php echo $row['date_prepared']?>  </td>
                    <td> <?php echo $row['remarks'] ?>       </td>
                  </tr>
-               <?php } ?>
+                <?php } ?>
                </tbody>
               </table>
 
@@ -376,8 +378,8 @@
                 <tbody>
                   <?php
                   include 'templates/review-tickets-sorter.php';
-                  $stat = 'Resolved';
-                  $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_status=7 AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
+                  $stat = 'Assigned';
+                  $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_status=6 AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
 
                    $result = mysqli_query($db,$query);
                    while($row = mysqli_fetch_assoc($result)){
@@ -440,8 +442,8 @@
                 <tbody>
                    <?php
                    include 'templates/review-tickets-sorter.php';
-                   $stat = 'Resolved';
-                   $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_status=7 AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
+                   $stat = 'Assigned';
+                   $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE ticket_t.ticket_status=6 AND ticket_t.ticket_agent_id = '".$_SESSION['user_id']."'";
 
                     $result = mysqli_query($db,$query);
                     while($row = mysqli_fetch_assoc($result)){

@@ -60,9 +60,13 @@
 
                    <!-- Return Button for Ticket Agents -->
                    <?php if ($_SESSION['user_type']=="Technician" OR $_SESSION['user_type']=="Network Engineer") {?>
-                       <input id="return" type="submit" class="modal-trigger" href="#returnticket" value="Return to Supervisor" />
+                       <input id="return" type="submit" class="modal-trigger" href="#returnsupervisor" value="Return to Supervisor" />
                    <?php  }?>
 
+                   <!-- Return Button for Ticket Agents -->
+                   <?php if ($_SESSION['user_type']=="Access Group Manager" OR $_SESSION['user_type']=="Network Group Manager" OR $_SESSION['user_type']=="Technicals Group Manager") {?>
+                       <input id="return" type="submit" class="modal-trigger" href="#returnadmin" value="Return Ticket" />
+                   <?php  }?>
                   <!-- Approve, Check and Reject Button for Approver/Checker  -->
                   <div class="approve-reject">
                      <?php if ($row['approver']==$id  && $row['isApproved']!=1) { ?>
@@ -90,10 +94,26 @@
                    </div>
 
                   <!-- RETURN TICKET MODAL -->
-                  <div id="returnticket" class="modal">
+                  <div id="returnsupervisor" class="modal">
                     <div class="modal-content">
                       <h5>Return Ticket to Supervisor</h5>
-                        <form id="return-ticket" name="return-ticket" method="post">
+                        <form id="return-supervisor" name="return-ticket" method="post">
+                          <label for="return_reason">Reason for Returning</label>
+                          <input type="text" name="return_reason" required/><br><br>
+                    </div>
+                    <div class="modal-footer">
+                      <input class="modal-action modal-close" id="cancel" name="submit" type="submit" value="Cancel">
+                      <input id="return" name="submit" type="submit" value="Return Ticket">
+                      <input value = "<?php echo $_GET['id']?>" name="id" type="hidden">
+                    </div>
+                    </form>
+                  </div>
+
+                  <!-- RETURN TICKET MODAL -->
+                  <div id="returnadmin" class="modal">
+                    <div class="modal-content">
+                      <h5>Return Ticket to IT Service Desk Agent</h5>
+                        <form id="return-admin" name="return-ticket" method="post">
                           <label for="return_reason">Reason for Returning</label>
                           <input type="text" name="return_reason" required/><br><br>
                     </div>
@@ -607,17 +627,14 @@
                             $db = mysqli_connect("localhost", "root", "", "eei_db");
 
                               $query = "SELECT stat.ticket_status, sev.description, sev.severity_level, t.ticket_category, DATE_FORMAT(t.date_required, '%d %M %Y %r') as date_required FROM ticket_t t LEFT JOIN sla_t sev ON t.severity_level = sev.id LEFT JOIN ticket_status_t stat ON stat.status_id = t.ticket_status WHERE ticket_id = '".$_GET['id']."'";
-
                               $result = mysqli_query($db,$query);
 
                               while($row = mysqli_fetch_assoc($result)){
                                 switch($row['severity_level'])
                                 {
-                                    // assumes 'type' column is one of CAR | TRUCK | SUV
                                     case("SEV1"):
                                         $class = 'sev1';
                                         break;
-
                                    case("SEV2"):
                                        $class = 'sev2';
                                        break;

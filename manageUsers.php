@@ -1,20 +1,19 @@
-  <?php
-    session_start();
-    if(!isset($_SESSION['user_id'])){
-      header('location: index.php');
-    }
-  ?>
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
-    <title>EEI Service Desk</title>
-    <?php include 'templates/css_resources.php' ?>
-
-  </head>
-  <body>
-    <?php include 'templates/navheader.php'; ?>
-    <?php include 'templates/sidenav.php'; ?>
+<?php
+  session_start();
+  if(!isset($_SESSION['user_id'])){
+    header('location: index.php');
+  }
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+  <title>EEI Service Desk</title>
+  <?php include 'templates/css_resources.php' ?>
+</head>
+<body>
+  <?php include 'templates/navheader.php'; ?>
+  <?php include 'templates/sidenav.php'; ?>
   <div class="col s12 m12 l12" id="content">
     <div class="main-content">
       <div class="col s12 m12 l12 table-header">
@@ -34,7 +33,7 @@
           <a href="#!" class="breadcrumb">All Users</a>
         </div>
       </div>
-        <div class="material-table" id="manage">
+      <div class="material-table" id="manage">
           <div class="actions">
             <div class="sorter">
               <!-- Button for Removing Filter -->
@@ -101,128 +100,118 @@
             </tbody>
           </table>
         </div>
-      </div>
-    <!-- end of main body div -->
-      <!-- New User Form -->
-      <form id="new-requestor" name="requestor" method="post">
-        <div id="requestor" class="requestort">
-          <span class="table-title" id="form">Add New User</span>
-          <!-- Preloader and it's background. -->
-          <div class="preloader-background">
-            <div class="activity">
-              <h6>Sending e-mail to user</h6>
-              <span>This may take a few seconds</span>
-            </div>
-            <div class="progress">
-             <div class="indeterminate">
-             </div>
-           </div>
+    </div>
+
+    <!-- New User Form -->
+    <form id="new-requestor" name="requestor" method="post">
+      <div id="requestor" class="requestort">
+        <span class="table-title" id="form">Add New User</span>
+        <!-- Preloader and it's background. -->
+        <div class="preloader-background">
+          <div class="activity">
+            <h6>Sending e-mail to user</h6>
+            <span>This may take a few seconds</span>
           </div>
-          <!-- End of preloader -->
-            <div class="row">
-                <div class="col s12">
-                  <div class="row">
-                      <div class="col s12 l6" id="form">
-                        <h6>User Details</h6>
-                        <div class="row" id="request-form-row">
-                          <div class="col s12">
-                            <div class="input-field" id="request-form">
-                              <input placeholder=" " class="userid" name="userid" type="text" required>
-                              <label for="title">User ID</label>
-                            </div>
+          <div class="progress">
+           <div class="indeterminate">
+           </div>
+         </div>
+        </div>
+        <!-- End of preloader -->
+          <div class="row">
+              <div class="col s12">
+                <div class="row">
+                    <div class="col s12 l6" id="form">
+                      <h6>User Details</h6>
+                      <div class="row" id="request-form-row">
+                        <div class="col s12">
+                          <div class="input-field" id="request-form">
+                            <input placeholder=" " class="userid" name="userid" type="text" required>
+                            <label for="title">User ID</label>
                           </div>
                         </div>
-                        <div class="row" id="request-form-row">
-                          <div class="col s12">
-                            <div class="input-field" id="request-form">
-                              <input placeholder=" " class="fname" name="fname" type="text" required>
-                              <label for="title">First Name</label>
-                            </div>
+                      </div>
+                      <div class="row" id="request-form-row">
+                        <div class="col s12">
+                          <div class="input-field" id="request-form">
+                            <input placeholder=" " class="fname" name="fname" type="text" required>
+                            <label for="title">First Name</label>
                           </div>
                         </div>
-                        <div class="row" id="request-form-row">
-                          <div class="col s12">
-                            <div class="input-field" id="request-form">
-                              <input placeholder=" " class="lname" name="lname" type="text" required>
-                              <label for="title">Last Name</label>
-                            </div>
+                      </div>
+                      <div class="row" id="request-form-row">
+                        <div class="col s12">
+                          <div class="input-field" id="request-form">
+                            <input placeholder=" " class="lname" name="lname" type="text" required>
+                            <label for="title">Last Name</label>
                           </div>
-                        </div>
-
-                        <div class="row" id="request-form-row">
-                          <div class="col s12">
-                            <div class="input-field" id="request-form">
-                              <input placeholder=" " class="email" name="email" type="text" required>
-                              <label for="title">Email Address</label>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row" id="request-form-row">
-                          <div class="col s12">
-                            <div class="input-field" id="request-form">
-                              <?php
-                                $db = mysqli_connect("localhost", "root", "", "eei_db");?>
-
-                                <select name = "type" required>
-                                <option value= "">Select</option>
-                                <?php $get_user_type = mysqli_query($db, "SELECT column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'user_t' AND COLUMN_NAME = 'user_type'");
-                                $row = mysqli_fetch_array($get_user_type);
-                                $enumList = explode(",", str_replace("'", "", substr($row['column_type'], 5, (strlen($row['column_type'])-6))));
-                                foreach($enumList as $value){?>
-                                <option value='<?php echo $value?>'> <?php echo $value?> </option>
-                                    <?php } ?>
-                                </select>
-                            <label for="title">User Type</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row" id="request-form-controls">
-                          <input class="waves-effect waves-light" id="btn-cancel" name="submit" type="submit" value="Cancel">
-                          <input class="waves-effect waves-light" id="btn-submit" name="submit" type="submit" value="Submit">
                         </div>
                       </div>
 
-                  </div>
-                </div>
-            </div>
-          </div>
-        </form>
-                    <div id="modal-batch-upload" class="modal">
-                        <div class="modal-content">
-                          <h5>Batch Upload New Users</h5>
-                          <form method='post' name="batch" action = "php_processes/batch-upload.php" id="batch-upload" enctype="multipart/form-data">
-                          <!-- <input type="file" id="file" name="file"/> -->
-                          <div class="file-field input-field">
-                            <br>
-                          <div class="btn-attach">
-                            <span>SELECT File</span>
-                            <input type="file" id="file" name="file"/>
-                          </div>
-                          <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
+                      <div class="row" id="request-form-row">
+                        <div class="col s12">
+                          <div class="input-field" id="request-form">
+                            <input placeholder=" " class="email" name="email" type="text" required>
+                            <label for="title">Email Address</label>
                           </div>
                         </div>
+                      </div>
 
+                      <div class="row" id="request-form-row">
+                        <div class="col s12">
+                          <div class="input-field" id="request-form">
+                            <?php
+                              $db = mysqli_connect("localhost", "root", "", "eei_db");?>
 
-                      <div class="modal-footer">
-                        <button class="btn" type="submit" name="submit">Upload</button>
-                        <a href="manageUsers.php" class="btn modal-action modal-close">Close</a>
-                        </form>
+                              <select name = "type" required>
+                              <option value= "">Select</option>
+                              <?php $get_user_type = mysqli_query($db, "SELECT column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'user_t' AND COLUMN_NAME = 'user_type'");
+                              $row = mysqli_fetch_array($get_user_type);
+                              $enumList = explode(",", str_replace("'", "", substr($row['column_type'], 5, (strlen($row['column_type'])-6))));
+                              foreach($enumList as $value){?>
+                              <option value='<?php echo $value?>'> <?php echo $value?> </option>
+                                  <?php } ?>
+                              </select>
+                          <label for="title">User Type</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" id="request-form-controls">
+                        <input class="waves-effect waves-light" id="btn-cancel" name="submit" type="submit" value="Cancel">
+                        <input class="waves-effect waves-light" id="btn-submit" name="submit" type="submit" value="Submit">
                       </div>
                     </div>
-                  </div>
 
-        <!-- ****************************************************** -->
-              <!-- HIDDEN FORMS -->
-              <?php include 'templates/ticketforms.php'; ?>
-              <?php include 'templates/js_resources.php'; ?>
-
-            </div> <!-- End of main container of col 10 -->
-          </div> <!-- End of wrapper of col l10 -->
+                </div>
+              </div>
+          </div>
         </div>
-      <!-- END OF COL l10 -->
-
-
-    </body>
-  </html>
+    </form>
+    <!-- Modal for Batch Upload -->
+    <div id="modal-batch-upload" class="modal">
+      <div class="modal-content">
+        <h5>Batch Upload New Users</h5>
+        <form method='post' name="batch" action = "php_processes/batch-upload.php" id="batch-upload" enctype="multipart/form-data">
+          <div class="file-field input-field">
+            <br>
+            <div class="btn-attach">
+              <span>SELECT File</span>
+              <input type="file" id="file" name="file"/>
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text">
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button class="btn" type="submit" name="submit">Upload</button>
+          <a href="manageUsers.php" class="btn modal-action modal-close">Close</a>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- HIDDEN FORMS -->
+    <?php include 'templates/ticketforms.php'; ?>
+    <?php include 'templates/js_resources.php'; ?>
+  </div>
+</body>
+</html>

@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="css/style.css?<?php echo time(); ?>"  media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  </head>
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="img/eei-black.png" />
+  <title>EEI Service Desk</title>
+  <?php include 'templates/css_resources.php' ?>
+</head>
 
 
   <body id="login-page" class="valign-wrapper">
@@ -30,23 +25,14 @@
                   <label for="new-password" id="new-password">New Password</label>
                 </div>
               </div>
-
               <div class="row">
-                 <input class="waves-effect waves-light btn-login" id="request-form-row" name="submit" type="submit" value="Update Password">
+                 <input class="waves-effect waves-light btn-login" id="button-login" name="submit" type="submit" value="Update Password">
                  <br>
               </div>
-
               </form>
-
             </div>
         </div>
     </div>
-
-
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-    <script type="text/javascript" src="js/javascript.js"></script>
-      <?php include 'templates/js_resources.php' ?>
+    <?php include 'templates/js_resources.php' ?>
   </body>
 </html>

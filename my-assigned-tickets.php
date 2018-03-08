@@ -17,12 +17,12 @@
   <div class="col s12 m12 l12" id="content">
     <div class="main-content">
       <div class="col s12 m12 l12 table-header">
-        <span class="table-title">My Pending Tickets</span>
+        <span class="table-title">My Assigned Tickets</span>
         <div class="count">
           <!-- Badge Counter -->
           <?php
             $db = mysqli_connect("localhost", "root", "", "eei_db");
-            $query = "SELECT COUNT(t.ticket_id) AS count FROM ticket_t t LEFT JOIN user_t r ON t.user_id = r.user_id LEFT JOIN sla_t sev ON sev.id = t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = t.ticket_status WHERE stat.ticket_status='Pending' AND t.user_id = '".$_SESSION['user_id']."'";
+            $query = "SELECT COUNT(t.ticket_id) AS count FROM ticket_t t LEFT JOIN user_t r ON t.user_id = r.user_id LEFT JOIN sla_t sev ON sev.id = t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = t.ticket_status WHERE stat.ticket_status='Assigned' AND t.user_id = '".$_SESSION['user_id']."'";
 
             $result = mysqli_query($db,$query); ?>
 
@@ -32,13 +32,13 @@
           </div>
         <div class="col s12" id="breadcrumb">
           <a href="#!" class="breadcrumb">My Tickets</a>
-          <a href="#!" class="breadcrumb">My Pending Tickets</a>
+          <a href="#!" class="breadcrumb">My Assigned Tickets</a>
         </div>
       </div>
       <div class="material-table" id="my-tickets">
         <div class="actions">
           <div class="sorter">
-            <a href="my-pending-tickets.php" class="waves-effect btn-sort">Remove Filter <i id="removefilter" class="material-icons">remove_circle</i></a>
+            <a href="my-assigned-tickets.php" class="waves-effect btn-sort">Remove Filter <i id="removefilter" class="material-icons">remove_circle</i></a>
 
             <!-- Dropdown Trigger for Category Sorter -->
             <a class="dropdown-button btn-sort" data-activates="categories" data-beloworigin="true">Category<i id="sort" class="material-icons">arrow_drop_down</i></a>
@@ -72,29 +72,28 @@
               <th>Remarks</th>
             </tr>
           </thead>
-          <tbody>
+            <tbody>
               <?php
-                $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE stat.ticket_status = 'Pending' AND ticket_t.user_id = '".$_SESSION['user_id']."'";
-                $stat = 'Pending';
-                include 'templates/my-tickets-sorter.php';
-
-                $result = mysqli_query($db,$query);
-                while($row = mysqli_fetch_assoc($result)){
-                   switch($row['ticket_category'])
+              //All My Assigned tickets
+              $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE stat.ticket_status = 'In Progress'  AND ticket_t.user_id = '".$_SESSION['user_id']."'";
+              $stat = 'Assigned';
+              include 'templates/my-tickets-sorter.php';
+              $result = mysqli_query($db,$query);
+              while($row = mysqli_fetch_assoc($result)){
+                switch($row['ticket_category'])
                     {
-                        // assumes 'type' column is one of CAR | TRUCK | SUV
-                        case("Technicals"):
-                            $class = 'ticket_cat_t';
-                            break;
-                        case("Access"):
-                           $class = 'ticket_cat_a';
-                           break;
-                        case("Network"):
-                          $class = 'ticket_cat_n';
+                      case("Technicals"):
+                          $class = 'ticket_cat_t';
                           break;
-                        case(""):
-                          $class = 'ticket_cat_blank';
-                          break;
+                      case("Access"):
+                         $class = 'ticket_cat_a';
+                         break;
+                      case("Network"):
+                        $class = 'ticket_cat_n';
+                        break;
+                      case(""):
+                        $class = 'ticket_cat_blank';
+                        break;
                     } ?>
 
                     <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
@@ -105,7 +104,7 @@
                       <td> <?php echo $row['date_prepared']?>  </td>
                       <td> <?php echo $row['remarks'] ?>       </td>
                     </tr>
-                    <?php } ?>
+                  <?php } ?>
             </tbody>
         </table>
       </div>
@@ -113,7 +112,7 @@
     <!-- HIDDEN FORMS -->
     <?php include 'templates/ticketforms.php'; ?>
   </div>
-  <!-- SCRIPT -->
+  <!-- SCRIPT  -->
   <?php include 'templates/js_resources.php' ?>
 </body>
 </html>
