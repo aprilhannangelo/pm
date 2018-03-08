@@ -6514,6 +6514,52 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
   transition: .3s color;
 }
 
+/* Search as field text  */
+/* Search Field */
+.input-field input[type=text] {
+  display: block;
+  line-height: inherit;
+}
+
+.nav-wrapper .input-field input[type=text] {
+  height: inherit;
+  padding-left: 4rem;
+  width: calc(100% - 4rem);
+  border: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.input-field input[type=text]:focus {
+  background-color: #fff;
+  border: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  color: #444;
+}
+
+.input-field input[type=text]:focus + label i,
+.input-field input[type=text]:focus ~ .mdi-navigation-close,
+.input-field input[type=text]:focus ~ .material-icons {
+  color: #444;
+}
+
+.input-field input[type=text] + label {
+  left: 1rem;
+}
+
+.input-field input[type=text] ~ .mdi-navigation-close,
+.input-field input[type=text] ~ .material-icons {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  color: transparent;
+  cursor: pointer;
+  font-size: 2rem;
+  -webkit-transition: .3s color;
+  transition: .3s color;
+}
+
 /* Textarea */
 textarea {
   width: 100%;

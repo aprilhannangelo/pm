@@ -9,27 +9,57 @@ $(document).ready(function(){
           $('#status').append('<option value="' + value.type + '">' + value.type + '</option>');
       });
   });
-  $('#confirm-form').click(function() {
-     /* when the button in the form, display the entered values in the modal */
-     $('.details-c').text($('#details').val());
-     $('.title-c').text($('#title').val());
-     $('.file-c').text($('#file').val());
+//   $('#confirm-form').click(function() {
+//      /* when the button in the form, display the entered values in the modal */
+//      $('.details-c').text($('#details').val());
+//      $('.title-c').text($('#title').val());
+//      $('.file-c').text($('#file').val());
+// });
+$('.search-box2 input[type="text"]').on("keyup input", function(){
+     /* Get input value on change */
+     document.getElementById("result").style.display = "block";
+     var inputVal = $(this).val();
+     var resultDropdown = $(this).siblings("#result");
+     if(inputVal.length){
+         $.get("php_processes/faq-search.php", {term: inputVal}).done(function(data){
+             // Display the returned data in browser
+             resultDropdown.html(data);
+         });
+     } else{
+         resultDropdown.empty();
+         document.getElementById("result").style.display = "none";
 
-});
-  $(function(){
-      $('#addMore').on('click', function() {
-                var data = $("#dynamic_field tr:eq(1)").clone(true).appendTo("#dynamic_field");
-                data.find("input").val('');
-       });
-       $(document).on('click', '.remove', function() {
-           var trIndex = $(this).closest("tr").index();
-              if(trIndex>1) {
-               $(this).closest("tr").remove();
-             } else {
-               alert("Sorry!! Can't remove first row!");
-             }
-        });
-  });
+     }
+ });
+// load_data();
+//
+// function load_data(query)
+// {
+// $.ajax({
+//  url:"../eei/faq-search.php",
+//  method:"POST",
+//  data:{query:query},
+//  success:function(data)
+//  {
+//  }
+// });
+// }
+// $('#search_text').keyup(function(){
+//   $('.result').html(data);
+//
+// var search = $(this).val();
+// if(search != '')
+// {
+//  load_data(search);
+//  resultDropdown.html(data);
+//
+// }
+// else
+// {
+//  resultDropdown.empty();
+//
+// }
+// });
 
   $('.user-row #deactivate').click(function(e){
     e.stopPropagation();

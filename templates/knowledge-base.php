@@ -6,13 +6,21 @@
 
 <div id="knowledge-base">
   <h4>Hi <b><?php echo $_SESSION['first_name'] ?></b>, how can we help you today?</h4>
-  <div class="input-field">
-          <input placeholder="Search Here" id="search" class="faq" type="search" required>
+  <!-- <div class="input-field search_text">
+          <input placeholder="Search Here" name="search_text" id="search_text" class="faq" type="search" required>
           <i id="search"class="material-icons">search</i>
-
           <label class="label-icon" for="search"></label>
+  </div> -->
+  <div class="input-field search-box2" id="request-form">
+    <input placeholder="Search Here" name="search_text" id="search_text" class="faq" type="text" autocomplete="off" required>
+    <i id="search"class="material-icons">search</i>
+    <label class="label-icon" for="search"></label>
+    <div id="result">
+      <div class="arrow-up"></div>
 
-        </div>
+    </div>
+
+  </div>
   <br>
     <div class="row">
         <div class="col s12 m4 l4">

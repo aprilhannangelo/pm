@@ -36,6 +36,7 @@
         </div>
     </div>
     <?php include 'templates/js_resources.php'; ?>
+
   </body>
 
 </html>

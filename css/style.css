@@ -9,17 +9,17 @@ span.card-title{
 
 i#search
 {
-  margin-right: 5%;
   margin-top: 5px;
   color: #b8b8b8;
 }
-input#search.faq,input[type=search]:not(.browser-default):focus:not([readonly]){
+input#search_text.faq,input[type=search]:not(.browser-default):focus:not([readonly]){
   border: 1px solid #4b75ff!important;
   -webkit-box-shadow: none!important;
   box-shadow: none!important;
-  border-radius: 40px;
+  border-radius: 5px;
+  padding-left: 20px;
   margin-top: 40px;
-  margin-bottom: 20px;
+  width: 98%;
 }
 .card .card-image {
     position: relative;
@@ -111,6 +111,7 @@ div#faq-nav{
   height: 100vh;
 
 }
+
 
 div#faq-body{
   height: 100vh;
@@ -2119,7 +2120,7 @@ div.detail-actions{
   color: white;
   display: -webkit-inline-box;
 }
-  span#search {
+  span#search_text {
     margin-right: 10px;
     line-height: 2;
     font-size: 14px;
@@ -2371,9 +2372,32 @@ span#faq-title{
 .modal .modal-footer{
   margin-bottom: 10px;
 }
+.arrow-up {
 
+}
 p#sev{
   text-align: left;
   font-size: 14px;
+  padding-left: 10px;
+}
+div#result{
+  display: none;
+    position: relative;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    overflow-y: auto;
+    max-height: 100px;
+    width: 100%;
+    border-top: none;
+    box-shadow: 1px 1px 1px 1px #f1f1f1;
+    text-align: left;
+    padding-left: 30px;
+    padding: 10px
+  }
+
+a#article{
+  line-height: 2;
+  color: #1f1f1f;
   padding-left: 10px;
 }
