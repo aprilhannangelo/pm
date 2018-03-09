@@ -123,7 +123,7 @@ $(document).ready(function(){
               </div>
             </div>
           </div>
-          <div class="row" id="request-form-row">
+          <div class="row" id="request-form-row3">
             <div class="input-field">
               <textarea id="textarea1" placeholder=" " class="materialize-textarea" name="request_details" required></textarea>
               <label for="textarea1" required>Details</label>

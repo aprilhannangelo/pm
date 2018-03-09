@@ -95,7 +95,7 @@ $('.search-box2 input[type="text"]').on("keyup input", function(){
   			}
 
   			var chartdata = {
-  				labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  				labels: month,
   				datasets : [
   					{
   						label: 'Ticket Count',
