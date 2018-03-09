@@ -6545,7 +6545,7 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 }
 
 .input-field input[type=text] + label {
-  left: 1rem;
+  /* left: 1rem; */
 }
 
 .input-field input[type=text] ~ .mdi-navigation-close,
@@ -7088,7 +7088,7 @@ select {
 
 .select-wrapper {
   position: relative;
-  width: 90%;
+  width: 100%;
 }
 
 .select-wrapper.valid + label,

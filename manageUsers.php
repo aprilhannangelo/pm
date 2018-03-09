@@ -211,6 +211,7 @@
     </div>
     <!-- HIDDEN FORMS -->
     <?php include 'templates/ticketforms.php'; ?>
+    <?php include 'templates/mobile-ticket-buttons.php' ?>
     <?php include 'templates/js_resources.php'; ?>
   </div>
 </body>

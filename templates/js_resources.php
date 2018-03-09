@@ -16,6 +16,8 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!--Import materialize.js-->
 <script type="text/javascript" src="js/materialize.min.js"></script>
+<!--richtext editor-->
+<script src="js/jquery.richtext.js"></script>
 
 <!-- Import script for DataTables found in tickets.php -->
 

@@ -392,10 +392,18 @@ a.button-collapse {
 }
 
 
-li.active {
+/* li.active {
     border-left: 4px solid #4b75ff;
+} */
+
+p.p1, p.p2, p.p3{
+  font-family: "Roboto", sans-serif!important;
+  font-size: 14px!important;
 }
 
+ul#body{
+  padding:15px 50px 25px 15px
+}
 
 .side-nav li{
   border-left: 4px solid;
@@ -958,6 +966,18 @@ input#request-form, input#request-form-export{
   display: inline-flex;
   border-radius:2px;
 }
+a#addfaq{
+  padding: 2px 20px 2px 20px;
+color: white;
+background-color: #4b75ff;
+border: 1px solid #3757bf;
+font-size: 12px;
+float: right;
+margin-top: 15px;
+margin-right: 20px;
+display: inline-flex;
+border-radius:2px;
+}
 
 div#dashboard-main{
   padding: 20px;
@@ -1095,6 +1115,7 @@ input#userid, input#password {
 input#userid[type=text]:not(.browser-default):focus:not([readonly]),
 input#password[type=password]:not(.browser-default):focus:not([readonly]){
    border-bottom: 1px solid #4b75ff;
+   background-color: transparent;
  }
 
  .card-header{
@@ -1894,6 +1915,7 @@ input#details-back {
       font-weight: 500;
     }
 
+
     input#check, input.btn-upload, input#approve, input#confirm{
       background-color: #4b75ff;
       color: white;
@@ -2400,4 +2422,35 @@ a#article{
   line-height: 2;
   color: #1f1f1f;
   padding-left: 10px;
+}
+
+div#faq{
+      padding: 10px 50px;
+}
+
+a#articleTitle{
+  padding-left: 55px;
+  color: black;
+  margin: 0px;
+}
+
+div#instance{
+  padding: 10px;
+margin: 10px;
+}
+
+
+div#addKb-form{
+  padding: 20px 50px;
+background-color: white;
+}
+
+div.faq-left{
+  padding-right: 40px;
+  padding-top: 20px;
+}
+
+div#result:hover{
+  background-color: #f1f1f1;
+  cursor: pointer;
 }

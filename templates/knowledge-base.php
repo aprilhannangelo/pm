@@ -1,10 +1,13 @@
 <div class="col s12 m12 l12 table-header">
   <div class="row">
     <span class="table-title">Knowledge Base</span>
+    <a id="addfaq" href="faq-add.php">Add Knowledge Base Article</a>
+
   </div>
 </div>
 
 <div id="knowledge-base">
+
   <h4>Hi <b><?php echo $_SESSION['first_name'] ?></b>, how can we help you today?</h4>
   <!-- <div class="input-field search_text">
           <input placeholder="Search Here" name="search_text" id="search_text" class="faq" type="search" required>
@@ -23,6 +26,7 @@
   </div>
   <br>
     <div class="row">
+      <h5>Browse Help Topics</h5>
         <div class="col s12 m4 l4">
           <div class="card">
             <div class="card-image">
@@ -34,7 +38,8 @@
               <p id="kb">Hardware, Mouse, Keyboard, Monitor, Printers, Scanners, Tablets, etc.</p>
             </div>
             <div class="card-action">
-              <a href="technicals-faq.php">View Technicals FAQs</a>
+              <a href="faq-list.php?view=technicals">View Technicals FAQs</a>
+              <?php include 'faq-sorter.php'; ?>
             </div>
           </div>
         </div>
@@ -45,11 +50,11 @@
             </div>
             <div class="card-content">
               <span class="card-title">Access</span>
-
               <p id="kb">Hardware access, application access, password change</p>
             </div>
             <div class="card-action">
-              <a href="access-faq.php">View Access FAQs</a>
+              <a href="faq-list.php?view=access">View Access FAQs</a>
+              <?php include 'faq-sorter.php'; ?>
             </div>
           </div>
         </div>
@@ -61,10 +66,10 @@
             <div class="card-content">
               <span class="card-title">Network</span>
               <p id="kb">Network/Internet Access, Network Equipment - routers, cables etc.</p>
-
             </div>
             <div class="card-action">
-              <a href="network-faq.php">View Network FAQs</a>
+              <a href="faq-list.php?view=network">View Network FAQs</a>
+              <?php include 'faq-sorter.php'; ?>
             </div>
           </div>
         </div>

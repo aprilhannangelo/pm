@@ -119,7 +119,7 @@
       <?php include 'templates/ticketforms.php'; ?>
 
     </div> <!-- End of main container of col 10 -->
-
+    <?php include 'templates/mobile-ticket-buttons.php' ?>
     <?php include 'templates/js_resources.php' ?>
 
     </body>

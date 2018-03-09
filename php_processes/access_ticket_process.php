@@ -8,14 +8,33 @@ $request_title = mysqli_real_escape_string($db, $_POST['title']);
 $company = mysqli_real_escape_string($db, $_POST['company']);
 $dp = mysqli_real_escape_string($db, $_POST['dp']);
 $rc = mysqli_real_escape_string($db, $_POST['rc_no']);
-$names = mysqli_real_escape_string($db, $_POST['names']);
-$access_request = mysqli_real_escape_string($db, $_POST['access_type']);
-$app = mysqli_real_escape_string($db, $_POST['app_name']);
 $approver = mysqli_real_escape_string($db, $_POST['approver']);
 $checker = mysqli_real_escape_string($db, $_POST['checker']);
 
+date_default_timezone_set('Asia/Manila');
 
-$query1 = "INSERT INTO ticket_t (ticket_id, ticket_title, ticket_type, date_prepared, ticket_status, user_id) VALUES(DEFAULT, '$request_title', 'User Access', CURDATE(), '1', '{$_SESSION['user_id']}')";
+//Tomorrow
+$dt = new DateTime('2018-03-09 16:00:00' .  '+1 weekdays');
+$dateTomorrow = $dt->format('Y-m-d');
+$datet= $dateTomorrow . " 08:00:00";
+//Today
+$dt2day = new DateTime('2018-03-09 16:00:00');
+$dateNow = $dt2day->format('Y-m-d');
+$dateToday= $dateNow . " 08:00:00";
+//Time now
+$time = $dt2day->format('H:i:s');
+//weekend or weekday if >= 6 then weekend
+$w = $dt->format('N');
+$w2 = $dt2day->format('N');
+if (strtotime($time)>=strtotime('15:00:00')) {
+  $query1 = "INSERT INTO ticket_t (ticket_id, ticket_title, ticket_type, date_prepared, ticket_status, user_id) VALUES(DEFAULT, '$request_title', 'User Access', '$datet', '1', '{$_SESSION['user_id']}')";
+}
+elseif(strtotime($time)<strtotime('08:00:00')) {
+  $query1 = "INSERT INTO ticket_t (ticket_id, ticket_title, ticket_type, date_prepared, ticket_status, user_id) VALUES(DEFAULT, '$request_title', 'User Access', '$dateToday', '1', '{$_SESSION['user_id']}')";
+}
+else {
+  $query1 = "INSERT INTO ticket_t (ticket_id, ticket_title, ticket_type, date_prepared, ticket_status, user_id) VALUES(DEFAULT, '$request_title', 'User Access', CURDATE(), '1', '{$_SESSION['user_id']}')";
+}
 
 if (!mysqli_query($db, $query1))
 {
@@ -40,13 +59,25 @@ $row3= mysqli_fetch_array($result3,MYSQLI_ASSOC);
 $checkerID= $row3['user_id'];
 $checkerEmail = $row3['email_address'];
 
-$query3 = "INSERT INTO user_access_ticket_t (ticket_id, company, dept_proj, rc_no, name, access_type, application_name,  approver, checker) VALUES('$latest_id', '$company', '$dp', '$rc', '$names', '$access_request', '$app', '$approverID', '$checkerID')";
+$query3 = "INSERT INTO user_access_ticket_t (ticket_id, company, dept_proj, rc_no, name, application_name,  approver, checker) VALUES('$latest_id', '$company', '$dp', '$rc', '$names', '$app', '$approverID', '$checkerID')";
 
 if (!mysqli_query($db, $query3))
 {
   die('Error' . mysqli_error($db));
 }
 
+for ($i = 0; $i < count($_POST['name']); $i++) {
+    $type = $_POST['type'][$i];
+    $name = $_POST['name'][$i];
+    $application = $_POST['app_name'][$i];
+    $nameTypeApp= "'" . $name ."'" . ',' . "'" .$type . "'". ',' . "'" .$application . "'" ;
+  $sql = "INSERT INTO request_details_t (details_id,ticket_id,name,request_type,application_name)
+  VALUES (DEFAULT,2,$nameTypeApp)";
+  if (!mysqli_query($db, $sql))
+  {
+    die('Error' . mysqli_error($db));
+  }
+}
 
 //nav notification
 $query3= "SELECT user_id, ticket_number from ticket_t WHERE ticket_id = '$latest_id'";
@@ -104,15 +135,15 @@ $mail = new PHPMailer(true);                              // Passing `true` enab
 
     "<img style=\"display: block;  margin: 0 auto;\" src=\"cid:email-header\">" .
 
-    "<div style=\"background-color: white; height: max-content; margin: 0 auto; width: 662px; padding: 30px 40px 30px 40px; font-size: 14px; box-shadow: 0 2px 2px 0 rgba(66, 66, 66, 0.14), 0 1px 5px 0 rgba(134, 134, 134, 0), 0 3px 1px -2px rgba(134,135, 134, 0.2);\">" .
+    "<div style=\"background-color: black; height: max-content; margin: 0 auto; width: 662px; padding: 30px 40px 30px 40px; font-size: 14px; box-shadow: 0 2px 2px 0 rgba(66, 66, 66, 0.14), 0 1px 5px 0 rgba(134, 134, 134, 0), 0 3px 1px -2px rgba(134,135, 134, 0.2);\">" .
 
     "Hi <b>" . $checker . "</b>," . "<br><br>" .
 
-    $row4['name'] . " is requesting for " . $access_request  . " access." . "<br><br> As the checker assigned, kindly view and check the access request details through the EEI Service Desk website" .
+    $row4['name'] . " is requesting for " . $app  . " access." . "<br><br> As the checker assigned, kindly view and check the access request details through the EEI Service Desk website" .
 
-    "<br><br><a style=\"background-color: #4b75ff; padding: 13px; color:white; border-radius: 3px; display: block; width: 26%; text-decoration: none; margin: 0 auto;\" href=\"http://localhost/eei0219-master/details.php?id=$latest_id\">Click here to go to website" . "</a><br><br>--<br><b>IT Service Desk Team</b>" . "</div></div>" .
+    "<br><br><a style=\"background-color: #4b75ff; padding: 13px; color:black; border-radius: 3px; display: block; width: 26%; text-decoration: none; margin: 0 auto;\" href=\"http://localhost/eei0219-master/details.php?id=$latest_id\">Click here to go to website" . "</a><br><br>--<br><b>IT Service Desk Team</b>" . "</div></div>" .
 
-    "<div style=\"background-color: #2d3033; font-size: 11px; padding: 20px 0px; color:white; text-align: center;\">Copyright &copy; 2018 EEI Corporation | No. 12 Manggahan street, Libis, Quezon City 1101 Metro Manila.</div>";
+    "<div style=\"background-color: #2d3033; font-size: 11px; padding: 20px 0px; color:black; text-align: center;\">Copyright &copy; 2018 EEI Corporation | No. 12 Manggahan street, Libis, Quezon City 1101 Metro Manila.</div>";
 
     $mail->send();
 

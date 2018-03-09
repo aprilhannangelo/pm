@@ -56,10 +56,14 @@
   $newpass = $_POST['newpass'];
   $confirmnewpass = $_POST['confirmnewpass'];
   $session = $_SESSION['userid'];
-
+  
+  //90days next update
+  date_default_timezone_set('Asia/Manila');
+  $dt = new DateTime(date('Y-m-d H:i:s') . ' + 90 days');
+  $datet = $dt->format('Y-m-d H:i:s');
   if($newpass === $confirmnewpass){
     if(preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,20}$/', $newpass)) {
-      $query = "UPDATE user_t SET password = MD5('$newpass') WHERE userid = '$session'";
+      $query = "UPDATE user_t SET password = MD5('$newpass'), last_update = NOW(), next_update = '$datet' WHERE userid = '$session'";
       if (!mysqli_query($db, $query))
       {
         die('Error' . mysqli_error($db));

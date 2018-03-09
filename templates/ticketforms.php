@@ -1,18 +1,114 @@
 <!-- SERVICE REQUEST FORM -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<?php
+   //index.php
+
+   $db = mysqli_connect("localhost", "root", "", "eei_db");
+   function fill_unit_select_box()
+   {
+    $output = '';
+   $db = mysqli_connect("localhost", "root", "", "eei_db");
+    $get_types = mysqli_query($db, "SELECT column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'user_access_ticket_t' AND COLUMN_NAME = 'access_type'");
+    $row2 = mysqli_fetch_array($get_types);
+    $enumList = explode(",", str_replace("'", "", substr($row2['column_type'], 5, (strlen($row2['column_type'])-6))));
+    foreach($enumList as $row)
+    {
+     $output .= '<option value="'.$row.'">'.$row.'</option>';
+    }
+    return $output;
+
+   }
+
+   ?>
+<script>
+$(document).ready(function(){
+ $(document).on('click', '.add', function(){
+  var html = '';
+  html += '<tr>';
+  html += '<td><input type="text" name="app_name[]" class="form-control item_name" /></td>';
+  html += '<td><select name="type[]" id="status" class ="dselect"><option value="">Select Unit</option><?php echo fill_unit_select_box(); ?></select></td>';
+  html += '<td><input type="text" name="name[]" class="form-control item_quantity" /></td>';
+  html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+  $('#dynamic_field').append(html);
+  //need for select
+  $('select').material_select();
+ });
+
+ $(document).on('click', '.remove', function(){
+  $(this).closest('tr').remove();
+ });
+
+ $('#insert_form').on('submit', function(event){
+  event.preventDefault();
+  var error = '';
+  $('.item_name').each(function(){
+   var count = 1;
+   if($(this).val() == '')
+   {
+    error += "<p>Enter Item Name at "+count+" Row</p>";
+    return false;
+   }
+   count = count + 1;
+  });
+
+  $('.item_quantity').each(function(){
+   var count = 1;
+   if($(this).val() == '')
+   {
+    error += "<p>Enter Item Quantity at "+count+" Row</p>";
+    return false;
+   }
+   count = count + 1;
+  });
+
+  $('.item_unit').each(function(){
+   var count = 1;
+   if($(this).val() == '')
+   {
+    error += "<p>Select Unit at "+count+" Row</p>";
+    return false;
+   }
+   count = count + 1;
+  });
+  var form_data = $(this).serialize();
+  if(error == '')
+  {
+   $.ajax({
+    url:"insert.php",
+    method:"POST",
+    data:form_data,
+    success:function(data)
+    {
+     if(data == 'ok')
+     {
+      $('#item_table').find("tr:gt(0)").remove();
+      $('#error').html('<div class="alert alert-success">Item Details Saved</div>');
+     }
+    }
+   });
+  }
+  else
+  {
+   $('#error').html('<div class="alert alert-danger">'+error+'</div>');
+  }
+ });
+
+});
+</script>
 <form id="service" action="php_processes/service_ticket_process.php" name="service" method="post" enctype="multipart/form-data">
   <div id="service" class="servicet">
       <span class="table-title" id="form">New Service Request</span>
       <div class="row">
         <div class="col s12 m12 l6" id="form">
-          <!-- <div class="row" id="request-form-row">
+          <div class="row" id="request-form-row3">
             <div class="col s12">
               <div class="input-field" id="request-form">
                 <input placeholder="<?php echo $_SESSION['first_name'] . ' '. $_SESSION['last_name'] ?>" name="rname" type="text" disabled>
                 <label for="rname">Requestor's Name</label>
               </div>
             </div>
-          </div> -->
-          <div class="row" id="request-form-row3">
+          </div>
+          <div class="row" id="request-form-row2">
             <div class="col s12">
               <!-- <i class="tiny material-icons" id="form">event</i>Date Prepared: -->
               <div class="input-field" id="request-form">
@@ -22,75 +118,38 @@
             </div>
           </div>
           <div class="row" id="request-form-row3">
-              <div class="input-field">
-                  <input placeholder="" name="title" id="title" type="text" class="validate" required>
+            <div class="col s12">
+              <div class="input-field" id="request-form">
+                <input placeholder=" " class="title" name="title" type="text" data-length="40" class="validate" required>
                 <label for="title">Request Title</label>
+              </div>
             </div>
           </div>
           <div class="row" id="request-form-row">
             <div class="input-field">
-              <textarea id="details" placeholder=" " class="materialize-textarea" name="request_details" required></textarea>
+              <textarea id="textarea1" placeholder=" " class="materialize-textarea" name="request_details" required></textarea>
               <label for="textarea1" required>Details</label>
             </div>
           </div>
-          <div class="row" id="request-form-row2">
-            <div class="file-field input-field">
-              <div class="btn-attach">
-                <span>SELECT File</span>
-                <input type="file" id="file" name="file"/>
-              </div>
-              <div class="file-path-wrapper">
-                <input id="file" class="file-path validate" type="text">
-              </div>
+          <!-- ATTACH FILE -->
+          <div class="file-field input-field">
+            <div class="btn-attach">
+              <span>SELECT File</span>
+              <input type="file" id="file" name="file"/>
             </div>
-
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text">
+            </div>
           </div>
           <div class="row" id="request-form-controls">
-            <!-- <input id="confirm-form" type="button" class="modal-trigger" href="#servicesubmit" value="Confirm" /> -->
-            <input class="waves-effect waves-light" id="btn-cancel" name="cancel" type="submit" value="Cancel">
+            <input class="waves-effect waves-light" id="btn-cancel" name="submit" type="submit" value="Cancel">
             <input class="waves-effect waves-light" id="btn-submit" name="submit" type="submit" value="Submit">
-
           </div>
-
         </div>
       </div>
      </div>
+</form> <!-- End of Service Request Form -->
 
-</form>
-<!-- End of Service Request Form -->
-
-<!-- <div id="servicesubmit" class="modal">
-  <div class="modal-content">
-    <h5>Confirm Your Submission</h5>
-    <form id="servicesubmit" name="service" method="post" enctype="multipart/form-data">
-      <div class="row" id="request-form-row3">
-          <div class="input-field">
-            <input placeholder="" id="title-c" name="title-c" class="title-c" type="text" disabled>
-            <label for="title">Request Title</label>
-        </div>
-      </div>
-      <div class="row" id="request-form-row3">
-          <div class="input-field">
-            <input placeholder="" id="details-c" name="details-c" class="details-c" type="text" disabled>
-            <label for="title">Request Title</label>
-        </div>
-      </div>
-       <div class="file-field input-field">
-         <div class="btn-attach">
-           <span>SELECT File</span>
-           <input type="file" id="file" name="file"/>
-         </div>
-         <div class="file-path-wrapper">
-           <input id="file" class="file-path validate" type="text">
-         </div>
-       </div>
-     </div>
-    <div class="modal-footer">
-      <input class="waves-effect waves-light modal-action modal-close" id="btn-cancel" name="submit" type="submit" value="Cancel">
-      <input id="btn-submit" name="submit" type="submit" value="Submit">
-    </div>
-</div>
-</form> -->
 <!-- USER ACCESS FORM  -->
 <form id="access" name="access" method="post">
   <div id="access" class="accesst">
@@ -187,6 +246,8 @@
           <span id="rdetails"><h6>Request Details</h6>
             <!-- <input type="button" id="add-row" value="Add Row" onClick="addRow('dynamic_field')" />-->
           </span>
+
+
             <table id="dynamic_field">
               <thead>
                 <tr>
@@ -200,47 +261,11 @@
                   <th>Full Name of User</th>
                 </div>
                 <div class="col s12 m12 l2">
-                  <th><a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="glyphicon glyphicon-plus">add</span>a</a></th>
+                         <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></th><th></th>
                 </div>
               </tr>
               </thead>
-              <tbody>
-                <input type="button" value="Add Passenger" onClick="addRow('dynamic_field')" />
-  <input type="button" value="Remove Passenger" onClick="deleteRow('dynamic_field')" />
-                  <tr>
-                     <div class="col s12 m12 l3">
-                       <td>
-                         <div class="input-field">
-                           <input placeholder=" " name="app_name" type="text" required>
-                         </div>
-                       </td>
-                     </div>
-                     <div class="col s12 m12 l3">
-                       <td>
-                         <div class="input-field">
-                           <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-                           <select name="status" id="status">
-                             <option>New</option>
-                             <option>Additional</option>
-                             <option>Deactivate</option>
-                             <option>Reset Password</option>
-                           </select>
-                         </div>
-                       </td>
-                     </div>
-                     <div class="col s12 m12 l3">
-                       <td>
-                         <div class="input-field">
-                           <input placeholder=" " name="names" type="text" class="validate" required>
-                         </div>
-                       </td>
-                     </div>
-                     <div class"col s12 m12 l2">
-                       <td><a href='javascript:void(0);'  class='remove'><span>remove</span></a></td>
-                    </div>
-                  </tr>
 
-              </tbody>
 
              </table>
 
@@ -253,45 +278,3 @@
         </div> <!-- End of row -->
 </form> <!-- End of User Access Request Form -->
 <!-- END OF HIDDEN FORMS  -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-<script>
-    // // EXTRACT JSON DATA.
-    // $.getJSON("results.JSON", function (data) {
-    //     $.each(data, function (index, value) {
-    //         // APPEND OR INSERT DATA TO SELECT ELEMENT.
-    //         $('#status').append('<option value="' + value.type + '">' + value.type + '</option>');
-    //     });
-    // });
-
-    // SELECT change EVENT TO READ SELECTED VALUE FROM DROPDOWN LIST.
-
-function addRow(tableID) {
-	var table = document.getElementById(tableID);
-	var rowCount = table.rows.length;
-		var row = table.insertRow(rowCount);
-		var colCount = table.rows[0].cells.length;
-		for(var i=0; i <colCount; i++) {
-			var newcell = row.insertCell(i);
-			newcell.innerHTML = table.rows[1].cells[i].innerHTML;
-		}
-
-}
-
-function deleteRow(tableID) {
-	var table = document.getElementById(tableID);
-	var rowCount = table.rows.length;
-	for(var i=0; i<rowCount; i++) {
-		var row = table.rows[i];
-		var chkbox = row.cells[0].childNodes[0];
-		if(null != chkbox && true == chkbox.checked) {
-			if(rowCount <= 1) {               // limit the user from removing all the fields
-				alert("Cannot Remove all the Passenger.");
-				break;
-			}
-			table.deleteRow(i);
-			rowCount--;
-			i--;
-		}
-	}
-}
-</script>

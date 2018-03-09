@@ -718,5 +718,52 @@ $("#reject").submit(function(e) {
    $(".access-tickets").show();
  });
 
+ $('#request-form-addKb').click(function(){
+    window.location="faq-add.php";
+  });
+
+  //add Knowledge base article
+  $("#add-kb").submit(function(e) {
+    e.preventDefault();
+    swal({
+    title: "Submit Article?",
+    text: "Make sure to recheck all details before submitting.",
+    icon: "warning",
+    buttons: ["Close", "Submit"],
+    dangerMode: true,
+  }).then((willDelete) => {
+    if(willDelete){
+    $.ajax({
+      url: 'php_processes/add-knowledge-base-article.php',
+      type: 'POST',
+      data: $(this).serialize(),
+      success: function()
+       {
+         swal({
+            title: "Knowledge Base Article Added!",
+            type: "success",
+            icon: "success"
+        }).then(function(){
+          window.location="faq-add.php";
+        });
+      }
+    })
+} else {
+  swal("", "Article submission cancelled!","error");
+}
+});
+});
+
+   $('select[name=status]').change(function () {
+           if ($(this).val() == '7') {
+               $('.al').show();
+               $('.al').prop('required',true);
+
+           }
+       });
+       //export
+  $('#request-form-export').click(function(){
+     window.location="php_processes/export.php";
+   });
 });
 });

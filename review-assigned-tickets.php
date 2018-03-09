@@ -491,6 +491,7 @@
         </div>
         <?php include 'templates/ticketforms.php'; ?>
       </div>
+      <?php include 'templates/mobile-ticket-buttons.php' ?>
       <?php include 'templates/js_resources.php' ?>
     </body>
   </html>

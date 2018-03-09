@@ -88,6 +88,8 @@
       $user_type = $row['user_type'];
       $firstlogin = $row['is_firstlogin'];
       $isActive = $row['isActive'];
+      $isActive = $row['isActive'];
+      $next_update = $row['next_update'];
       if($username==$user && $password==$pass && $isActive=='1'){
         session_start();
         $_SESSION['userid'] = $user;
@@ -109,14 +111,17 @@
             }
             ?>
             <script>window.location.assign('changepassword.php')</script>
+          <?php }
+            date_default_timezone_set('Asia/Manila');
+            $dt = new DateTime(date('Y-m-d H:i:s'));
+            $datet = $dt->format('Y-m-d H:i:s');
+            if ($next_update <= $datet && !($next_update==null)) {?>
+              <script>window.location.assign('changepassword.php')</script>
+            <?php  }
+            else { ?>
+              <script>window.location.assign('home.php')</script>
 
-            <!-- <script>window.location.assign('changepassword.php')</script> -->
-          <?php } else { ?>
-            <script>window.location.assign('home.php')</script>
-
-          <?php
-          }}}
-        ?>
+            <?php }}}?>
     <!-- END OF LOGIN PROCESS -->
 
 

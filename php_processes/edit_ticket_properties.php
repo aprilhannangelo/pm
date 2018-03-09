@@ -34,6 +34,18 @@ $severity= mysqli_real_escape_string($db,$_POST['severity']);
   $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
   $ticketNo = $row['ticket_number'];
   $user = $row['user_id'];
+
+  //for autoclosing of ticket
+    date_default_timezone_set('Asia/Manila');
+    $dt = new DateTime(date('Y-m-d H:i:s') . ' + 4 weekdays');
+    $closingDate = $dt->format('Y-m-d H:i:s');
+
+      $query2 = "UPDATE ticket_t SET auto_close_date = '$closingDate' WHERE ticket_id = $id";
+      if (!mysqli_query($db, $query2))
+      {
+        die('Error' . mysqli_error($db));
+      }
+      
   //nav notification
   $notifSql = "INSERT INTO notification_t (notification_id,ticket_id, user_id, notification_description, isRead) VALUES(DEFAULT, $id,$user,'Your ticket $ticketNo has been resolved',0)";
   if (!mysqli_query($db, $notifSql))

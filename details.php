@@ -20,6 +20,13 @@
 
         <?php include 'templates/sidenav.php'; ?>
 
+        <?php
+          date_default_timezone_set('Asia/Manila');
+          $date1 = new DateTime(date('Y-m-d H:i:s'));
+          $date2 = new DateTime($date_required);
+          $interval = $date1->diff($date2);
+         ?>
+
         <div class="col s12 m12 l12" id="content">
           <div class="main-content">
             <div class="col s12 m12 l12 table-header">
@@ -178,8 +185,8 @@
                       <?php
                         $db = mysqli_connect("localhost", "root", "", "eei_db");
 
-                        $query = "SELECT t.ticket_title, s.request_details, r.email_address as email, DATE_FORMAT(date_prepared, '%W %b %e %Y %r') as date_prepared, CONCAT(r.first_name, ' ', r.last_name) As requestor FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join service_ticket_t s on (s.ticket_id=t.ticket_id) WHERE s.ticket_id = '".$_GET['id']."'";
-                        $query2 = "SELECT u.company, u.dept_proj, u.rc_no, u.name, u.isChecked, u.isApproved, u.approver as approver,u.checker as checker,t.ticket_title, u.access_type, u.application_name, u.dept_proj, r.email_address as email, DATE_FORMAT(date_prepared, '%W %M %e %Y') as date_prepared, CONCAT(r.first_name, ' ', r.last_name) As requestor , r.user_type as user_type FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE u.ticket_id = '".$_GET['id']."'";
+                        $query = "SELECT t.ticket_title, s.request_details, t.auto_close_date,r.email_address as email, DATE_FORMAT(date_prepared, '%W %b %e %Y %r') as date_prepared, CONCAT(r.first_name, ' ', r.last_name) As requestor FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join service_ticket_t s on (s.ticket_id=t.ticket_id) WHERE s.ticket_id = '".$_GET['id']."'";
+                        $query2 = "SELECT u.company, u.dept_proj, u.rc_no, u.name, u.isChecked,t.auto_close_date, u.isApproved, u.approver as approver,u.checker as checker,t.ticket_title, u.access_type, u.application_name, u.dept_proj, r.email_address as email, DATE_FORMAT(date_prepared, '%W %M %e %Y') as date_prepared, CONCAT(r.first_name, ' ', r.last_name) As requestor , r.user_type as user_type FROM ticket_t t INNER JOIN user_t r  on (t.user_id=r.user_id) left join user_access_ticket_t u on (u.ticket_id=t.ticket_id) WHERE u.ticket_id = '".$_GET['id']."'";
 
                         $result = mysqli_query($db,$query);
                         $result2= mysqli_query($db,$query2);
@@ -190,7 +197,17 @@
                            echo "<h5><b>" . $row['ticket_title'] . "</h5></b>" .
                                 "<p id=\"requestor_details\">" . "<style=\"color:blue\">" . "<span class=\"name-in-ticket tooltipped\" data-position=\"right\" data-delay=\"50\" data-tooltip=\"$email\">" . $row['requestor'] . "</span>" . "<span class=\"request_date\">" . " reported on " . $row['date_prepared'] . "</p>" .
                                 "<p id=\"details\">" . $row['request_details'] . "</p>";
-                       };
+                          $dt = new DateTime(date('Y-m-d H:i:s'));
+                              $curDate = $dt->format('Y-m-d H:i:s');
+                              if ($row['auto_close_date']<=$curDate && $row['ticket_status'] = 7 && !($row['auto_close_date']== NULL)) {
+                                $closeTicket = "UPDATE ticket_t SET ticket_status = '8' WHERE ticket_id='".$_GET['id']."'";
+                                if (!mysqli_query($db, $closeTicket))
+                                {
+                                  die('Error' . mysqli_error($db));
+                                }
+                              }
+                            };
+
 
                          ?>
                          <!-- need this to stop warning if service ticket-->
@@ -208,8 +225,9 @@
                                     "<tr><td>" . "Access Type:" . "</td><td>"  .  $row['access_type'] . "</td>" .
                                      "<tr><td>" . "Application:" .  "</td><td>".  $row['application_name'] . "</span></td>" .
                                      "<tr><td>" . "Name/s:" . "</td><td>" .  $row['name'] . "</td>";
-                                   }
-                        ?>
+
+                                }
+                            ?>
                         </tbody>
                       </table>
                  </div>
@@ -612,11 +630,15 @@
                                         <?php }; ?>
                                        </select>
                                       <label for="title">Severity Level</label>
+                                      <div class="input-field ticket-properties al" id="request-form-row2" style="display:none;">
+                                        <input type="text" id="al" name="al" placeholder="required field"class="materialize-textarea" required >
+                                        <label for="title">Activity Log</label>
+                                    </div>
                               </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                          <input class="modal-action modal-close btn-flat" id="request-form-row" name="submit" type="submit" value="Save">
+                          <input class="modal-action btn-flat" id="request-form-row" name="submit" type="submit" value="Save">
                           <input value = "<?php echo $_GET['id']?>" name="id" type="hidden">
                         </div>
                       </form>
