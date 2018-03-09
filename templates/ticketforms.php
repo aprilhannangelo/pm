@@ -1,13 +1,11 @@
 <!-- SERVICE REQUEST FORM -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <?php
-   //index.php
-
    $db = mysqli_connect("localhost", "root", "", "eei_db");
    function fill_unit_select_box()
    {
     $output = '';
-   $db = mysqli_connect("localhost", "root", "", "eei_db");
+    $db = mysqli_connect("localhost", "root", "", "eei_db");
     $get_types = mysqli_query($db, "SELECT column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'user_access_ticket_t' AND COLUMN_NAME = 'access_type'");
     $row2 = mysqli_fetch_array($get_types);
     $enumList = explode(",", str_replace("'", "", substr($row2['column_type'], 5, (strlen($row2['column_type'])-6))));
@@ -28,7 +26,7 @@ $(document).ready(function(){
   html += '<td><input type="text" name="app_name[]" class="form-control item_name" /></td>';
   html += '<td><select name="type[]" id="status" class ="dselect"><option value="">Select Unit</option><?php echo fill_unit_select_box(); ?></select></td>';
   html += '<td><input type="text" name="name[]" class="form-control item_quantity" /></td>';
-  html += '<td><button type="button" name="remove" class="btn btn-danger btn-sm remove"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+  html += '<td><button type="button" name="remove" class="remove"><i class="small material-icons">clear</i></button></td></tr>';
   $('#dynamic_field').append(html);
   //need for select
   $('select').material_select();
@@ -244,10 +242,7 @@ $(document).ready(function(){
         </div>
         <div class="col s12 m12 l12" id="form">
           <span id="rdetails"><h6>Request Details</h6>
-            <!-- <input type="button" id="add-row" value="Add Row" onClick="addRow('dynamic_field')" />-->
           </span>
-
-
             <table id="dynamic_field">
               <thead>
                 <tr>
@@ -261,12 +256,10 @@ $(document).ready(function(){
                   <th>Full Name of User</th>
                 </div>
                 <div class="col s12 m12 l2">
-                         <th><button type="button" name="add" class="btn btn-success btn-sm add"><span class="glyphicon glyphicon-plus"></span></button></th><th></th>
+                  <th><button type="button" class="add"><i class="tiny material-icons">add</i>Add Row</button></th>
                 </div>
               </tr>
               </thead>
-
-
              </table>
 
           </div>  <!-- End of RIGHT column -->
