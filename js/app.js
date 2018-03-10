@@ -3,12 +3,7 @@ $(document).ready(function(){
  $('.notifications').click(function(){
     $("#notification_count").hide();
   });
-  $.getJSON("results.JSON", function (data) {
-      $.each(data, function (index, value) {
-          // APPEND OR INSERT DATA TO SELECT ELEMENT.
-          $('#status').append('<option value="' + value.type + '">' + value.type + '</option>');
-      });
-  });
+
 //   $('#confirm-form').click(function() {
 //      /* when the button in the form, display the entered values in the modal */
 //      $('.details-c').text($('#details').val());
@@ -700,9 +695,7 @@ $("#reject").submit(function(e) {
  $( "#reassign-button" ).click(function() {
    $( "#reassign" ).toggle( "slow" );
  });
- $( ".btn-activitylog" ).click(function() {
-    $( ".comment_input" ).toggle( "slow" );
-  });
+
  $('.edit-button').click(function () {
    for (i = 0; i < 5; i++) {
      document.getElementsByClassName('pflBody')[i].contentEditable = true;
@@ -759,6 +752,10 @@ $("#reject").submit(function(e) {
            if ($(this).val() == '7') {
                $('.al').show();
                $('.al').prop('required',true);
+           }
+           else{
+             $('.al').hide();
+             $('.al').prop('required',false);
 
            }
        });

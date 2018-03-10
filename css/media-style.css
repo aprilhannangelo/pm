@@ -5,7 +5,7 @@
     padding-top: 60px;
     height: 100vh;
   }
-  
+
 
 
 }
@@ -108,12 +108,7 @@
 
 
 
-  span.table-title {
-    font-size: 26px;
-    font-weight: 600;
-    vertical-align: middle;
-    padding-left: 0px!important;
-  }
+
 
   .breadcrumb{
     font-size: 12px!important;
@@ -219,7 +214,7 @@
   span.table-title{
     width: 375px!important;
     text-align: center!important;
-    font-size: 20px!important;
+    font-size: 22px!important;
   }
 
   .fixed-action-btn.vertical ul li {
@@ -227,6 +222,9 @@
     margin: 15px 10px 0 0!important;
   }
 
+  div.table-header{
+    line-height: 3!important;
+  }
   .row.actions {
     margin-top: 15px;
     margin-bottom: -15px;

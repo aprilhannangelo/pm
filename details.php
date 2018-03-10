@@ -20,12 +20,7 @@
 
         <?php include 'templates/sidenav.php'; ?>
 
-        <?php
-          date_default_timezone_set('Asia/Manila');
-          $date1 = new DateTime(date('Y-m-d H:i:s'));
-          $date2 = new DateTime($date_required);
-          $interval = $date1->diff($date2);
-         ?>
+
 
         <div class="col s12 m12 l12" id="content">
           <div class="main-content">
@@ -40,12 +35,7 @@
 
                 <span class="table-title">Ticket #<?php echo $row['ticket_number'] ?></span>
                 <!-- Div for All Action Buttons -->
-                <div class="row detail-actions">
-                  <!-- Visible only for mobile -->
-                  <div class="row" id="activity-log">
-                    <button class="btn-activitylog">Add activity log</button>
-                  </div>
-
+                <div class="row" id="ticket-actions">
                   <input id="attach" type="submit" class="modal-trigger" href="#attachfile" value="Attach File" />
 
                   <!-- Confirm Resolution for Requestor  -->

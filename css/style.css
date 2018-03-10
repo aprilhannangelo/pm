@@ -1447,13 +1447,6 @@ td.name-in-ticket{
   padding-left: 10px;
 }
 
-button.btn-activitylog{
-  margin-top: 18px;
-  line-height: 2;
-  display: none;
-  padding: 2px 20px 2px 20px;
-}
-
 
 a.button-collapse2 {
   float: right;
@@ -1664,18 +1657,11 @@ input#details-back {
       color: black;
       font-weight: 400;
     }
-
-    .btn-activitylog, .btn-activitylog:focus{
-      padding: 6px 25px 6px 25px;
-      background-color: #ffffff;
-      border-color: #4b75ff;
-      border-radius: 5px;
-      font-size: 12px;
-      float: right;
-      font-weight: 500;
-      margin-right: 35px;
-      border: 1px solid #4b75ff;
-      color: #4b75ff;
+    div#ticket-actions{
+      vertical-align: middle;
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
     }
 
     input#edit{

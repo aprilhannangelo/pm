@@ -46,7 +46,7 @@ echo json_encode($row['ticket_number']);
 $name= $_FILES['file']['name'];
 // $desc = $_POST['description_entered'];
 $tmp_name= $_FILES['file']['tmp_name'];
-$file = 'C:\xampp\htdocs\eei\uploads' .$_FILES['file']['name'];
+$file = '../uploads/' .$_FILES['file']['name'];
 $upload = move_uploaded_file($tmp_name, $file);
 $uploader = $_SESSION['user_id'];
 if($upload){

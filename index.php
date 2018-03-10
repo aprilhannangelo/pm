@@ -30,8 +30,8 @@
                 </div>
               </div>
               <div class="row" id="controls">
-                 <input type="checkbox" id="remember" name="remember" />
-                 <label for="test5">Remember Me</label>
+                 <input type="checkbox" id="remember_me" name="remember_me" />
+                 <label for="remember_me">Remember Me</label>
                 <a class="password-forgot modal-trigger" href="#modal2">Forgot Password?</a>
               </div>
               <div class="row">
@@ -88,9 +88,17 @@
       $user_type = $row['user_type'];
       $firstlogin = $row['is_firstlogin'];
       $isActive = $row['isActive'];
-      $isActive = $row['isActive'];
       $next_update = $row['next_update'];
       if($username==$user && $password==$pass && $isActive=='1'){
+
+        if(!empty($_POST["remember_me"])) {
+          	setcookie ("userid",$_POST["userid"],time()+ 3600);
+          	setcookie ("password",$_POST["password"],time()+ 3600);
+          } else {
+          	setcookie("userid","");
+          	setcookie("password","");
+          }
+
         session_start();
         $_SESSION['userid'] = $user;
         $_SESSION['password'] = $pass;
@@ -111,7 +119,8 @@
             }
             ?>
             <script>window.location.assign('changepassword.php')</script>
-          <?php }
+            <?php
+            }
             date_default_timezone_set('Asia/Manila');
             $dt = new DateTime(date('Y-m-d H:i:s'));
             $datet = $dt->format('Y-m-d H:i:s');
@@ -126,9 +135,6 @@
 
 
     <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
-    <script type="text/javascript" src="js/javascript.js"></script>
       <?php include 'templates/js_resources.php' ?>
   </body>
 </html>

@@ -46,13 +46,15 @@
               $result2 = mysqli_query($db, $query2);
               while($row2 = mysqli_fetch_assoc($result2)){
                 $subcatname = $row2['subcategory_name'];?>
-                <div id="instance">
-                  <h6><i class="material-icons">question_answers</i><?php echo $row2['subcategory_name']?></h6>
+                <div class="row">
+                <div class="col s12 m12 l4" id="instance">
+                  <h6><i class="material-icons">question_answers</i><?php echo $row2['subcategory_name']?></h6><hr>
                   <?php include 'templates/faq-sorter.php'?>
                   <?php while($row = mysqli_fetch_assoc($result)){?>
                   <a href="faq-article.php?id=<?php echo $row['article_id']?>" id="articleTitle"><?php echo $row['article_title'] ?></a><br>
                 <?php } ?>
                 </div>
+              </div>
               <?php }; ?>
             </div>
           </div>
