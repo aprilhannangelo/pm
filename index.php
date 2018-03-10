@@ -90,15 +90,6 @@
       $isActive = $row['isActive'];
       $next_update = $row['next_update'];
       if($username==$user && $password==$pass && $isActive=='1'){
-
-        if(!empty($_POST["remember_me"])) {
-          	setcookie ("userid",$_POST["userid"],time()+ 3600);
-          	setcookie ("password",$_POST["password"],time()+ 3600);
-          } else {
-          	setcookie("userid","");
-          	setcookie("password","");
-          }
-
         session_start();
         $_SESSION['userid'] = $user;
         $_SESSION['password'] = $pass;
