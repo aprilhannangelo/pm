@@ -672,6 +672,17 @@ span.table-title#form:after{
   margin-bottom: -40px;
 }
 
+span#faq{
+  font-size: 20px;
+    font-weight: 500;
+}
+span#faq:after{
+  display: block;
+  margin-top: 10px;
+  border-bottom: 2px solid #283061;
+  content: '';
+  margin-bottom: 10px;
+}
 div#card-header{
   margin-bottom: 10px;
     float: right;
@@ -2028,7 +2039,7 @@ li.dropdown3content.header {
     padding-left: 10px;
     padding-top: 5px;
     color: white;
-    background-color: #2c2f34;
+    background-color: #283061;
     font-size: 12px;
     cursor: auto;
 }
@@ -2237,16 +2248,27 @@ div#faq{
 }
 
 a#articleTitle{
-  padding-left: 55px;
-  color: black;
+  padding-left: 35px;
+  color: #353535;
+  white-space: inherit;
   margin: 0px;
+  font-size: 14px;
+  vertical-align: -webkit-baseline-middle;
 }
 
 div#instance{
   padding: 10px;
-margin: 10px;
 }
 
+i#qa{
+  margin-right: -10px;
+  color: lightgray;
+}
+
+i#help{
+  margin-right: 10px;
+vertical-align: text-bottom;
+}
 
 div#addKb-form{
   padding: 20px 50px;

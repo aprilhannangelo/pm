@@ -52,8 +52,7 @@
         </div>
           <div id="knowledge-base-body" class="row">
             <div id="faq">
-              <h5><b><?php echo $articleTitle ?></b></h5>
-              <hr>
+              <span id="faq"><h5><b><?php echo $articleTitle ?></b></h5></span>
               <p><?php echo $articleBody ?> </p>
             </div>
           </div>
