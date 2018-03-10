@@ -1,7 +1,9 @@
 <div class="col s12 m12 l12 table-header">
   <div class="row">
     <span class="table-title">Knowledge Base</span>
+    <?php if($_SESSION['user_type'] == 'Administrator') {?>
     <a id="addfaq" href="faq-add.php">Add Knowledge Base Article</a>
+    <?php } ?>
 
   </div>
 </div>
@@ -19,7 +21,7 @@
     <i id="search"class="material-icons">search</i>
     <label class="label-icon" for="search"></label>
     <div id="result">
-      <div class="arrow-up"></div>
+      
 
     </div>
 

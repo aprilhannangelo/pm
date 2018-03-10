@@ -17,7 +17,7 @@
   <div class="col s12 m12 l12" id="content">
     <div class="main-content">
       <div class="col s12 m12 l12 table-header">
-        <span class="table-title">My Closed Tickets</span>
+        <span class="table-title">My Cancelled/Rejected Tickets</span>
         <div class="count">
           <!-- Badge Counter -->
           <?php
@@ -31,7 +31,7 @@
           </div>
         <div class="col s12" id="breadcrumb">
           <a href="#!" class="breadcrumb">My Tickets</a>
-          <a href="#!" class="breadcrumb">My Closed Tickets</a>
+          <a href="#!" class="breadcrumb">My Cancelled/Rejected Tickets</a>
         </div>
       </div>
       <div class="material-table" id="my-tickets">
@@ -73,8 +73,8 @@
         </thead>
         <tbody>
           <?php
-            //all my closed tickets
-            $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE stat.ticket_status = 'Closed' AND ticket_t.user_id = '".$_SESSION['user_id']."'";
+            //all my cancelled/rejecetd tickets
+            $query = "SELECT * FROM ticket_t LEFT JOIN service_ticket_t USING (ticket_id) LEFT JOIN user_access_ticket_t USING (ticket_id) LEFT JOIN sla_t sev ON sev.id = ticket_t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = ticket_t.ticket_status WHERE (stat.ticket_status = 'Cancelled' OR stat.ticket_status='Rejected)' AND ticket_t.user_id = '".$_SESSION['user_id']."'";
             $stat = 'Closed';
             include 'templates/my-tickets-sorter.php';
 

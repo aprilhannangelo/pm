@@ -76,6 +76,8 @@
                 <li><a href="?view=sev4">SEV4</a></li>
                 <li><a href="?view=sev5">SEV5</a></li>
               </ul>
+              <a class="btn-search search-toggle"><span id="search"><i class="material-icons search">search</i></span>Search Here</a>
+
             </div>
           </div>
           <!-- MAIN TABLE -->
@@ -83,11 +85,12 @@
             <table id="datatable" class="striped">
                 <thead>
                     <tr>
-                      <th></th>
-                      <th>Ticket No.</th>
-                      <th>Notes</th>
-                      <th>Date Created</th>
-                      <th>Remarks</th>
+                      <th class="col-sevcat"></th>
+                      <th class="col-ticketno">Ticket No.</th>
+                      <th class="col-status">Status</th>
+                      <th class="col-title">Title</th>
+                      <th class="col-datecreated">Date Created</th>
+                      <th class="col-remarks">Remarks</th>
                     </tr>
                   </thead>
                 <tbody>
@@ -114,12 +117,12 @@
                      }
                     ?>
                      <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
-                       <td id="type"><span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
-                     </td>
-                     <td> <?php echo $row['ticket_number']?>  </td>
-                       <td> <?php echo $row['ticket_title']?>   </td>
-                       <td> <?php echo $row['date_prepared']?>  </td>
-                       <td> <?php echo $row['remarks'] ?>       </td>
+                       <td class="col-sevcat" id="type"><span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p></td>
+                       <td class="col-ticketno"> <?php echo $row['ticket_number']?>  </td>
+                       <td class="col-status"> <?php echo $row['status']?>  </td>
+                       <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                       <td class="col-datecreated"> <?php echo $row['date_prepared']?>  </td>
+                       <td class="col-remarks"> <?php echo $row['remarks'] ?>       </td>
                      </tr>
                    <?php } ?>
                    </tbody>
@@ -129,12 +132,13 @@
             <table id="datatable" class="striped">
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Ticket No.</th>
-                  <th>Date Created</th>
-                  <th>Time Left</th>
-                  <th>Department/Project</th>
-                  <th>Application Access</th>
+                  <th class="col-sevcat"></th>
+                  <th class="col-ticketno">Ticket No.</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-hidedatecreated">Date Created</th>
+                  <th class="col-timeleft">Time Left</th>
+                  <th class="col-title">Title</th>
+                  <th class="col-remarks">Remarks</th>
                 </tr>
               </thead>
               <tbody>
@@ -167,19 +171,20 @@
                   $interval = $date1->diff($date2);
                    ?>
                    <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
-                     <td id="type">
+                     <td class="col-sevcat" id="type">
                        <?php if ($date1<$date2) {?>
                        <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
                      <?php } else{?>
                       <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
                      </td>
-                     <td> <?php echo $row['ticket_number']?>  </td>
-                     <td> <?php echo $row['date_prepared'] ?>  </td>
-                     <td>
+                     <td class="col-ticketno"> <?php echo $row['ticket_number']?>  </td>
+                     <td class="col-status"> <?php echo $row['status']?>  </td>
+                     <td class="col-hidedatecreated"> <?php echo $row['date_prepared'] ?>  </td>
+                     <td class="col-timeleft">
                        <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
                       </td>
-                     <td> <?php echo $row['dept_proj']?>   </td>
-                     <td> <?php echo $row['application_name']?>  </td>
+                     <td class="col-title"> <?php echo $row['title']?>   </td>
+                     <td class="col-remarks"> <?php echo $row['remarks']?>  </td>
                    </tr>
                  <?php } ?>
                </tbody>
@@ -189,13 +194,13 @@
             <table id="datatable" class="striped">
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Ticket No.</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                  <th>Date Created</th>
-                  <th>Time Left</th>
-                  <th>Remarks</th>
+                  <th class="col-sevcat"></th>
+                  <th class="col-ticketno">Ticket No.</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-title">Title</th>
+                  <th class="col-hidedatecreated">Date Created</th>
+                  <th class="col-timeleft">Time Left</th>
+                  <th class="col-remarks">Remarks</th>
                 </tr>
               </thead>
               <tbody>
@@ -228,19 +233,19 @@
 
                   <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
                      <td id="type">
-                       <?php if ($date1<$date2) {?>
-                       <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
-                     <?php } else{?>
-                      <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
-                     </td>
-                     <td> <?php echo $row['ticket_number']?>  </td>
-                     <td> <?php echo $row['ticket_status']?>  </td>
-                     <td> <?php echo $row['ticket_title']?>   </td>
-                     <td> <?php echo $row['date_prepared']?>  </td>
-                     <td>
-                       <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
+                        <?php if ($date1<$date2) {?>
+                        <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
+                      <?php } else{?>
+                       <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
                       </td>
-                     <td> <?php echo $row['remarks'] ?>       </td>
+                      <td class="col-ticketno"> <?php echo $row['ticket_number']?>  </td>
+                      <td class="col-status"> <?php echo $row['status']?>  </td>
+                      <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                      <td class="col-hidedatecreated"> <?php echo $row['date_prepared']?>  </td>
+                      <td class="col-timeleft">
+                        <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
+                       </td>
+                      <td class="col-remarks"> <?php echo $row['remarks'] ?>       </td>
                   </tr>
                 <?php } ?>
                 </tbody>
@@ -250,13 +255,13 @@
             <table id="datatable" class="striped">
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Ticket No.</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                  <th>Date Created</th>
-                  <th>Time Left</th>
-                  <th>Remarks</th>
+                  <th class="col-sevcat"></th>
+                  <th class="col-ticketno">Ticket No.</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-title">Title</th>
+                  <th class="col-hidedatecreated">Date Created</th>
+                  <th class="col-timeleft">Time Left</th>
+                  <th class="col-remarks">Remarks</th>
                 </tr>
               </thead>
               <tbody>
@@ -291,19 +296,18 @@
 
                        <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
                          <td id="type">
-                           <?php if ($date1<$date2) {?>
-                           <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
-                         <?php } else{?>
-                          <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
-                         </td>
-                         <td> <?php echo $row['ticket_number']?>  </td>
-                         <td> <?php echo $row['ticket_status']?>  </td>
-                         <td> <?php echo $row['ticket_title']?>   </td>
-                         <td> <?php echo $row['date_prepared']?>  </td>
-                         <td>
-                           <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
+                            <?php if ($date1<$date2) {?>
+                            <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
+                          <?php } else{?>
+                           <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
                           </td>
-                         <td> <?php echo $row['remarks'] ?>       </td>
+                          <td class="col-ticketno"> <?php echo $row['ticket_number']?>  </td>
+                          <td class="col-status"> <?php echo $row['status']?>  </td>
+                          <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                          <td class="col-hidedatecreated"> <?php echo $row['date_prepared']?>  </td>
+                          <td class="col-timeleft">
+                            <?php if ($date1<$date2) {echo $interval->format('%d days %h hours %i minutes');} else{echo "Overdue by" . "<br>" . $interval->format('%d days %h hours %i minutes');} ?>
+                           </td>
                      </tr>
                    <?php } ?>
                  </tbody>
@@ -313,12 +317,11 @@
             <table id="datatable" class="striped">
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Ticket No.</th>
-                  <th>Status</th>
-                  <th>Department/Project</th>
-                  <th>Access Requested</th>
-                  <th>Date Created</th>
+                  <th class="col-sevcat"></th>
+                  <th class="col-ticketno">Ticket No.</th>
+                  <th class="col-hidestatus">Status</th>
+                  <th class="col-title">Title</th>
+                  <th class="col-datecreated">Date Created</th>
                 </tr>
               </thead>
               <tbody>
@@ -344,12 +347,16 @@
                          break;
                    } ?>
                <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
-                 <td id="type"><span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p></td>
-                 <td> <?php echo $row['ticket_number']?>  </td>
-                 <td> <?php echo $row['ticket_status']?>  </td>
-                 <td> <?php echo $row['ticket_title']?>   </td>
-                 <td> <?php echo $row['date_prepared']?>  </td>
-                 <td> <?php echo $row['remarks'] ?>       </td>
+                 <td class="col-sevcat" id="type">
+                   <?php if ($date1<$date2) {?>
+                   <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
+                 <?php } else{?>
+                  <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
+                 </td>
+                 <td class="col-ticketno"> <?php echo $row['ticket_number']?>  </td>
+                 <td class="col-hidestatus"> <?php echo $row['ticket_status']?>  </td>
+                 <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                 <td class="col-datecreated"> <?php echo $row['date_prepared'] ?>       </td>
                </tr>
               <?php } ?>
              </tbody>
@@ -359,13 +366,12 @@
             <table id="datatable" class="striped">
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Ticket No.</th>
-                  <th>Status</th>
-                  <th>Notes</th>
-                  <th>Date Created</th>
-                  <th>Time Left</th>
-                  <th>Remarks</th>
+                  <th class="col-sevcat"></th>
+                  <th class="col-ticketno">Ticket No.</th>
+                  <th class="col-hidestatus">Status</th>
+                  <th class="col-title">Title</th>
+                  <th class="col-hidedatecreated">Date Created</th>
+                  <th class="col-remarks">Remarks</th>
                 </tr>
               </thead>
               <tbody>
@@ -377,7 +383,6 @@
                  while($row = mysqli_fetch_assoc($result)){
                     switch($row['ticket_category'])
                      {
-                         // assumes 'type' column is one of CAR | TRUCK | SUV
                          case("Technicals"):
                              $class = 'ticket_cat_t';
                              break;
@@ -400,20 +405,17 @@
                       ?>
 
                    <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
-                     <td id="type">
+                     <td class="col-sevcat" id="type">
                        <?php if ($date1<$date2) {?>
                        <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
                      <?php } else{?>
                       <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
                      </td>
-                     <td> <?php echo $row['ticket_number']?>  </td>
-                     <td><span class="badge new"><?php echo $row['ticket_status']?>  </span></td>
-                     <td> <?php echo $row['ticket_title']?>   </td>
-                     <td> <?php echo $row['date_prepared']?>  </td>
-                     <td>
-                       <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
-                      </td>
-                     <td> <?php echo $row['remarks'] ?>       </td>
+                     <td class="col-ticketno"> <?php echo $row['ticket_number']?>  </td>
+                     <td class="hidestatus"><span class="badge new"><?php echo $row['ticket_status']?>  </span></td>
+                     <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                     <td class="col-hidedatecreated"> <?php echo $row['date_prepared']?>  </td>
+                     <td class="col-remarks"> <?php echo $row['remarks'] ?>       </td>
                    </tr>
                  <?php } ?>
                </tbody>
@@ -423,12 +425,12 @@
             <table id="datatable" class="striped">
               <thead>
                  <tr>
-                   <th></th>
-                   <th>Ticket No.</th>
-                   <th>Notes</th>
-                   <th>Date Created</th>
-                   <th>Time Left</th>
-                   <th>Remarks</th>
+                   <th class="col-sevcat"></th>
+                   <th class="col-ticketno">Ticket No.</th>
+                   <th class="col-hidestatus">Status</th>
+                   <th class="col-title">Title</th>
+                   <th class="col-hidedatecreated">Date Created</th>
+                   <th class="col-remarks">Remarks</th>
                  </tr>
                </thead>
               <tbody>
@@ -440,7 +442,6 @@
                   while($row = mysqli_fetch_assoc($result)){
                    switch($row['ticket_category'])
                     {
-                        // assumes 'type' column is one of CAR | TRUCK | SUV
                         case("Technicals"):
                             $class = 'ticket_cat_t';
                             break;
@@ -461,19 +462,17 @@
                     $interval = $date1->diff($date2);
                      ?>
                     <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
-                      <td id="type">
+                      <td class="col-sevcat" id="type">
                         <?php if ($date1<$date2) {?>
                         <span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p>
                       <?php } else{?>
                        <i id= "warning" class="material-icons">report</i> <p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p> <?php }?>
                       </td>
-                      <td> <?php echo $row['ticket_number']?>  </td>
-                      <td> <?php echo $row['ticket_title']?>   </td>
-                      <td> <?php echo $row['date_prepared']?>  </td>
-                      <td>
-                        <?php if ($date1<$date2) {echo $interval->days . " days" . $interval->format(" %h hours");} else{echo "Overdue by" . "<br>" . $interval->days . " days" . $interval->format(" %h hours");} ?>
-                       </td>
-                      <td> <?php echo $row['remarks'] ?>       </td>
+                      <td class="col-ticketno"> <?php echo $row['ticket_number']?>  </td>
+                      <td class="hidestatus"><span class="badge new"><?php echo $row['ticket_status']?>  </span></td>
+                      <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                      <td class="col-hidedatecreated"> <?php echo $row['date_prepared']?>  </td>
+                      <td class="col-remarks"> <?php echo $row['remarks'] ?>       </td>
                     </tr>
                   <?php } ?>
               </tbody>

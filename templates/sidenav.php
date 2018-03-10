@@ -70,7 +70,7 @@
                     <span class="badge ticket_count"> <?php echo $row['count'] ?></span>
                   <?php } ?>
               </a></li>
-              <li class="collapsible"><a class="all" href="my-closed-tickets.php">Others
+              <li class="collapsible"><a class="all" href="my-other-tickets.php">Others
                 <!-- Badge Counter -->
                 <?php
                   $query = "SELECT COUNT(t.ticket_id) AS count FROM ticket_t t LEFT JOIN user_t r ON t.user_id = r.user_id LEFT JOIN sla_t sev ON sev.id = t.severity_level LEFT JOIN ticket_status_t stat ON stat.status_id = t.ticket_status WHERE (stat.ticket_status='Cancelled' OR stat.ticket_status='Rejected') AND t.user_id = '".$_SESSION['user_id']."'";

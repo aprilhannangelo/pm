@@ -37,7 +37,7 @@
       <div class="material-table" id="my-tickets">
         <div class="actions">
           <div class="sorter">
-            <a href="my-resolved-tickets.php" class="waves-effect btn-sort">Remove Filter <i id="removefilter" class="material-icons">remove_circle</i></a>
+            <a href="my-resolved-tickets.php" class="waves-effect btn-sort">Clear <i id="removefilter" class="material-icons">remove_circle</i></a>
 
             <!-- Dropdown Trigger for Category Sorter -->
             <a class="dropdown-button btn-sort" data-activates="categories" data-beloworigin="true">Category<i id="sort" class="material-icons">arrow_drop_down</i></a>
@@ -58,17 +58,17 @@
               <li><a href="?view=sev4">SEV4</a></li>
               <li><a href="?view=sev5">SEV5</a></li>
             </ul>
+            <a class="btn-search search-toggle"><span id="search"><i class="material-icons search">search</i></span>Search Here</a>
           </div>
         </div>
         <table id="datatable" class="striped">
           <thead>
             <tr>
-              <th></th>
-              <th>Ticket No.</th>
-              <th>Status</th>
-              <th>Notes</th>
-              <th>Date Created</th>
-              <th>Remarks</th>
+              <th class="col-sevcat"></th>
+              <th class="col-hideticketno">Ticket No.</th>
+              <th class="col-title">Title</th>
+              <th class="col-datecreated">Date Created</th>
+              <th class="col-remarks">Remarks</th>
             </tr>
           </thead>
           <tbody>
@@ -97,11 +97,11 @@
                     }
                    ?>
                   <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
-                    <td id="type"><span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p></td>
-                    <td> <?php echo $row['ticket_number']?>  </td>
-                    <td> <?php echo $row['ticket_title']?>   </td>
-                    <td> <?php echo $row['date_prepared']?>  </td>
-                    <td> <?php echo $row['remarks'] ?>       </td>
+                    <td class="col-sevcat" id="type"><span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p></td>
+                    <td class="col-hideticketno"> <?php echo $row['ticket_number']?>  </td>
+                    <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                    <td class="col-datecreated"> <?php echo $row['date_prepared']?>  </td>
+                    <td class="col-remarks"> <?php echo $row['remarks'] ?>       </td>
                   </tr>
                 <?php } ?>
             </tbody>

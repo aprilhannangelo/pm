@@ -42,6 +42,7 @@
             <div class="material-table">
               <div class="actions">
                 <div class="sorter">
+                  <a href="#!" class="waves-effect btn-sort">Remove Filter <i id="removefilter" class="material-icons">remove_circle</i></a>
                   <!-- Dropdown Trigger for New Ticket -->
                   <a class="dropdown-button btn-sort" data-activates="dropdown3" data-beloworigin="true">Category<i id="sort" class="material-icons">arrow_drop_down</i></a>
                   <!-- Dropdown Structure -->
@@ -60,18 +61,20 @@
                       <li><a href="?view=sev4">SEV4</a></li>
                       <li><a href="?view=sev5">SEV5</a></li>
                   </ul>
+                  <a class="btn-search search-toggle"><span id="search"><i class="material-icons search">search</i></span>Search Here</a>
                 </div>
               </div>
 
               <table id="datatable" class="striped">
                   <thead>
                     <tr>
-                      <th></th>
-                      <th>Ticket No.</th>
-                      <th>Status</th>
-                      <th>Department/Project</th>
-                      <th>Request Type</th>
-                      <th>Application</th>
+                      <th class="col-sevcat"></th>
+                      <th class="col-hideticketno">Ticket No.</th>
+                      <th class="col-status">Status</th>
+                      <th class="col-title">Title</th>
+                      <th class="col-deptproj">Department/Project</th>
+                      <th class="col-accessrequest">Access Requested</th>
+                      <th class="col-datecreated">Date Created</th>
                     </tr>
                   </thead>
                   <?php
@@ -85,7 +88,6 @@
                   <?php while($row = mysqli_fetch_assoc($result)){
                     switch($row['ticket_category'])
                      {
-                         // assumes 'type' column is one of CAR | TRUCK | SUV
                          case("Technicals"):
                              $class = 'ticket_cat_t';
                              break;
@@ -102,12 +104,13 @@
                     ?>
 
                      <tr class='clickable-row' data-href="details.php?id=<?php echo $row['ticket_id']?>">
-                       <td id="type"><span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p></td>
-                       <td> <?php echo $row['ticket_number']?>  </td>
-                       <td> <?php echo $row['ticket_status']?>  </td>
-                       <td> <?php echo $row['dept_proj']?>   </td>
-                       <td> <?php echo $row['access_type']?>  </td>
-                       <td> <?php echo $row['application_name'] ?>       </td>
+                       <td class="col-sevcat" id="type"><span class="<?php echo $class?>"> <?php echo $row['ticket_category'][0]?></span><p style="margin-top:25px;margin-bottom:-5px;font-size:8pt;"><?php echo $row['severity_level']?></p></td>
+                       <td class="col-hideticketno"> <?php echo $row['ticket_number']?>  </td>
+                       <td class="col-status"> <?php echo $row['ticket_status']?>  </td>
+                       <td class="col-title"> <?php echo $row['ticket_title']?>   </td>
+                       <td class="col-hidedeptproj"> <?php echo $row['dept_proj'] ?>       </td>
+                       <td class="col-hideaccessrequest"> <?php echo $row['access_request'] ?>       </td>
+                       <td class="col-datecreated"> <?php echo $row['date_prepared']?>  </td>
                      </tr>
                       <?php
                     }?>

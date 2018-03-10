@@ -31,6 +31,7 @@ $('.search-box2 input[type="text"]').on("keyup input", function(){
 
      }
  });
+
 // load_data();
 //
 // function load_data(query)
